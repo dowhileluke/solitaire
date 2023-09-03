@@ -10,7 +10,7 @@ export function App() {
 		<div className={classes.tableau}>
 			{generateArray(COLUMN_COUNT, c => (
 				<div key={c} className={classes.col}>
-					{generateArray(13 * 2, n => (
+					{generateArray(13 * ((c % 4) + 1), n => (
 						<div key={n} className={concat(classes.card, c === 2 && n > 40 && classes.selected)}>
 							{RANKS_DESC[n % 13]}&clubs;
 							{/* <div className={classes.suit}>&clubs;</div> */}

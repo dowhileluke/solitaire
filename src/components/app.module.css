@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: center;
 	height: 100vh;
-	overflow: hidden;
+	height: -webkit-fill-available;
 }
 
 .col {
@@ -24,6 +24,14 @@
 	border-radius: 4px;
 	margin-bottom: -44px;
 	cursor: pointer;
+}
+
+.card:nth-child(2n) {
+	border-top-style: dashed;
+}
+
+.card:hover {
+	background-color: pink;
 }
 
 .card:last-child, .card:nth-last-child(2) {
