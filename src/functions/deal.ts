@@ -10,10 +10,10 @@ export function deal() {
 	for (let i = 0; i < 7; i++) {
 		const lastIndex = startIndex + i + 1
 
-		tableau.push(cards.slice(startIndex, lastIndex).map((c, n):DealtCard => ({ ...c, isKnown: n === i, })))
+		tableau.push(cards.slice(startIndex, lastIndex).map((c, n): DealtCard => ({ ...c, isKnown: n === i, })))
 
 		startIndex = lastIndex
 	}
 
-	return [tableau, cards.slice(28)] as const
+	return [tableau, cards.slice(startIndex)] as const
 }
