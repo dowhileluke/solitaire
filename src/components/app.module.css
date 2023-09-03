@@ -6,8 +6,7 @@
 }
 
 .col {
-	flex-grow: 1;
-	max-width: 45px;
+	width: 45px;
 	margin: 2px;
 
 	display: flex;
@@ -24,17 +23,18 @@
 	border-radius: 4px;
 	margin-bottom: -44px;
 	cursor: pointer;
+	overflow: hidden;
 }
 
 .card:nth-child(2n) {
-	border-top-style: dashed;
+	/* border-top-style: dashed; */
 }
 
 .card:hover {
 	background-color: pink;
 }
 
-.card:last-child, .card:nth-last-child(2) {
+.card:last-child, .card:nth-last-child(2), .down {
 	min-height: 64px;
 }
 
@@ -42,8 +42,18 @@
 	margin-bottom: 0;
 }
 
+.down {
+	background-color: #ddd;
+	margin-bottom: -58px;
+}
+
+.red {
+	color: firebrick;
+}
+
 .suit {
 	font-size: 42px;
+	line-height: 42px;
 	text-align: center;
 }
 

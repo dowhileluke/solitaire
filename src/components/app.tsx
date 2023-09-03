@@ -1,19 +1,38 @@
 import { generateArray } from '@dowhileluke/fns'
 import classes from './app.module.css'
 import { concat } from '../functions/concat'
-import { RANKS_DESC } from '../data'
+import { RANKS } from '../data'
+import { deal } from '../functions/deal'
 
 const COLUMN_COUNT = 8
+
+const [tableau, stock] = deal()
+const SUITS = [
+	<>&spades;</>,
+	<>&hearts;</>,
+	<>&clubs;</>,
+	<>&diams;</>,
+]
+
+tableau.unshift(tableau[0])
+console.log(tableau)
 
 export function App() {
 	return (
 		<div className={classes.tableau}>
-			{generateArray(COLUMN_COUNT, c => (
-				<div key={c} className={classes.col}>
-					{generateArray(13 * ((c % 4) + 1), n => (
-						<div key={n} className={concat(classes.card, c === 2 && n > 40 && classes.selected)}>
-							{RANKS_DESC[n % 13]}&clubs;
-							{/* <div className={classes.suit}>&clubs;</div> */}
+			{tableau.map((pile, i) => (
+				<div key={i} className={classes.col}>
+					{pile.map(({ suit, rank, isKnown }) => (
+						<div
+							key={rank + 'x' + suit}
+							className={concat(classes.card, !isKnown && classes.down, isKnown && suit % 2 && classes.red)}
+						>
+							{isKnown && RANKS[rank]}{isKnown && SUITS[suit]}
+							{isKnown && (
+								<div className={classes.suit}>
+									{SUITS[suit]}
+								</div>
+							)}
 						</div>
 					))}
 					<div className={concat(classes.card, classes.placeholder)} />

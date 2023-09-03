@@ -1,5 +1,8 @@
 export type Card = {
 	rank: number;
 	suit: number;
-	label: string;
+}
+
+export type DealtCard = Card & {
+	isKnown: boolean;
 }

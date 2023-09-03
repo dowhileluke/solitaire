@@ -15,7 +15,6 @@ export const DECK = generateArray(52, n => {
 	const result: Card = {
 		suit: Math.floor(n / 13),
 		rank,
-		label: RANKS[rank],
 	}
 
 	return result
