@@ -1,19 +1,27 @@
 import { DECK } from '../data'
-import { DealtCard } from '../types'
+import { DeckState, Pile } from '../types'
 import { shuffle } from './shuffle'
 
 export function deal() {
-	const cards = shuffle(DECK)
-	const tableau: DealtCard[][] = []
+	const allCards = shuffle(DECK)
+	const tableau: Pile[] = []
 	let startIndex = 0
 
 	for (let i = 0; i < 7; i++) {
 		const lastIndex = startIndex + i + 1
 
-		tableau.push(cards.slice(startIndex, lastIndex).map((c, n): DealtCard => ({ ...c, isKnown: n === i, })))
+		tableau.push({
+			cards: allCards.slice(startIndex, lastIndex),
+			down: i,
+		})
 
 		startIndex = lastIndex
 	}
 
-	return [tableau, cards.slice(startIndex)] as const
+	const result: DeckState = {
+		tableau,
+		stock: allCards.slice(startIndex),
+	}
+
+	return result
 }

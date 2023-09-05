@@ -1,0 +1,53 @@
+.card {
+	box-sizing: border-box;
+	padding: 2px;
+	color: var(--card-text);
+	border: 1px solid var(--card-text);
+	background-color: var(--card-face);
+	height: var(--card-height);
+	border-radius: 4px;
+	margin-bottom: var(--card-stack);
+	cursor: default;
+	overflow: hidden;
+}
+
+.card:last-child {
+	margin-bottom: 0;
+}
+
+.available {
+	cursor: pointer;
+}
+
+.connected {
+	border-top-style: dashed;
+}
+
+.down {
+	background-color: var(--card-back);
+	margin-bottom: var(--card-down);
+}
+
+.full {
+	min-height: var(--card-height);
+}
+
+.highlighted {
+	box-shadow: 0 0 0 2px purple;
+}
+
+.suit {
+	font-size: var(--suit-height);
+	line-height: var(--suit-height);
+	text-align: center;
+}
+
+.target {
+	visibility: hidden;
+	background-color: unset;
+	border-style: dashed;
+}
+
+.target.highlighted, .target.empty {
+	visibility: visible;
+}

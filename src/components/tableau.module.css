@@ -1,0 +1,14 @@
+.tableau {
+	display: flex;
+	justify-content: center;
+	/* gap: var(--spacing); */
+	/* padding: var(--spacing); */
+}
+
+.pile {
+	width: 45px;
+	margin: 2px;
+
+	display: flex;
+	flex-direction: column;
+}

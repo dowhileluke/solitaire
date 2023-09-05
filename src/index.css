@@ -3,4 +3,20 @@ body {
   font: 16px arial;
   line-height: 16px;
   background-color: linen;
+
+  --spacing: 2px;
+
+  --card-face: #fff;
+  --card-text: #000;
+  --card-back: #ddd;
+
+  --card-width: 45px;
+  --card-height: 60px;
+  --card-stack: -40px;
+  --card-down: -55px;
+  --suit-height: 38px;
+}
+
+.red {
+	color: firebrick;
 }
