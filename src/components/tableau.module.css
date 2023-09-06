@@ -6,7 +6,7 @@
 }
 
 .pile {
-	width: 45px;
+	width: var(--card-width);
 	margin: 2px;
 
 	display: flex;

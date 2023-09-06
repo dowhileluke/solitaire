@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font: 16px arial;
-  line-height: 16px;
+  line-height: 1;
   background-color: linen;
 
   --spacing: 2px;
@@ -14,8 +14,23 @@ body {
   --card-height: 60px;
   --card-stack: -40px;
   --card-down: -55px;
-  --suit-height: 38px;
+  --suit-ratio: 234%;
+
+  --mini-width: 33px;
+  --mini-height: 44px;
+  --mini-size: 75%;
 }
+
+/* @media (min-width: 756px) {
+  body {
+    font-size: 24px;
+
+    --card-width: 67px;
+    --card-height: 90px;
+    --card-stack: -60px;
+    --card-down: -80px;
+  }
+} */
 
 .red {
 	color: firebrick;

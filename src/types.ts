@@ -27,5 +27,5 @@ export type Coordinates = {
 export type GameState = {
 	history: DeckState[];
 	highlight: Coordinates | null;
-	isSelected: boolean;
+	selection: Coordinates | null;
 }

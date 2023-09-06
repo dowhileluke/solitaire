@@ -1,6 +1,6 @@
-import { SyntheticEvent } from 'react';
-import { RANKS } from '../data';
-import { concat } from '../functions/concat';
+import { SyntheticEvent } from 'react'
+import { RANKS } from '../data'
+import { concat } from '../functions/concat'
 import { DetailedCard } from '../types'
 import classes from './card.module.css'
 
@@ -12,7 +12,9 @@ type Interactive = {
 }
 
 export type CardProps = DetailedCard & Interactive & {
+	isFirstUp?: boolean;
 	isFull?: boolean;
+	mini?: boolean;
 }
 
 type TargetProps = Interactive & {
@@ -37,7 +39,7 @@ function constrain(callback?: () => void) {
 }
 
 export function Card({
-	rank, suit, onClick, onHover, onBlur, isAvailable, isConnected, isDown, isFull, isHighlighted,
+	rank, suit, mini, onClick, onHover, onBlur, isAvailable, isConnected, isDown, isFirstUp, isFull, isHighlighted,
 }: CardProps) {
 	if (isDown) {
 		return (
@@ -52,10 +54,12 @@ export function Card({
 		<div
 			className={concat(
 				classes.card,
+				isAvailable && classes.available,
 				isConnected && classes.connected,
+				isFirstUp && classes.first,
 				isFull && classes.full,
 				isHighlighted && classes.highlighted,
-				isAvailable && classes.available,
+				mini && classes.mini,
 				suit % 2 && 'red',
 			)}
 			onClick={constrain(onClick)}

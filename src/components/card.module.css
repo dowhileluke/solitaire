@@ -9,6 +9,7 @@
 	margin-bottom: var(--card-stack);
 	cursor: default;
 	overflow: hidden;
+	box-shadow: 0 -1px 0 0px rgba(0, 0, 0, 0.2), 0 -1px 5px rgba(0, 0, 0, 0.2);
 }
 
 .card:last-child {
@@ -21,11 +22,20 @@
 
 .connected {
 	border-top-style: dashed;
+	border-top-color: rgba(0, 0, 0, 0.5);
+	box-shadow: none;
+	/* border-top-left-radius: 0; */
+	/* border-top-right-radius: 0; */
 }
 
 .down {
 	background-color: var(--card-back);
 	margin-bottom: var(--card-down);
+	box-shadow: none;
+}
+
+.first {
+	box-shadow: none;
 }
 
 .full {
@@ -33,21 +43,42 @@
 }
 
 .highlighted {
-	box-shadow: 0 0 0 2px purple;
+	/* translate: -2px -2px; */
+	/* transition: all 100ms ease-in-out; */
+	/* box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.5); */
+	/* box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3); */
+	/* box-shadow: 0 0 0 2px lightskyblue, 0 -2px 6px 3px rgba(0, 0, 0, 0.3); */
+	box-shadow: 0 0 0 2px lightskyblue;
+}
+
+.mini {
+	height: var(--mini-height);
+	width: var(--mini-width);
+	font-size: var(--mini-size);
 }
 
 .suit {
-	font-size: var(--suit-height);
-	line-height: var(--suit-height);
+	font-size: var(--suit-ratio);
 	text-align: center;
 }
 
 .target {
 	visibility: hidden;
 	background-color: unset;
+	border-width: 0;
 	border-style: dashed;
+	box-shadow: none;
+}
+
+.target.empty {
+	border-width: 1px;
 }
 
 .target.highlighted, .target.empty {
 	visibility: visible;
+}
+
+.target.highlighted {
+	border-width: 3px;
+	border-color: lightskyblue;
 }

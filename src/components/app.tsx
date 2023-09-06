@@ -1,29 +1,22 @@
-import { deal } from '../functions/deal'
-import { GameState } from '../types'
+import { tail } from '@dowhileluke/fns'
+import { useGameState } from '../hooks/use-game-state'
 import { Tableau } from './tableau'
 import classes from './app.module.css'
-import { useState } from 'react'
-
-const start = deal()
-
-start.tableau.unshift({ cards: [], down: 0, })
-
-const initState: GameState = {
-	history: [start],
-	highlight: null,
-	isSelected: false,
-}
 
 export function App() {
-	const [state, setState] = useState(initState)
-
-	console.log(state.highlight)
+	const [state, game] = useGameState()
+	const current = tail(state.history)
+	const hasAnyEmpty = current.tableau.some(pile => pile.cards.length === 0)
 
 	return (
 		<div className={classes.app}>
+			<button disabled={hasAnyEmpty || current.stock.length === 0} onClick={game.deal}>Deal</button>
+			<button disabled={state.history.length < 2} onClick={game.rewind}>Undo</button>
 			<Tableau
 				state={state}
-				onHighlight={highlight => setState(prev => ({ ...prev, highlight, }))}
+				onHighlight={game.setHighlight}
+				onSelect={game.setSelection}
+				onMove={game.moveSelection}
 			/>
 		</div>
 	)
