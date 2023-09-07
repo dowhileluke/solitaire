@@ -1,5 +1,5 @@
 import { SyntheticEvent } from 'react'
-import { RANKS } from '../data'
+import { RANKS, SUITS } from '../data'
 import { concat } from '../functions/concat'
 import { DetailedCard } from '../types'
 import classes from './card.module.css'
@@ -20,13 +20,6 @@ export type CardProps = DetailedCard & Interactive & {
 type TargetProps = Interactive & {
 	isEmpty?: boolean;
 }
-
-const SUITS = [
-	<>&spades;</>,
-	<>&hearts;</>,
-	<>&clubs;</>,
-	<>&diams;</>,
-]
 
 function constrain(callback?: () => void) {
 	if (!callback) return
@@ -60,7 +53,7 @@ export function Card({
 				isFull && classes.full,
 				isHighlighted && classes.highlighted,
 				mini && classes.mini,
-				suit % 2 && 'red',
+				suit % 3 && 'red',
 			)}
 			onClick={constrain(onClick)}
 			onMouseEnter={constrain(onHover)}

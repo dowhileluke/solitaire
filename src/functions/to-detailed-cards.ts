@@ -5,7 +5,7 @@ const DOWN_CARD: DetailedCard = { suit: 0, rank: 0, isAvailable: false, isConnec
 
 export function toDetailedCards({ cards, down }: Pile) {
 	const [downCards, upCards] = split(cards, down)
-	const result = downCards.map(card => ({ ...DOWN_CARD, ...card, }))
+	const result = downCards.map((card): DetailedCard => ({ ...DOWN_CARD, ...card, }))
 
 	upCards.reverse()
 
