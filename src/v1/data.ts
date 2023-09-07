@@ -1,5 +1,5 @@
 import { generateArray } from '@dowhileluke/fns'
-import { Card } from './types'
+import { Card } from '../types'
 
 const namedRanks: Record<number, string> = {
 	0: 'A',

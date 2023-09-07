@@ -1,7 +1,7 @@
 import { SyntheticEvent } from 'react'
 import { RANKS, SUITS } from '../data'
 import { concat } from '../functions/concat'
-import { DetailedCard } from '../types'
+import { DetailedCard } from '../../types'
 import classes from './card.module.css'
 
 type Interactive = {

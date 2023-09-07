@@ -1,5 +1,5 @@
 import { generateArray, tail } from '@dowhileluke/fns'
-import { Coordinates, GameState } from '../types'
+import { Coordinates, GameState } from '../../types'
 import { toDetailedCards } from '../functions/to-detailed-cards'
 import { Card, CardTarget } from './card'
 import classes from './tableau.module.css'
