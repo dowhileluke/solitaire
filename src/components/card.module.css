@@ -1,0 +1,25 @@
+.card {
+	box-sizing: border-box;
+	height: var(--card-height);
+	margin-bottom: var(--card-overlap);
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 2px;
+
+	user-select: none;
+	touch-action: none;
+}
+
+.down {
+	background-color: grey;
+}
+
+.empty {
+	background-color: unset;
+}
+
+.over {
+	border: 2px solid olivedrab;
+	padding: 1px;
+}

@@ -1,0 +1,12 @@
+:root {
+	font: 16px arial;
+	line-height: 1;
+
+	--card-width: 45px;
+	--card-height: 60px;
+	--card-overlap: -35px;
+}
+
+body {
+	background-color: linen;
+}
