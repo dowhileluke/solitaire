@@ -1,73 +1,70 @@
-import { useState } from 'react'
-import classes from './app.module.css'
+import { useRef } from 'react'
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
 import { tail } from '@dowhileluke/fns'
-import { toSelectedCards } from '../functions/to-selected-cards'
+import { concat, toSelectedCards } from '../functions'
 import { useAppState } from '../hooks/use-app-state'
-import { CascadeState, Location } from '../types'
+import { Location } from '../types'
 import { Card } from './card'
 import { Tableau } from './tableau'
+import classes from './app.module.css'
+import { Stock } from './stock'
 
 export function App() {
-	const [state, setState, actions] = useAppState()
-	const currentLayout = tail(state.history)
-
+	const [state, actions] = useAppState()
+	const layout = tail(state.history)
+	const timestampRef = useRef(0)
+	
 	function handleDragStart(e: DragStartEvent) {
+		timestampRef.current = Date.now()
+
 		actions.setSelection(e.active.data.current as Location)
 	}
 
 	function handleDragCancel() {
-		actions.setSelection(null)
+		const isImmediate = Date.now() - timestampRef.current < 200
+
+		if (isImmediate) {
+			actions.moveCards()
+		} else {
+			actions.setSelection(null)
+		}
 	}
 
 	function handleDragEnd(e: DragEndEvent) {
-		const target = e.over?.data.current as Location | undefined
+		const to = e.over?.data.current as Location | undefined
 
-		if (!target) return handleDragCancel()
+		if (!to) return handleDragCancel()
 
-		setState(prev => {
-			if (!prev.selection || prev.selection.zone !== 'tableau' || target.zone !== 'tableau') {
-				return prev
-			}
-
-			const { x: selectionX, y: selectionY } = prev.selection
-			const current = tail(prev.history)
-			const sourceCards = current.tableau[selectionX].cards.slice(selectionY)
-			const tableau = current.tableau.map((cascade, x) => {
-				if (x === target.x) {
-					const result: CascadeState = {
-						...cascade,
-						cards: cascade.cards.concat(sourceCards),
-					}
-
-					return result
-				}
-				if (x === selectionX) {
-					const result: CascadeState = {
-						...cascade,
-						cards: cascade.cards.slice(0, selectionY),
-					}
-
-					return result
-				}
-
-				return cascade
-			})
-
-			return {
-				...prev,
-				history: prev.history.concat({ ...current, tableau }),
-				selection: null,
-			}
-		})
+		actions.moveCards(to)
 	}
 
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
-			<Tableau state={currentLayout.tableau} selection={state.selection} />
-			<DragOverlay>
-				{toSelectedCards(currentLayout, state.selection).map((value, i) => (
-					<Card key={i} details={{ value, isDown: false, isConnected: true, isAvailable: true }} />
+			<div className={concat('viewport-height', classes.app)}>
+				<nav className={classes.controls}>
+					{layout ? (
+						<button type="button" onClick={actions.undo}>Undo</button>
+					) : (
+						<button
+							type="button"
+							onClick={() => actions.launchGame('spiderette', { suitCount: 2, hasExtraSpace: false })}
+						>
+							Launch!
+						</button>
+					)}
+				</nav>
+				{layout && (
+					<main className={concat(classes.layout, 'full-height overflow-hidden')}>
+						<div className={classes.zones}>
+							<Stock state={layout} onClick={actions.deal} mode={state.mode} />
+						</div>
+						<Tableau state={layout.tableau} selection={state.selection} mode={state.mode} />
+					</main>
+				)}
+			</div>
+			<DragOverlay className={concat('cascade', classes.overlay)}>
+				{layout && toSelectedCards(layout, state.selection).map((card, i) => (
+					<Card key={i} details={{ ...card, isDown: false, isConnected: i > 0, isAvailable: true }} />
 				))}
 			</DragOverlay>
 		</DndContext>

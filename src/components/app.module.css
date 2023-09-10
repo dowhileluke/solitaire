@@ -1,11 +1,32 @@
-.tableau {
-	display: flex;
-	justify-content: center;
-	gap: 2px;
+.app {
+	display: grid;
+	grid-template-rows: auto 1fr;
 }
 
-.cascade {
-	width: var(--card-width);
+.controls {
 	display: flex;
-	flex-direction: column;
+	justify-content: center;
+	padding: 8px;
+	background-color: var(--red);
+}
+
+.layout {
+	display: grid;
+	justify-content: center;
+	grid-template-rows: auto 1fr;
+	box-sizing: border-box;
+}
+
+@supports (padding: max(0px)) {
+	.layout {
+		padding-bottom: max(0px, env(safe-area-inset-bottom));
+	}
+}
+
+.zones {
+	display: flex;
+}
+
+.overlay div {
+	flex-shrink: 0;
 }

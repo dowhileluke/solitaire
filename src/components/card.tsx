@@ -2,26 +2,51 @@ import { ComponentPropsWithoutRef, forwardRef } from 'react';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { concat } from '../functions/concat';
 import { toId } from '../functions/to-id';
-import { DetailedCard, Location } from '../types';
+import { CascadeCard, Location } from '../types';
 import classes from './card.module.css'
 
 type CardProps = {
-	details: DetailedCard | null;
+	details: CascadeCard | null;
+}
+
+function toConditionalClasses(card: CascadeCard | null) {
+	if (!card) return concat(classes.empty, 'center')
+
+	const maybeAvailable = card.isAvailable && classes.available
+
+	if (card.isDown) return concat(classes.down, maybeAvailable, 'center')
+
+	return concat(
+		maybeAvailable,
+		card.isConnected && classes.connected,
+		card.isRed && classes.red,
+	)
+}
+
+function toContents(card: CascadeCard | null) {
+	if (!card || card.isDown) return null
+
+	return (
+		<>
+			{card.label}
+			<div className={classes.suit}>
+				{card.suit}
+			</div>
+		</>
+	)
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps & ComponentPropsWithoutRef<'div'>>((
-	{ details, className, ...props },
+	{ details, className, children, ...props },
 	fwdRef,
 ) => {
-	const conditionalClasses = details?.isDown ? classes.down : concat(details === null && classes.empty)
-
 	return (
 		<div
 			ref={fwdRef}
-			className={concat(classes.card, conditionalClasses, className)}
+			className={concat(classes.card, toConditionalClasses(details), 'overflow-hidden', className)}
 			{...props}
 		>
-			{details?.value}
+			{toContents(details) ?? children}
 		</div>
 	)
 })

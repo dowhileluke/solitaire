@@ -1,36 +1,74 @@
+import { Mode } from "./rules";
+
+export type CardId = number
+
+export type Pile = {
+	cardIds: CardId[];
+	down: number;
+}
+
+export type Card = {
+	id?: CardId;
+	rank: number;
+	suit: string;
+	isRed: boolean;
+	label: string;
+}
+
+export type CascadeCard = Card & {
+	isDown: boolean;
+	isConnected: boolean;
+	isAvailable: boolean;
+}
+
+export type Cascade = {
+	cards: CascadeCard[];
+	down: number;
+	available: number;
+}
+
+export type GameState = {
+	tableau: Pile[];
+	stock?: CardId[];
+	waste?: CardId[];
+	foundations?: CardId[][];
+	cells?: CardId[];
+}
+
 export type Location = 
 	| { zone: 'tableau', x: number, y: number }
 	| { zone: 'foundation', x: number }
 	| { zone: 'cell', x: number }
 	| { zone: 'waste' }
 
-// export type Zone = Location['zone']
-
-export type CardValue = number
-
-export type DetailedCard = {
-	value: CardValue;
-	isDown: boolean;
-	isConnected: boolean;
-	isAvailable: boolean;
-}
-
-export type CascadeState = {
-	cards: CardValue[];
-	down: number;
-}
-
-export type LayoutState = {
-	tableau: CascadeState[];
-	stock?: CardValue[];
-}
-
 export type AppState = {
-	history: LayoutState[];
+	history: GameState[];
 	selection: Location | null;
+	mode: Mode;
+	config: GameConfig;
+	isMenuOpen: boolean;
 }
 
 export type AppActions = {
+	launchGame: (mode: Mode, config: GameConfig) => void;
 	setSelection: (selection: Location | null) => void;
-	moveCards: (destination: Location) => void;
+	moveCards: (to?: Location | null) => void;
+	deal: () => void;
+	undo: () => void;
+	setIsMenuOpen: (isOpen: boolean) => void;
+}
+
+export type GameConfig = {
+	suitCount: number;
+	hasExtraSpace: boolean;
+}
+
+export type IsConnectedFn = (above: Card, below: Card) => boolean
+
+export type Rules = {
+	init: (config: GameConfig) => GameState;
+	deal: (state: GameState) => GameState | null;
+	move: (state: GameState, from: Location, to: Location) => GameState | null;
+	autoMove?: (state: GameState, from: Location) => Location | null;
+	isConnected: IsConnectedFn;
 }

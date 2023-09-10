@@ -2,11 +2,42 @@
 	font: 16px arial;
 	line-height: 1;
 
+	--red: firebrick;
+
 	--card-width: 45px;
 	--card-height: 60px;
 	--card-overlap: -35px;
+	--down-overlap: -55px;
+
+	--suit-ratio: 234%;
 }
 
 body {
+	margin: 0;
 	background-color: linen;
+}
+
+.full-height {
+	height: 100%;
+}
+
+.viewport-height {
+	height: 100vh;
+	height: -webkit-fill-available;
+}
+
+.overflow-hidden {
+	overflow: hidden;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.cascade {
+	width: var(--card-width);
+	display: flex;
+	flex-direction: column;
 }

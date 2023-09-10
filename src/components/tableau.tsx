@@ -1,27 +1,30 @@
 import { categorize, split } from '@dowhileluke/fns';
-import { toDetailedCards } from '../functions/to-detailed-cards';
-import { CascadeState, Location } from '../types';
+import { Location, Pile } from '../types';
 import { Card, DndCard } from './card';
 import classes from './tableau.module.css'
+import { Mode, RULES } from '../rules';
+import { concat, toCascade } from '../functions';
 
 type TableauProps = {
-	state: CascadeState[];
+	state: Pile[];
 	selection: Location | null;
+	mode: Mode;
 }
 
-export function Tableau({ state, selection }: TableauProps) {
+export function Tableau({ state, selection, mode }: TableauProps) {
+	const cascades = state.map(p => toCascade(p, RULES[mode].isConnected))
+
 	return (
-		<div className={classes.tableau}>
-			{state.map((cascade, x) => {
+		<div className={concat(classes.tableau, 'full-height overflow-hidden')}>
+			{cascades.map(({ cards }, x) => {
 				const isSource = selection?.zone === 'tableau' && selection.x === x
-				const cards = toDetailedCards(cascade)
 				const [simpleCards, specialCards] = isSource
 					? split(cards, selection.y)
 					: categorize(cards, c => !c.isAvailable)
 
 				return (
-					<div key={x} className={classes.cascade}>
-						{simpleCards.length + specialCards.length === 0 && (
+					<div key={x} className="cascade">
+						{simpleCards.length === 0 && (specialCards.length === 0 || isSource) && (
 							isSource ? (
 								<Card details={null} />
 							) : (

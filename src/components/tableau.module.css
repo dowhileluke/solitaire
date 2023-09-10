@@ -3,9 +3,3 @@
 	justify-content: center;
 	gap: 2px;
 }
-
-.cascade {
-	width: var(--card-width);
-	display: flex;
-	flex-direction: column;
-}

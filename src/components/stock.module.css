@@ -1,0 +1,12 @@
+.stock {
+	display: flex;
+}
+
+.stock > div {
+	width: var(--card-width);
+	margin-right: var(--card-overlap);
+}
+
+.disabled {
+	opacity: 0.5;
+}

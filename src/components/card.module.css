@@ -2,24 +2,59 @@
 	box-sizing: border-box;
 	height: var(--card-height);
 	margin-bottom: var(--card-overlap);
+	flex-shrink: 5;
 	background-color: white;
 	border: 1px solid black;
 	border-radius: 5px;
 	padding: 2px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 
 	user-select: none;
 	touch-action: none;
 }
 
+.card:first-child {
+	box-shadow: none;
+}
+
+.card:last-child { 
+	margin: 0;
+	flex-shrink: 0;
+}
+
+.available {
+	cursor: pointer;
+}
+
+.connected {
+	border-top-color: #ddd;
+	box-shadow: none;
+}
+
 .down {
-	background-color: grey;
+	background-color: silver;
+	margin-bottom: var(--down-overlap);
+	flex-shrink: 1;
 }
 
 .empty {
 	background-color: unset;
 }
 
+.down, .empty {
+	box-shadow: none;
+}
+
 .over {
 	border: 2px solid olivedrab;
 	padding: 1px;
+}
+
+.red {
+	color: var(--red);
+}
+
+.suit {
+	font-size: var(--suit-ratio);
+	text-align: center;
 }
