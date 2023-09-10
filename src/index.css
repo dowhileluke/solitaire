@@ -3,12 +3,15 @@
 	line-height: 1;
 
 	--red: firebrick;
+	--blue: aliceblue;
 
 	--card-width: 45px;
 	--card-height: 60px;
 	--card-overlap: -35px;
 	--down-overlap: -55px;
 
+	--space: 2px;
+	--space-xl: 8px;
 	--suit-ratio: 234%;
 }
 

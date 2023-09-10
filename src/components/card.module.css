@@ -13,10 +13,6 @@
 	touch-action: none;
 }
 
-.card:first-child {
-	box-shadow: none;
-}
-
 .card:last-child { 
 	margin: 0;
 	flex-shrink: 0;
@@ -27,12 +23,11 @@
 }
 
 .connected {
-	border-top-color: #ddd;
-	box-shadow: none;
+	border-top: none;
 }
 
 .down {
-	background-color: silver;
+	background-color: var(--blue);
 	margin-bottom: var(--down-overlap);
 	flex-shrink: 1;
 }

@@ -1,12 +1,13 @@
-import { ComponentPropsWithoutRef, forwardRef } from 'react';
-import { useDraggable, useDroppable } from '@dnd-kit/core';
-import { concat } from '../functions/concat';
-import { toId } from '../functions/to-id';
-import { CascadeCard, Location } from '../types';
+import { ComponentPropsWithoutRef, forwardRef } from 'react'
+import { useDraggable, useDroppable } from '@dnd-kit/core'
+import { concat } from '../functions/concat'
+import { toId } from '../functions/to-id'
+import { CascadeCard, Location } from '../types'
+import { Lotus } from './lotus'
 import classes from './card.module.css'
 
 type CardProps = {
-	details: CascadeCard | null;
+	details: CascadeCard | null
 }
 
 function toConditionalClasses(card: CascadeCard | null) {
@@ -24,7 +25,9 @@ function toConditionalClasses(card: CascadeCard | null) {
 }
 
 function toContents(card: CascadeCard | null) {
-	if (!card || card.isDown) return null
+	if (!card) return null
+	if (card.isDown) return <Lotus />
+	// if (card.isDown) return '\u269C'
 
 	return (
 		<>
@@ -52,8 +55,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps & ComponentPropsWithout
 })
 
 type DndCardProps = CardProps & {
-	mode: 'drag' | 'drop';
-	location: Location;
+	mode: 'drag' | 'drop'
+	location: Location
 }
 
 export function DndCard({ mode, location, ...rest }: DndCardProps) {

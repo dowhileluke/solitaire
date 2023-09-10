@@ -1,5 +1,13 @@
 .tableau {
 	display: flex;
 	justify-content: center;
-	gap: 2px;
+	gap: var(--space);
+	box-sizing: border-box;
+	padding: var(--space);
+}
+
+@supports (padding: max(0px)) {
+	.tableau {
+		padding-bottom: max(var(--space), env(safe-area-inset-bottom));
+	}
 }
