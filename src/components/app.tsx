@@ -10,7 +10,8 @@ import classes from './app.module.css'
 import { Stock } from './stock'
 import { Foundations } from './foundations'
 import { Button } from './button'
-import { Layers, Rewind, RotateCcw, Shuffle } from 'react-feather'
+import { Menu, Rewind, RotateCcw, Shuffle } from 'react-feather'
+import { Modal } from './modal'
 
 function isGameOver({ tableau, stock, waste, cells }: GameState) {
 	const isTableauEmpty = tableau.every(pile => pile.cardIds.length === 0)
@@ -54,20 +55,16 @@ export function App() {
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
 			<div className={concat('viewport-height', classes.app)}>
-				<nav className={classes.controls}>
+				<nav className={`controls ${classes.red}`}>
 					{layout ? (
 						<>
-							<Button onClick={actions.restart} disabled={isNew}>
-								<Rewind size="1em" />
-								Restart
+							<Button onClick={() => actions.setIsMenuOpen(true)}>
+								<Menu size="1em" />
+								Menu
 							</Button>
 							<Button onClick={actions.undo} disabled={isNew}>
 								<RotateCcw size="1em" />
 								Undo
-							</Button>
-							<Button onClick={actions.playAnother}>
-								<Shuffle size="1em" />
-								New Game
 							</Button>
 						</>
 					) : (
@@ -95,6 +92,18 @@ export function App() {
 					</main>
 				)}
 			</div>
+			<Modal
+				isOpen={state.isMenuOpen}
+				onClose={() => actions.setIsMenuOpen(false)}
+				title="Game Settings"
+			>
+				haha nothing here!
+				<div className="controls">
+					<Button onClick={actions.playAnother} isRed>
+						New Game
+					</Button>
+				</div>
+			</Modal>
 			<DragOverlay className={concat('cascade', classes.overlay)}>
 				{layout && toSelectedCards(layout, state.selection).map((card, i) => (
 					<Card key={i} details={{ ...card, isDown: false, isConnected: i > 0, isAvailable: true }} />

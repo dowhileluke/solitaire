@@ -12,7 +12,7 @@
 	--down-overlap: -55px;
 
 	--space: 2px;
-	--space-xl: 8px;
+	--space-xl: 16px;
 	--suit-ratio: 234%;
 }
 
@@ -43,6 +43,12 @@ body {
 
 .fade {
 	opacity: 0.4;
+}
+
+.controls {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
 }
 
 .cascade {

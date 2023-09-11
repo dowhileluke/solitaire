@@ -1,0 +1,56 @@
+.full {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+.blur {
+	backdrop-filter: blur(2px);
+}
+
+.fade {
+	transition-property: opacity, transform;
+	transition-duration: 100ms;
+	transition-timing-function: ease-in-out;
+}
+
+.start {
+	opacity: 0;
+}
+
+.scale.start {
+	transform: scale(0.9);
+}
+
+.finish {
+	opacity: 1;
+}
+
+.scale.finish {
+	transform: scale(1);
+}
+
+.panel {
+	flex-grow: 1;
+	display: grid;
+	gap: var(--space-xl);
+	margin: var(--space-xl);
+	padding: var(--space-xl);
+	background-color: white;
+	border-radius: 0.5em;
+	max-width: 640px;
+	z-index: 1;
+	box-shadow: 0 0 8px black;
+}
+
+.title {
+	display: flex;
+	align-items: baseline;
+	gap: var(--space-xl);
+}
+
+.title h2 {
+	margin: 0;
+	flex-grow: 1;
+}

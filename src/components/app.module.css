@@ -7,10 +7,7 @@
 	text-align: center;
 }
 
-.controls {
-	display: flex;
-	justify-content: center;
-	gap: 8px;
+.red {
 	padding: 8px;
 	background-color: var(--red);
 }
