@@ -4,7 +4,7 @@
 	margin-bottom: var(--card-overlap);
 	flex-shrink: 5;
 	background-color: white;
-	border: 1px solid black;
+	border: 1px solid var(--black);
 	border-radius: 5px;
 	padding: 2px;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
@@ -24,6 +24,7 @@
 
 .connected {
 	border-top: none;
+	padding-top: 3px;
 }
 
 .down {
@@ -40,11 +41,6 @@
 	box-shadow: none;
 }
 
-.over {
-	border: 2px solid olivedrab;
-	padding: 1px;
-}
-
 .red {
 	color: var(--red);
 }
@@ -52,4 +48,8 @@
 .suit {
 	font-size: var(--suit-ratio);
 	text-align: center;
+}
+
+.icon {
+	width: 100%;
 }

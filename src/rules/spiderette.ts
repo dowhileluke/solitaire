@@ -5,6 +5,26 @@ import { CARD_DATA } from '../data'
 
 const isConnected: IsConnectedFn = (a, b) => a.suit === b.suit && a.rank + 1 === b.rank
 
+function isDealAllowed<T extends GameState>(layout: T): layout is T & Required<Pick<T, 'stock'>> {
+	if (!layout.stock || layout.stock.length === 0) return false
+
+	let empty = 0
+	let multi = 0
+
+	for (const { cardIds } of layout.tableau) {
+		if (cardIds.length === 0) {
+			empty += 1
+		} else if (cardIds.length === 2) {
+			multi += 1
+		}
+	}
+
+	// allow edge case where there are fewer cards than piles
+	if (multi === 0) return true
+
+	return empty === 0
+}
+
 /** returns [validatedPile, ace?] */
 function sanitize(pile: Pile) {
 	const NO_CHANGE = [pile, null] as const
@@ -39,8 +59,9 @@ export const spiderette: Rules = {
 		return layout
 	},
 	deal(prev) {
-		if (!prev.stock || prev.stock.length === 0) return null
-		if (prev.tableau.some(p => p.cardIds.length === 0)) return null
+		if (!isDealAllowed(prev)) return null
+		// if (!prev.stock || prev.stock.length === 0) return null
+		// if (prev.tableau.some(p => p.cardIds.length === 0)) return null
 
 		const [dealt, stock] = split(prev.stock, prev.tableau.length)
 		const [pilesToUpdate, remaining] = split(prev.tableau, dealt.length)
@@ -54,7 +75,7 @@ export const spiderette: Rules = {
 			updatedPiles.push(finalPile)
 
 			if (ace !== null) {
-				newFoundations.push([ace])
+				newFoundations.unshift([ace])
 			}
 		}
 
@@ -65,7 +86,9 @@ export const spiderette: Rules = {
 		}
 
 		if (newFoundations.length > 0) {
-			result.foundations = prev.foundations?.concat(newFoundations) ?? newFoundations
+			const existing = prev.foundations ?? []
+
+			result.foundations = [...newFoundations, ...existing]
 		}
 
 		return result
@@ -113,8 +136,10 @@ export const spiderette: Rules = {
 			tableau,
 		}
 
-		if (newFoundation) {
-			result.foundations = prev.foundations?.concat([newFoundation]) ?? [[newFoundation]]
+		if (newFoundation !== null) {
+			const existing = prev.foundations ?? []
+
+			result.foundations = [[newFoundation], ...existing]
 		}
 
 		return result

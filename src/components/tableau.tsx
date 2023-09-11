@@ -9,9 +9,18 @@ type TableauProps = {
 	state: Pile[];
 	selection: Location | null;
 	mode: Mode;
+	isHidden?: boolean;
 }
 
-export function Tableau({ state, selection, mode }: TableauProps) {
+export function Tableau({ state, selection, mode, isHidden }: TableauProps) {
+	if (isHidden) {
+		return (
+			<div className={classes.tableau}>
+				{state.map((_, i) => (<div key={i} className="cascade" />))}
+			</div>
+		)
+	}
+
 	const cascades = state.map(p => toCascade(p, RULES[mode].isConnected))
 
 	return (

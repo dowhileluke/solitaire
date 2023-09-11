@@ -1,0 +1,30 @@
+.button {
+	font-size: inherit;
+	line-height: inherit;
+	color: inherit;
+
+	background-color: white;
+	border: none;
+	border-radius: 8px;
+
+	box-sizing: border-box;
+	padding: 4px 8px;
+	cursor: pointer;
+
+	display: flex;
+	gap: 4px;
+}
+
+.button:active {
+	opacity: 0.9;
+}
+
+.button:disabled {
+	opacity: 0.5;
+	cursor: default;
+}
+
+.red {
+	background-color: var(--red);
+	color: white;
+}

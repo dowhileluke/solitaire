@@ -76,6 +76,21 @@ export function useAppState() {
 				}
 			})
 		},
+		restart() {
+			setState(prev => ({
+				...prev,
+				history: prev.history.slice(0, 1),
+				selection: null,
+			}))
+		},
+		playAnother() {
+			setState(prev => ({
+				...prev,
+				history: [RULES[prev.mode].init(prev.config)],
+				selection: null,
+				isMenuOpen: false,
+			}))
+		},
 		setIsMenuOpen(isMenuOpen) {
 			setState(prev => ({ ...prev, isMenuOpen }))
 		},

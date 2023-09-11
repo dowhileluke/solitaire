@@ -26,7 +26,7 @@ function toConditionalClasses(card: CascadeCard | null) {
 
 function toContents(card: CascadeCard | null) {
 	if (!card) return null
-	if (card.isDown) return <Lotus />
+	if (card.isDown) return <Lotus className={classes.icon} />
 	// if (card.isDown) return '\u269C'
 
 	return (

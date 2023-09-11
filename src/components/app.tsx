@@ -3,11 +3,21 @@ import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/
 import { tail } from '@dowhileluke/fns'
 import { concat, toSelectedCards } from '../functions'
 import { useAppState } from '../hooks/use-app-state'
-import { Location } from '../types'
+import { GameState, Location } from '../types'
 import { Card } from './card'
 import { Tableau } from './tableau'
 import classes from './app.module.css'
 import { Stock } from './stock'
+import { Foundations } from './foundations'
+import { Button } from './button'
+import { Layers, Rewind, RotateCcw, Shuffle } from 'react-feather'
+
+function isGameOver({ tableau, stock, waste, cells }: GameState) {
+	const isTableauEmpty = tableau.every(pile => pile.cardIds.length === 0)
+	const isCellsEmpty = !cells || cells.every(c => c === null)
+
+	return isTableauEmpty && isCellsEmpty && [stock?.length ?? 0, waste?.length ?? 0].every(n => n === 0)
+}
 
 export function App() {
 	const [state, actions] = useAppState()
@@ -38,27 +48,50 @@ export function App() {
 		actions.moveCards(to)
 	}
 
+	const isDone = Boolean(layout) && isGameOver(layout)
+	const isNew = state.history.length < 2
+
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
 			<div className={concat('viewport-height', classes.app)}>
 				<nav className={classes.controls}>
 					{layout ? (
-						<button type="button" onClick={actions.undo}>Undo</button>
+						<>
+							<Button onClick={actions.restart} disabled={isNew}>
+								<Rewind size="1em" />
+								Restart
+							</Button>
+							<Button onClick={actions.undo} disabled={isNew}>
+								<RotateCcw size="1em" />
+								Undo
+							</Button>
+							<Button onClick={actions.playAnother}>
+								<Shuffle size="1em" />
+								New Game
+							</Button>
+						</>
 					) : (
-						<button
-							type="button"
-							onClick={() => actions.launchGame('spiderette', { suitCount: 2, hasExtraSpace: false })}
-						>
+						<Button onClick={() => actions.launchGame('spiderette', { suitCount: 2, hasExtraSpace: true })}>
 							Launch!
-						</button>
+						</Button>
 					)}
 				</nav>
 				{layout && (
 					<main className={concat(classes.layout, 'full-height overflow-hidden')}>
 						<div className={classes.zones}>
 							<Stock state={layout} onClick={actions.deal} mode={state.mode} />
+							<div className={classes.space} />
+							<Foundations state={layout} />
 						</div>
-						<Tableau state={layout.tableau} selection={state.selection} mode={state.mode} />
+						{isDone && (
+							<h1>Game Complete!</h1>
+						)}
+						<Tableau
+							state={layout.tableau}
+							selection={state.selection}
+							mode={state.mode}
+							isHidden={isDone}
+						/>
 					</main>
 				)}
 			</div>

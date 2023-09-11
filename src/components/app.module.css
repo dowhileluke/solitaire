@@ -3,9 +3,14 @@
 	grid-template-rows: auto 1fr;
 }
 
+.app h1 {
+	text-align: center;
+}
+
 .controls {
 	display: flex;
 	justify-content: center;
+	gap: 8px;
 	padding: 8px;
 	background-color: var(--red);
 }
@@ -22,6 +27,11 @@
 .zones {
 	display: flex;
 	padding: var(--space);
+	gap: var(--space);
+}
+
+.space {
+	flex-grow: 1;
 }
 
 .overlay div {

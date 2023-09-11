@@ -32,7 +32,7 @@ export type GameState = {
 	stock?: CardId[];
 	waste?: CardId[];
 	foundations?: CardId[][];
-	cells?: CardId[];
+	cells?: Array<CardId | null>;
 }
 
 export type Location = 
@@ -55,6 +55,8 @@ export type AppActions = {
 	moveCards: (to?: Location | null) => void;
 	deal: () => void;
 	undo: () => void;
+	restart: () => void;
+	playAnother: () => void;
 	setIsMenuOpen: (isOpen: boolean) => void;
 }
 

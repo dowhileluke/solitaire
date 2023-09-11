@@ -1,0 +1,8 @@
+.foundations {
+	display: flex;
+	gap: var(--space);
+}
+
+.foundations > div {
+	width: var(--card-width);
+}

@@ -2,6 +2,7 @@
 	font: 16px arial;
 	line-height: 1;
 
+	--black: #333;
 	--red: firebrick;
 	--blue: aliceblue;
 
@@ -16,6 +17,7 @@
 }
 
 body {
+	color: var(--black);
 	margin: 0;
 	background-color: linen;
 }
@@ -37,6 +39,10 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.fade {
+	opacity: 0.4;
 }
 
 .cascade {
