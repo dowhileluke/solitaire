@@ -33,6 +33,7 @@ export type GameState = {
 	waste?: CardId[];
 	foundations?: CardId[][];
 	cells?: Array<CardId | null>;
+	pass?: number;
 }
 
 export type Location = 
@@ -63,6 +64,7 @@ export type AppActions = {
 export type GameConfig = {
 	suitCount: number;
 	hasExtraSpace: boolean;
+	dealFlag: number;
 }
 
 export type IsConnectedFn = (above: Card, below: Card) => boolean

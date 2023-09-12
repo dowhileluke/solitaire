@@ -21,7 +21,7 @@ export function Modal({ isOpen, onClose, title, onSubmit, headerNode, children }
 			appear
 		>
 			<Dialog onClose={onClose} className={fullscreen}>
-				<Transition.Child
+				{/* <Transition.Child
 					as={Fragment}
 					enter={classes.fade}
 					enterFrom={classes.start}
@@ -29,9 +29,9 @@ export function Modal({ isOpen, onClose, title, onSubmit, headerNode, children }
 					leave={classes.fade}
 					leaveFrom={classes.finish}
 					leaveTo={classes.start}
-				>
+				> */}
 					<div className={`${fullscreen} ${classes.blur}`} />
-				</Transition.Child>
+				{/* </Transition.Child> */}
 
 				<Transition.Child
 					as={Fragment}
@@ -42,7 +42,7 @@ export function Modal({ isOpen, onClose, title, onSubmit, headerNode, children }
 					leaveFrom={classes.finish}
 					leaveTo={classes.start}
 				>
-					<Dialog.Panel as={onSubmit ? 'form' : 'div'} onSubmit={onSubmit} className={classes.panel}>
+					<Dialog.Panel as={onSubmit ? 'form' : 'div'} onSubmit={onSubmit} className={`grid-form ${classes.panel}`}>
 						<div className={classes.title}>
 							<Dialog.Title>
 								{title}

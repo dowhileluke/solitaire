@@ -11,9 +11,21 @@
 	--card-overlap: -35px;
 	--down-overlap: -55px;
 
-	--space: 2px;
-	--space-xl: 16px;
-	--suit-ratio: 234%;
+	--space: 0.125em;
+	--space-xl: 1em;
+	--max-width: 480px;
+	--suit-ratio: 170%;
+}
+
+@media (min-width: 800px) {
+	:root {
+		font-size: 20px;
+
+		--card-width: 60px;
+		--card-height: 80px;
+		--card-overlap: -47px;
+		--down-overlap: -74px;
+	}
 }
 
 body {
@@ -31,6 +43,10 @@ body {
 	height: -webkit-fill-available;
 }
 
+.hidden {
+	visibility: hidden;
+}
+
 .overflow-hidden {
 	overflow: hidden;
 }
@@ -45,10 +61,26 @@ body {
 	opacity: 0.4;
 }
 
+.note {
+	color: #999;
+	font-size: 80%;
+	text-align: center;
+	margin-top: 8px;
+}
+
 .controls {
 	display: flex;
 	justify-content: center;
 	gap: 8px;
+}
+
+.grid-form {
+	display: grid;
+	gap: var(--space-xl);
+	margin: var(--space-xl);
+	padding: var(--space-xl);
+	box-sizing: border-box;
+	max-width: var(--max-width);
 }
 
 .cascade {

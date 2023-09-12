@@ -14,7 +14,7 @@ function isDealAllowed<T extends GameState>(layout: T): layout is T & Required<P
 	for (const { cardIds } of layout.tableau) {
 		if (cardIds.length === 0) {
 			empty += 1
-		} else if (cardIds.length === 2) {
+		} else if (cardIds.length > 1) {
 			multi += 1
 		}
 	}

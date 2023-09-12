@@ -8,7 +8,7 @@ const initState: AppState = {
 	history: [],
 	selection: null,
 	mode: 'spiderette',
-	config: { suitCount: 4, hasExtraSpace: true },
+	config: { suitCount: 4, hasExtraSpace: true, dealFlag: 3 },
 	isMenuOpen: false,
 }
 

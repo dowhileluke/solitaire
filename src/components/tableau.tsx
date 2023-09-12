@@ -15,7 +15,7 @@ type TableauProps = {
 export function Tableau({ state, selection, mode, isHidden }: TableauProps) {
 	if (isHidden) {
 		return (
-			<div className={classes.tableau}>
+			<div className={concat(classes.tableau, 'hidden overflow-hidden')}>
 				{state.map((_, i) => (<div key={i} className="cascade" />))}
 			</div>
 		)

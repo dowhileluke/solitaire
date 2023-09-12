@@ -1,4 +1,5 @@
 .card {
+	font-size: 125%;
 	box-sizing: border-box;
 	height: var(--card-height);
 	margin-bottom: var(--card-overlap);

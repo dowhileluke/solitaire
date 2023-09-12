@@ -2,17 +2,22 @@
 	font-size: inherit;
 	line-height: inherit;
 	color: inherit;
+	font-weight: inherit;
 
 	background-color: white;
-	border: none;
-	border-radius: 8px;
+	border: 1px solid white;
+	border-radius: 0.5em;
 
 	box-sizing: border-box;
-	padding: 4px 8px;
+	padding: 0.25em 0.5em;
 	cursor: pointer;
 
 	display: flex;
-	gap: 4px;
+	gap: 0.25em;
+}
+
+.big {
+	font-size: 125%;
 }
 
 .button:active {
@@ -20,11 +25,27 @@
 }
 
 .button:disabled {
-	opacity: 0.5;
 	cursor: default;
 }
 
 .red {
 	background-color: var(--red);
+	border-color: var(--red);
 	color: white;
+}
+
+.black {
+	background-color: black;
+	border-color: black;
+	color: white;
+}
+
+.hollow {
+	background: none;
+	border-color: currentColor;
+	color: black;
+}
+
+.hollow.red {
+	color: var(--red);
 }

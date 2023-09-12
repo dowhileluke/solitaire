@@ -19,6 +19,7 @@
 	box-sizing: border-box;
 	padding-top: var(--space-xl);
 	gap: var(--space-xl);
+	transition: opacity 150ms ease-in-out;
 }
 
 .zones {
@@ -33,4 +34,8 @@
 
 .overlay div {
 	flex-shrink: 0;
+}
+
+.init {
+	width: 100%;
 }

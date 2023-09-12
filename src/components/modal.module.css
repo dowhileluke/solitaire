@@ -33,15 +33,10 @@
 
 .panel {
 	flex-grow: 1;
-	display: grid;
-	gap: var(--space-xl);
-	margin: var(--space-xl);
-	padding: var(--space-xl);
 	background-color: white;
 	border-radius: 0.5em;
-	max-width: 640px;
 	z-index: 1;
-	box-shadow: 0 0 8px black;
+	box-shadow: 0 0 4px black;
 }
 
 .title {
