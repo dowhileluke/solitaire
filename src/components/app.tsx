@@ -68,7 +68,7 @@ export function App() {
 		actions.launchGame(draftMode, draftConfig)
 	}
 
-	const isDone = !false || Boolean(layout) && isGameOver(layout)
+	const isDone = Boolean(layout) && isGameOver(layout)
 	const isNew = state.history.length < 2
 	const configForm = (
 		<ConfigForm
