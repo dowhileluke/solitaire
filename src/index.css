@@ -17,7 +17,7 @@
 	--suit-ratio: 170%;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 1024px) {
 	:root {
 		font-size: 20px;
 
@@ -65,13 +65,13 @@ body {
 	color: #999;
 	font-size: 80%;
 	text-align: center;
-	margin-top: 8px;
+	margin-top: 0.5em;
 }
 
 .controls {
 	display: flex;
 	justify-content: center;
-	gap: 8px;
+	gap: 0.5em;
 }
 
 .grid-form {

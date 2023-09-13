@@ -1,6 +1,6 @@
 import { split } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
-import { Card, Cascade, CascadeCard, IsConnectedFn, Pile } from '../types'
+import { Card, Cascade, CascadeCard, GameConfig, IsConnectedFn, Pile } from '../types'
 
 function toDownCard(card: Card) {
 	const result: CascadeCard = {
@@ -13,7 +13,7 @@ function toDownCard(card: Card) {
 	return result
 }
 
-export function toCascade({ cardIds, down }: Pile, isConnected: IsConnectedFn) {
+export function toCascade({ cardIds, down }: Pile, isConnected: IsConnectedFn, config: GameConfig) {
 	const [downCards, upCards] = split(cardIds.map(id => CARD_DATA[id]), down)
 
 	upCards.reverse()
@@ -29,7 +29,7 @@ export function toCascade({ cardIds, down }: Pile, isConnected: IsConnectedFn) {
 			available += 1
 		}
 
-		if (nextCard && isConnected(card, nextCard)) {
+		if (nextCard && isConnected(card, nextCard, config)) {
 			upResults.push({ ...card, isDown: false, isConnected: true, isAvailable })
 		} else {
 			upResults.push({ ...card, isDown: false, isConnected: false, isAvailable })

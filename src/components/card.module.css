@@ -10,6 +10,9 @@
 	padding: 2px;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 
+	display: grid;
+	grid-template-rows: auto 1fr;
+
 	user-select: none;
 	touch-action: none;
 }
@@ -32,6 +35,7 @@
 	background-color: var(--blue);
 	margin-bottom: var(--down-overlap);
 	flex-shrink: 1;
+	font-size: var(--card-width);
 }
 
 .empty {
@@ -46,9 +50,13 @@
 	color: var(--red);
 }
 
+.squeeze {
+	letter-spacing: -0.15em;
+}
+
 .suit {
 	font-size: var(--suit-ratio);
-	text-align: center;
+	letter-spacing: 0;
 }
 
 .icon {

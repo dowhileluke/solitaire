@@ -1,5 +1,5 @@
 import { categorize, split } from '@dowhileluke/fns';
-import { Location, Pile } from '../types';
+import { GameConfig, Location, Pile } from '../types';
 import { Card, DndCard } from './card';
 import classes from './tableau.module.css'
 import { Mode, RULES } from '../rules';
@@ -7,12 +7,13 @@ import { concat, toCascade } from '../functions';
 
 type TableauProps = {
 	state: Pile[];
+	config: GameConfig;
 	selection: Location | null;
 	mode: Mode;
 	isHidden?: boolean;
 }
 
-export function Tableau({ state, selection, mode, isHidden }: TableauProps) {
+export function Tableau({ state, config, selection, mode, isHidden }: TableauProps) {
 	if (isHidden) {
 		return (
 			<div className={concat(classes.tableau, 'hidden overflow-hidden')}>
@@ -21,7 +22,7 @@ export function Tableau({ state, selection, mode, isHidden }: TableauProps) {
 		)
 	}
 
-	const cascades = state.map(p => toCascade(p, RULES[mode].isConnected))
+	const cascades = state.map(p => toCascade(p, RULES[mode].isConnected, config))
 
 	return (
 		<div className={concat(classes.tableau, 'full-height overflow-hidden')}>

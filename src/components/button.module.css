@@ -14,13 +14,16 @@
 
 	display: flex;
 	gap: 0.25em;
+
+	user-select: none;
+	touch-action: none;
 }
 
 .big {
 	font-size: 125%;
 }
 
-.button:active {
+.button:active:not(:disabled) {
 	opacity: 0.9;
 }
 

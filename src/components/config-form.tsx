@@ -1,9 +1,9 @@
-import { FastForward, Play, Rewind } from 'react-feather'
 import { concat } from '../functions'
 import { MODES, Mode } from '../rules'
 import { GameConfig } from '../types'
 import { Button } from './button'
 import { LabeledValue, Pills } from './pills'
+import { FastForward, Play, Rewind, SkipBack, SkipForward } from '@phosphor-icons/react'
 
 export type ConfigFormFn = (mode: Mode, config?: Partial<GameConfig>) => void
 
@@ -51,16 +51,13 @@ function getNote(mode: Mode, dealFlag: number) {
 
 	if (mode === 'klondike') {
 		const perDeal = dealFlag % 2 ? 3 : 1
-		const hasDealLimit = dealFlag > 1
-		const [cards, times] = perDeal === 1 ? ['card', 'once'] : ['cards', 'thrice']
+		const hasPassLimit = dealFlag > 1
 
-		let note = `Deal ${perDeal} ${cards} at a time`
+		const times = perDeal === 1 ? 'once' : 'thrice'
+		const preface = hasPassLimit ? `Pass through the deck ${times}, ` : 'Deal '
+		const cards = perDeal === 1 ? 'card' : 'cards'
 
-		if (hasDealLimit) {
-			note += `, ${times} through the deck`
-		}
-	
-		return note + '.'
+		return preface + `${perDeal} ${cards} at a time.`
 	}
 }
 
@@ -90,13 +87,13 @@ export function ConfigForm({ mode, state, onChange, onRetry, submitLabel }: Conf
 			<div className="controls">
 				{onRetry && (
 					<Button isBig isBlack onClick={onRetry}>
-						<Rewind size="1em" />
+						<Rewind weight="fill" />
 						Retry Game
 					</Button>
 				)}
 				<Button type="submit" isBig isRed>
 					{submitLabel}
-					{onRetry ? (<FastForward size="1em" />) : (<Play size="1em" />)}
+					<Play weight="fill" />
 				</Button>
 			</div>
 		</>

@@ -1,9 +1,9 @@
 import { ComponentPropsWithoutRef, forwardRef } from 'react'
 import { useDraggable, useDroppable } from '@dnd-kit/core'
+import { CrownSimple, FlowerLotus } from '@phosphor-icons/react'
 import { concat } from '../functions/concat'
 import { toId } from '../functions/to-id'
 import { CascadeCard, Location } from '../types'
-import { Lotus } from './lotus'
 import classes from './card.module.css'
 
 type CardProps = {
@@ -21,19 +21,21 @@ function toConditionalClasses(card: CascadeCard | null) {
 		maybeAvailable,
 		card.isConnected && classes.connected,
 		card.isRed && classes.red,
+		[9, 11].includes(card.rank) && classes.squeeze,
 	)
 }
 
 function toContents(card: CascadeCard | null) {
 	if (!card) return null
-	if (card.isDown) return <Lotus className={classes.icon} />
+	if (card.isDown) return <FlowerLotus size="100%" weight="thin" />
 	// if (card.isDown) return '\u269C'
+	// if (card.isDown) return '\u0FCF'
 
 	return (
 		<>
 			{card.label}
-			<div className={classes.suit}>
-				{card.suit}
+			<div className={concat(classes.suit, 'center')}>
+				{card.rank > 9 ? (<CrownSimple size="0.7em" weight="fill" />) : card.suit}
 			</div>
 		</>
 	)

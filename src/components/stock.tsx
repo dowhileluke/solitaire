@@ -1,23 +1,43 @@
+import { ArrowCounterClockwise, X } from '@phosphor-icons/react'
 import { generateArray } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
+import { concat } from '../functions'
 import { Mode } from '../rules'
 import { CascadeCard, GameState } from '../types'
 import { Card } from './card'
 import classes from './stock.module.css'
-import { X } from 'react-feather'
-import { concat } from '../functions'
 
 type StockProps = {
 	state: GameState;
 	onClick?: () => void;
 	mode: Mode;
+	dealFlag: number;
 }
 
 const DOWN_CARD: CascadeCard = { ...CARD_DATA[0], isDown: true, isConnected: false, isAvailable: true }
 
-export function Stock({ state, onClick, mode }: StockProps) {
-	const { stock, tableau } = state
+export function Stock({ state, onClick, mode, dealFlag }: StockProps) {
 	const isSpiderette = mode === 'spiderette'
+	const { stock, tableau } = state
+
+	if (!stock) return null
+
+	function isEmpty() {
+		if (!stock) return true
+		if (stock.length > 0) return false
+		if (isSpiderette) return true
+
+		const hasPassLimit = dealFlag > 1
+
+		if (!hasPassLimit) return false
+
+		const passCount = state.pass ?? 1
+		const passLimit = dealFlag % 2 ? 3 : 1
+
+		return passCount >= passLimit
+	}
+
+	const isExhausted = isEmpty()
 
 	function getContents() {
 		if (!stock) return null
@@ -25,7 +45,7 @@ export function Stock({ state, onClick, mode }: StockProps) {
 		if (stock.length === 0) {
 			return (
 				<Card details={null}>
-					{isSpiderette && (<X />)}
+					{isExhausted ? (<X />) : (<ArrowCounterClockwise />)}
 				</Card>
 			)
 		}
@@ -41,15 +61,9 @@ export function Stock({ state, onClick, mode }: StockProps) {
 		)
 	}
 
-	const contents = getContents()
-
-	if (!contents) return null
-
-	const isDisabled = (isSpiderette && stock?.length === 0)
-
 	return (
-		<div className={concat(classes.stock, isDisabled && 'fade')} onClick={onClick}>
-			{contents}
+		<div className={concat(classes.stock, isExhausted && 'fade')} onClick={onClick}>
+			{getContents()}
 		</div>
 	)
 }

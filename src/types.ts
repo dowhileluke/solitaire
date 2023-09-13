@@ -30,7 +30,7 @@ export type Cascade = {
 export type GameState = {
 	tableau: Pile[];
 	stock?: CardId[];
-	waste?: CardId[];
+	waste?: Pile;
 	foundations?: CardId[][];
 	cells?: Array<CardId | null>;
 	pass?: number;
@@ -67,12 +67,12 @@ export type GameConfig = {
 	dealFlag: number;
 }
 
-export type IsConnectedFn = (above: Card, below: Card) => boolean
+export type IsConnectedFn = (above: Card, below: Card, config: GameConfig) => boolean
 
 export type Rules = {
 	init: (config: GameConfig) => GameState;
-	deal: (state: GameState) => GameState | null;
-	move: (state: GameState, from: Location, to: Location) => GameState | null;
-	autoMove?: (state: GameState, from: Location) => Location | null;
+	deal: (config: GameConfig, state: GameState) => GameState | null;
+	move: (config: GameConfig, state: GameState, from: Location, to: Location) => GameState | null;
+	autoMove?: (config: GameConfig, state: GameState, from: Location) => Location | null;
 	isConnected: IsConnectedFn;
 }

@@ -28,8 +28,24 @@
 	gap: var(--space);
 }
 
-.space {
-	flex-grow: 1;
+@media (min-width: 600px) and (max-height: 600px) {
+	.layout {
+		padding-top: var(--space);
+		grid-template-columns: auto auto;
+		grid-template-rows: unset;
+	}
+
+	.zones {
+		flex-direction: column;
+ 		width: 12em;
+		gap: var(--space-xl);
+	}
+}
+
+.wasteland {
+	flex-shrink: 0;
+	display: flex;
+	gap: var(--space);
 }
 
 .overlay div {

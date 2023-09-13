@@ -1,0 +1,9 @@
+.waste {
+	display: flex;
+	min-width: 7em;
+}
+
+.waste > div {
+	width: var(--card-width);
+	margin-right: -1em;
+}

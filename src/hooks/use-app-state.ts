@@ -37,11 +37,11 @@ export function useAppState() {
 				const NEVERMIND: AppState = { ...prev, selection: null, }
 				const prevLayout = tail(prev.history)
 				const { move, autoMove } = RULES[prev.mode]
-				const whereTo = to ?? autoMove?.(prevLayout, prev.selection) ?? null
+				const whereTo = to ?? autoMove?.(prev.config, prevLayout, prev.selection) ?? null
 
 				if (!whereTo) return NEVERMIND
 
-				const nextLayout = move(prevLayout, prev.selection, whereTo)
+				const nextLayout = move(prev.config, prevLayout, prev.selection, whereTo)
 
 				if (!nextLayout) return NEVERMIND
 
@@ -55,7 +55,7 @@ export function useAppState() {
 		deal() {
 			setState(prev => {
 				const { deal } = RULES[prev.mode]
-				const nextLayout = deal(tail(prev.history))
+				const nextLayout = deal(prev.config, tail(prev.history))
 
 				if (!nextLayout) return prev
 
@@ -81,6 +81,7 @@ export function useAppState() {
 				...prev,
 				history: prev.history.slice(0, 1),
 				selection: null,
+				isMenuOpen: false,
 			}))
 		},
 		playAnother() {

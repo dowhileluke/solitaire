@@ -4,14 +4,14 @@ import { isConnected } from './klondike'
 
 export const freecell: Rules = {
 	init({ suitCount }) {
-		// const deck = shuffle(generateDeck(suitCount))
+		const deck = shuffle(generateDeck(suitCount))
 
 		throw new Error('Not implemented!')
 	},
-	deal(state) {
+	deal(config, state) {
 		throw new Error('Not implemented!')
 	},
-	move(state, from, to) {
+	move(config, state, from, to) {
 		throw new Error('Not implemented!')
 	},
 	isConnected,

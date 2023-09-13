@@ -1,26 +1,27 @@
-import { FormEvent, useRef } from 'react'
+import { FormEvent, useEffect, useRef } from 'react'
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
+import { ArrowCounterClockwise, List, Play } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
 import { concat, toSelectedCards } from '../functions'
 import { useAppState } from '../hooks/use-app-state'
-import { GameState, Location } from '../types'
-import { Card } from './card'
-import { Tableau } from './tableau'
-import classes from './app.module.css'
-import { Stock } from './stock'
-import { Foundations } from './foundations'
-import { Button } from './button'
-import { Menu, Play, Rewind, RotateCcw, Shuffle } from 'react-feather'
-import { Modal } from './modal'
 import { useDraftState } from '../hooks/use-draft-state'
+import { GameState, Location } from '../types'
+import { Button } from './button'
+import { Card } from './card'
 import { ConfigForm, ConfigFormFn } from './config-form'
-import { Mode } from '../rules'
+import { Foundations } from './foundations'
+import { Modal } from './modal'
+import { Stock } from './stock'
+import { Tableau } from './tableau'
+import { Waste } from './waste'
+import classes from './app.module.css'
+import { CARD_DATA } from '../data'
 
 function isGameOver({ tableau, stock, waste, cells }: GameState) {
 	const isTableauEmpty = tableau.every(pile => pile.cardIds.length === 0)
 	const isCellsEmpty = !cells || cells.every(c => c === null)
 
-	return isTableauEmpty && isCellsEmpty && [stock?.length ?? 0, waste?.length ?? 0].every(n => n === 0)
+	return isTableauEmpty && isCellsEmpty && [stock?.length ?? 0, waste?.cardIds.length ?? 0].every(n => n === 0)
 }
 
 export function App() {
@@ -29,6 +30,12 @@ export function App() {
 	const timestampRef = useRef(0)
 	const [draftMode, setDraftMode] = useDraftState(state.mode)
 	const [draftConfig, setDraftConfig] = useDraftState(state.config)
+
+	useEffect(() => {
+		if (!state.isMenuOpen) {
+			setDraftMode(state.mode)
+		}
+	}, [state.isMenuOpen])
 
 	function handleDragStart(e: DragStartEvent) {
 		timestampRef.current = Date.now()
@@ -52,6 +59,12 @@ export function App() {
 		if (!to) return handleDragCancel()
 
 		actions.moveCards(to)
+	}
+
+	function handleClose() {
+		setDraftMode(state.mode)
+		setDraftConfig(state.config)
+		actions.setIsMenuOpen(false)
 	}
 
 	const handleChange: ConfigFormFn = (mode, config) => {
@@ -86,11 +99,11 @@ export function App() {
 				<nav className={classes.red}>
 					<div className={concat('controls', state.isMenuOpen && 'fade')}>
 						<Button disabled={!layout} onClick={() => actions.setIsMenuOpen(true)}>
-							<Menu size="1em" />
+							<List />
 							Menu
 						</Button>
 						<Button onClick={actions.undo} disabled={isNew && !state.isMenuOpen}>
-							<RotateCcw size="1em" />
+							<ArrowCounterClockwise />
 							Undo
 						</Button>
 					</div>
@@ -98,24 +111,29 @@ export function App() {
 				{layout ? (
 					<main className={concat(classes.layout, 'full-height overflow-hidden', state.isMenuOpen && 'fade')}>
 						<div className={classes.zones}>
-							<Stock state={layout} onClick={actions.deal} mode={state.mode} />
-							<div className={classes.space} />
-							<Foundations state={layout} />
-						</div>
-						{isDone && (
-							<div>
-								<h1>Game Complete!</h1>
-								<div className="controls">
-									<Button isBig isRed onClick={actions.playAnother}>New Game <Play size="1em" /></Button>
-								</div>
+							<div className={classes.wasteland}>
+								<Stock state={layout} onClick={actions.deal} mode={state.mode} dealFlag={state.config.dealFlag} />
+								{layout.waste && (<Waste state={layout.waste} selection={state.selection} />)}
 							</div>
-						)}
-						<Tableau
-							state={layout.tableau}
-							selection={state.selection}
-							mode={state.mode}
-							isHidden={isDone}
-						/>
+							<Foundations state={layout} selection={state.selection} mode={state.mode} />
+						</div>
+						<div className="full-height overflow-hidden">
+							{isDone && (
+								<div>
+									<h1>Game Complete!</h1>
+									<div className="controls">
+										<Button isBig isRed onClick={actions.playAnother}>New Game <Play /></Button>
+									</div>
+								</div>
+							)}
+							<Tableau
+								state={layout.tableau}
+								config={state.config}
+								selection={state.selection}
+								mode={state.mode}
+								isHidden={isDone}
+							/>
+						</div>
 					</main>
 				) : (
 					<div className="center">
@@ -126,13 +144,13 @@ export function App() {
 				)}
 			</div>
 			<DragOverlay className={concat('cascade', classes.overlay)}>
-				{layout && toSelectedCards(layout, state.selection).map((card, i) => (
-					<Card key={i} details={{ ...card, isDown: false, isConnected: i > 0, isAvailable: true }} />
+				{layout && toSelectedCards(layout, state.selection).map((id, i) => (
+					<Card key={i} details={{ ...CARD_DATA[id], isDown: false, isConnected: i > 0, isAvailable: true }} />
 				))}
 			</DragOverlay>
 			<Modal
 				isOpen={state.isMenuOpen}
-				onClose={() => actions.setIsMenuOpen(false)}
+				onClose={handleClose}
 				title="Game Settings"
 				onSubmit={handleSubmit}
 			>
