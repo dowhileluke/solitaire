@@ -18,14 +18,13 @@ const DOWN_CARD: CascadeCard = { ...CARD_DATA[0], isDown: true, isConnected: fal
 
 export function Stock({ state, onClick, mode, dealFlag }: StockProps) {
 	const isSpiderette = mode === 'spiderette'
-	const { stock, tableau } = state
+	const { stock, tableau, waste } = state
 
 	if (!stock) return null
 
-	function isEmpty() {
+	function isExhausted() {
 		if (!stock) return true
 		if (stock.length > 0) return false
-		if (isSpiderette) return true
 
 		const hasPassLimit = dealFlag > 1
 
@@ -37,7 +36,8 @@ export function Stock({ state, onClick, mode, dealFlag }: StockProps) {
 		return passCount >= passLimit
 	}
 
-	const isExhausted = isEmpty()
+	const _isExhausted = isExhausted()
+	const isEmpty = stock.length + (waste?.cardIds.length ?? 0) === 0
 
 	function getContents() {
 		if (!stock) return null
@@ -45,7 +45,7 @@ export function Stock({ state, onClick, mode, dealFlag }: StockProps) {
 		if (stock.length === 0) {
 			return (
 				<Card details={null}>
-					{isExhausted ? (<X />) : (<ArrowCounterClockwise />)}
+					{_isExhausted ? (<X />) : (<ArrowCounterClockwise />)}
 				</Card>
 			)
 		}
@@ -62,7 +62,7 @@ export function Stock({ state, onClick, mode, dealFlag }: StockProps) {
 	}
 
 	return (
-		<div className={concat(classes.stock, isExhausted && 'fade')} onClick={onClick}>
+		<div className={concat(classes.stock, (_isExhausted || isEmpty) && 'fade')} onClick={onClick}>
 			{getContents()}
 		</div>
 	)

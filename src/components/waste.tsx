@@ -9,8 +9,6 @@ type WasteProps = {
 	selection: Location | null;
 }
 
-const WASTE: Location = { zone: 'waste' }
-
 export function Waste({ state, selection }: WasteProps) {
 	const isSelected = selection?.zone === 'waste'
 	const up = state.cardIds.length - state.down
@@ -27,7 +25,9 @@ export function Waste({ state, selection }: WasteProps) {
 	return (
 		<div className={classes.waste}>
 			{simpleCards.map((card, i) => (<Card key={i} details={card} />))}
-			{topCard && !isSelected && (<DndCard details={topCard} mode="drag" location={WASTE} />)}
+			{topCard && !isSelected && (
+				<DndCard details={topCard} mode="drag" location={{ zone: 'waste', y: state.cardIds.length }} />
+			)}
 		</div>
 	)
 }

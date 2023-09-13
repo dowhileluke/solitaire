@@ -21,6 +21,7 @@ export function Pills<T extends string | number | boolean>({ value, onChange, op
 
 				return (
 					<div
+						key={optValue.toString()}
 						className={concat(classes.pill, value === optValue && classes.selected)}
 						onClick={() => onChange(optValue as T)}
 					>

@@ -1,9 +1,9 @@
+import { Play, Rewind } from '@phosphor-icons/react'
 import { concat } from '../functions'
 import { MODES, Mode } from '../rules'
 import { GameConfig } from '../types'
 import { Button } from './button'
 import { LabeledValue, Pills } from './pills'
-import { FastForward, Play, Rewind, SkipBack, SkipForward } from '@phosphor-icons/react'
 
 export type ConfigFormFn = (mode: Mode, config?: Partial<GameConfig>) => void
 

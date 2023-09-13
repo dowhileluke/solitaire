@@ -13,5 +13,19 @@ export function toSelectedCards(state: GameState, selection: Location | null) {
 		return state.waste ? state.waste.cardIds.slice(-1) : NO_CARDS
 	}
 
+	if (selection.zone === 'foundation') {
+		if (!state.foundations || state.foundations.length < selection.x) return NO_CARDS
+
+		return state.foundations[selection.x].slice(-1)
+	}
+
+	if (selection.zone === 'cell') {
+		if (!state.cells) return NO_CARDS
+
+		const value = state.cells[selection.x]
+
+		return value === null ? NO_CARDS : [value]
+	}
+
 	return NO_CARDS
 }

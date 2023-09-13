@@ -38,9 +38,9 @@ export type GameState = {
 
 export type Location = 
 	| { zone: 'tableau', x: number, y: number }
-	| { zone: 'foundation', x: number }
+	| { zone: 'foundation', x: number, y: number }
 	| { zone: 'cell', x: number }
-	| { zone: 'waste' }
+	| { zone: 'waste', y: number }
 
 export type AppState = {
 	history: GameState[];

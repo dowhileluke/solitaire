@@ -1,9 +1,7 @@
-import { generateArray, tail } from '@dowhileluke/fns'
-import { CARD_DATA } from '../data'
 import { Mode } from '../rules'
-import { CascadeCard, GameState, Location } from '../types'
+import { GameState, Location } from '../types'
 import { Card, DndCard } from './card'
-import { concat, toCascadeCard } from '../functions'
+import { toCascadeCard } from '../functions'
 import classes from './foundations.module.css'
 import { X } from '@phosphor-icons/react'
 
@@ -27,22 +25,22 @@ export function Foundations({ state, selection, mode }: FoundationsProps) {
 
 				if (mode === 'spiderette') {
 					return (
-						<Card details={toCascadeCard(topId, false, false, false)}><X /></Card>
+						<Card key={x} details={toCascadeCard(topId, false, false, false)}><X /></Card>
 					)
 				}
 
 				if (isZoneSelected && selection.x === x) {
 					return (
-						<Card details={toCascadeCard(nextId, false, false, false)} />
+						<Card key={x} details={toCascadeCard(nextId, false, false, false)} />
 					)
 				}
 
 				const topCard = toCascadeCard(topId, false, false, true)
-				const location: Location = { zone: 'foundation', x }
+				const location: Location = { zone: 'foundation', x, y: cardIds.length }
 				const topMode = !selection && topCard ? 'drag' : 'drop'
 
 				return (
-					<DndCard details={topCard} location={location} mode={topMode} />
+					<DndCard key={x} details={topCard} location={location} mode={topMode} />
 				)
 			})}
 		</div>
