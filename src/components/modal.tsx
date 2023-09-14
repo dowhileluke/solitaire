@@ -5,14 +5,14 @@ import classes from './modal.module.css'
 export type ModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
-	title: string;
+	title?: string | null;
 	onSubmit?: (e: FormEvent) => void;
 	headerNode?: ReactNode;
 	children?: ReactNode;
 }
 
 export function Modal({ isOpen, onClose, title, onSubmit, headerNode, children }: ModalProps) {
-	const fullscreen = `viewport-height ${classes.full} center`
+	const fullscreen = `viewport-height ${classes.full}`
 
 	return (
 		<Transition
@@ -20,7 +20,7 @@ export function Modal({ isOpen, onClose, title, onSubmit, headerNode, children }
 			show={isOpen}
 			appear
 		>
-			<Dialog onClose={onClose} className={fullscreen}>
+			<Dialog onClose={onClose} className={`${fullscreen} overflow-auto center`}>
 				{/* <Transition.Child
 					as={Fragment}
 					enter={classes.fade}
@@ -42,13 +42,17 @@ export function Modal({ isOpen, onClose, title, onSubmit, headerNode, children }
 					leaveFrom={classes.finish}
 					leaveTo={classes.start}
 				>
-					<Dialog.Panel as={onSubmit ? 'form' : 'div'} onSubmit={onSubmit} className={`grid-form ${classes.panel}`}>
-						<div className={classes.title}>
+					<Dialog.Panel
+						as={onSubmit ? 'form' : 'div'}
+						onSubmit={onSubmit}
+						className={`grid-form ${classes.panel}`}
+					>
+						{(title || headerNode) && (<div className={classes.title}>
 							<Dialog.Title>
 								{title}
 							</Dialog.Title>
 							{headerNode}
-						</div>
+						</div>)}
 						{children}
 					</Dialog.Panel>
 				</Transition.Child>

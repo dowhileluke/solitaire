@@ -1,8 +1,11 @@
-import { split, tail } from '@dowhileluke/fns'
-import { generateDeck, shuffle, toKlondikeLayout, toSelectedCards } from '../functions'
-import { IsConnectedFn, Rules } from '../types'
+import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
+import { generateDeck, shuffle, toKlondikeLayout, toSelectedCards } from '../functions'
 import { appendAtLocation, removeAtLocation } from '../functions/movement'
+import { IsConnectedFn, Rules } from '../types'
+
+export const FLAG_DEAL_TRIPLE = 1
+export const FLAG_DEAL_LIMIT = 2
 
 export const isConnected: IsConnectedFn = (a, b, { suitCount }) => {
 	const isSequential = a.rank + 1 === b.rank
@@ -13,23 +16,25 @@ export const isConnected: IsConnectedFn = (a, b, { suitCount }) => {
 }
 
 export const klondike: Rules = {
-	init({ suitCount }) {
-		const deck = shuffle(generateDeck(suitCount))
+	init({ suitCount, deckCount }) {
+		const deck = generateDeck(suitCount)
+		const isDoubleDeck = deckCount > 1
+		const pileCount = isDoubleDeck ? 9 : 7
 
 		return {
-			...toKlondikeLayout(deck),
+			...toKlondikeLayout(shuffle(isDoubleDeck ? deck.concat(deck) : deck), pileCount),
+			foundations: generateArray(isDoubleDeck ? 8 : 4, () => []),
 			waste: { cardIds: [], down: 0 },
-			foundations: [[], [], [], []],
 			pass: 1,
 		}
 	},
-	deal({ dealFlag }, prev) {
+	deal({ modeFlags }, prev) {
 		if (!prev.stock || !prev.waste) return null
 
 		const isEmpty = prev.stock.length === 0
 		const passCount = prev.pass ?? 1
-		const perDeal = dealFlag % 2 ? 3 : 1 // also equals passLimit
-		const hasPassLimit = dealFlag > 1
+		const perDeal = modeFlags & FLAG_DEAL_TRIPLE ? 3 : 1 // also equals passLimit
+		const hasPassLimit = Boolean(modeFlags & FLAG_DEAL_LIMIT)
 
 		if (isEmpty) {
 			if (prev.waste.cardIds.length === 0) return null

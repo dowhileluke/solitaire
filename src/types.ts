@@ -29,9 +29,9 @@ export type Cascade = {
 
 export type GameState = {
 	tableau: Pile[];
+	foundations: CardId[][];
 	stock?: CardId[];
 	waste?: Pile;
-	foundations?: CardId[][];
 	cells?: Array<CardId | null>;
 	pass?: number;
 }
@@ -48,23 +48,28 @@ export type AppState = {
 	mode: Mode;
 	config: GameConfig;
 	isMenuOpen: boolean;
+	menuMode: Mode;
+	preferences: Record<Mode, GameConfig>;
 }
 
 export type AppActions = {
-	launchGame: (mode: Mode, config: GameConfig) => void;
+	launchGame: () => void;
 	setSelection: (selection: Location | null) => void;
 	moveCards: (to?: Location | null) => void;
 	deal: () => void;
 	undo: () => void;
 	restart: () => void;
 	playAnother: () => void;
-	setIsMenuOpen: (isOpen: boolean) => void;
+	openMenu: () => void;
+	dismissMenu: () => void;
+	setMenuMode: (menuMode: Mode) => void;
+	updatePreferences: (changeset: Partial<GameConfig>) => void;
 }
 
 export type GameConfig = {
 	suitCount: number;
-	hasExtraSpace: boolean;
-	dealFlag: number;
+	deckCount: number;
+	modeFlags: number;
 }
 
 export type IsConnectedFn = (above: Card, below: Card, config: GameConfig) => boolean

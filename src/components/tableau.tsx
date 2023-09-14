@@ -10,22 +10,14 @@ type TableauProps = {
 	config: GameConfig;
 	selection: Location | null;
 	mode: Mode;
-	isHidden?: boolean;
+	isDone?: boolean;
 }
 
-export function Tableau({ state, config, selection, mode, isHidden }: TableauProps) {
-	if (isHidden) {
-		return (
-			<div className={concat(classes.tableau, 'hidden overflow-hidden')}>
-				{state.map((_, i) => (<div key={i} className="cascade" />))}
-			</div>
-		)
-	}
-
+export function Tableau({ state, config, selection, mode, isDone }: TableauProps) {
 	const cascades = state.map(p => toCascade(p, RULES[mode].isConnected, config))
 
 	return (
-		<div className={concat(classes.tableau, 'full-height overflow-hidden')}>
+		<div className={concat(classes.tableau, 'overflow-hidden', !isDone && 'full-height')}>
 			{cascades.map(({ cards }, x) => {
 				const isSource = selection?.zone === 'tableau' && selection.x === x
 				const [simpleCards, specialCards] = isSource

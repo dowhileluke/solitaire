@@ -1,5 +1,5 @@
 :root {
-	font: 16px arial;
+	font: 16px arial, sans-serif;
 	line-height: 1;
 
 	--black: #333;
@@ -47,6 +47,10 @@ body {
 	visibility: hidden;
 }
 
+.overflow-auto {
+	overflow: auto;
+}
+
 .overflow-hidden {
 	overflow: hidden;
 }
@@ -77,14 +81,23 @@ body {
 .grid-form {
 	display: grid;
 	gap: var(--space-xl);
-	margin: var(--space-xl);
+	margin: var(--space-xl) auto;
 	padding: var(--space-xl);
 	box-sizing: border-box;
 	max-width: var(--max-width);
+}
+
+.margin-0-auto {
+	margin: 0 auto;
 }
 
 .cascade {
 	width: var(--card-width);
 	display: flex;
 	flex-direction: column;
+}
+
+p {
+	margin: 0;
+	line-height: normal;
 }

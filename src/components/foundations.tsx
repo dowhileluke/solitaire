@@ -1,7 +1,7 @@
 import { Mode } from '../rules'
 import { GameState, Location } from '../types'
 import { Card, DndCard } from './card'
-import { toCascadeCard } from '../functions'
+import { concat, toCascadeCard } from '../functions'
 import classes from './foundations.module.css'
 import { X } from '@phosphor-icons/react'
 
@@ -19,7 +19,7 @@ export function Foundations({ state, selection, mode }: FoundationsProps) {
 	const isZoneSelected = selection?.zone === 'foundation'
 
 	return (
-		<div className={classes.foundations}>
+		<div className={concat(classes.foundations, 'overflow-hidden')}>
 			{state.foundations.map((cardIds, x) => {
 				const [topId, nextId] = [null, null, ...cardIds.slice(-2)].reverse()
 

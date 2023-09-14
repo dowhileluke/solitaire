@@ -1,23 +1,24 @@
+import { generateArray } from '@dowhileluke/fns'
 import { CardId, GameState, Pile } from '../types'
 
-export function toKlondikeLayout(deck: CardId[]) {
+export function toKlondikeLayout(deck: CardId[], pileCount: number) {
 	const tableau: Pile[] = []
-	let startIndex = 0
+	let index = 0
 
-	for (let i = 0; i < 7; i++) {
-		const lastIndex = startIndex + i + 1
+	for (const height of generateArray(1, pileCount)) {
+		const cardIds = deck.slice(index, index + height)
 
 		tableau.push({
-			cardIds: deck.slice(startIndex, lastIndex),
-			down: i,
+			cardIds,
+			down: cardIds.length - 1,
 		})
 
-		startIndex = lastIndex
+		index += height
 	}
 
 	const result: Required<Pick<GameState, 'tableau' | 'stock'>> = {
 		tableau,
-		stock: deck.slice(startIndex),
+		stock: deck.slice(index),
 	}
 
 	return result

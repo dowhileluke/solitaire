@@ -3,6 +3,8 @@
 	top: 0;
 	left: 0;
 	width: 100%;
+	box-sizing: border-box;
+	padding: 0 var(--space-xl);
 }
 
 .blur {
@@ -33,14 +35,18 @@
 
 .panel {
 	flex-grow: 1;
+	position: relative;
 	background-color: white;
 	border-radius: 0.5em;
 	z-index: 1;
 	box-shadow: 0 0 4px black;
+	/* min-height: 250px; */
+	/* grid-auto-rows: auto; */
 }
 
 .title {
 	display: flex;
+	/* display: none; */
 	align-items: baseline;
 	gap: var(--space-xl);
 }

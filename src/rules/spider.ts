@@ -1,7 +1,9 @@
-import { categorize, generateArray, split, tail, truthy } from '@dowhileluke/fns'
-import { generateDeck, shuffle, toCascade, toKlondikeLayout } from '../functions'
-import { CardId, GameConfig, GameState, IsConnectedFn, Pile, Rules } from '../types'
+import { split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
+import { generateDeck, shuffle, toCascade, toFlatLayout, toKlondikeLayout } from '../functions'
+import { CardId, GameConfig, GameState, IsConnectedFn, Pile, Rules } from '../types'
+
+export const FLAG_EXTRA_SPACE = 1
 
 const isConnected: IsConnectedFn = (a, b) => a.suit === b.suit && a.rank + 1 === b.rank
 
@@ -48,14 +50,25 @@ function sanitize(pile: Pile, config: GameConfig) {
 }
 
 export const spider: Rules = {
-	init({ suitCount }) {
+	init({ suitCount, deckCount, modeFlags }) {
 		const deck = generateDeck(suitCount)
+		const foundations: never[] = []
+
+		if (deckCount === 1) {
+			const layout = toKlondikeLayout(shuffle(deck), 7)
+
+			if (modeFlags & FLAG_EXTRA_SPACE) {
+				layout.tableau.unshift({ cardIds: [], down: 0 })
+			}
+
+			return { ...layout, foundations }
+		}
+
 		const doubleDeck = shuffle(deck.concat(deck))
 		const [stock, cards] = split(doubleDeck, 50)
-		const groups = categorize(cards, (_, n) => n % 10) as Record<number, CardId[]>
-		const tableau = Object.values(groups).map((cardIds): Pile => ({ cardIds, down: cardIds.length - 1 }))
+		const tableau = toFlatLayout(cards, 10)
 
-		return { tableau, stock }
+		return { tableau, stock, foundations }
 	},
 	deal(config, prev) {
 		if (!isDealAllowed(prev)) return null

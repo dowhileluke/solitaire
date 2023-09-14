@@ -1,13 +1,23 @@
 import { Rules } from '../types'
 import { freecell } from './freecell'
 import { klondike } from './klondike'
-import { spiderette } from './spiderette'
-// import { spider } from './spider'
+import { spider } from './spider'
+import { LabeledValue } from '../components/pills'
 
 export type Mode = 'spiderette' | 'klondike' | 'freecell'
 export const MODES: Mode[] = ['spiderette', 'klondike', 'freecell']
 export const RULES: Record<Mode, Rules> = {
-	spiderette,
+	spiderette: spider,
 	klondike,
 	freecell,
 }
+
+const MODE_LABELS: Record<Mode, string> = {
+	spiderette: 'Spider',
+	klondike: 'Klondike',
+	freecell: 'FreeCell'
+}
+
+export const MODE_OPTIONS = MODES.map((value): LabeledValue<Mode> => ({
+	value, label: MODE_LABELS[value],
+}))

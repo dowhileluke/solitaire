@@ -3,28 +3,65 @@ import { tail } from '@dowhileluke/fns'
 import { RULES } from '../rules'
 import { AppActions, AppState } from '../types'
 import { useForever } from './use-forever'
+import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
+
+const preferences: AppState['preferences'] = {
+	spiderette: {
+		suitCount: 4,
+		deckCount: 1,
+		modeFlags: 0,
+	},
+	klondike: {
+		suitCount: 4,
+		deckCount: 1,
+		modeFlags: FLAG_DEAL_TRIPLE | FLAG_DEAL_LIMIT,
+	},
+	freecell: {
+		suitCount: 4,
+		deckCount: 1,
+		modeFlags: 0,
+	}
+}
 
 const initState: AppState = {
 	history: [],
 	selection: null,
 	mode: 'spiderette',
-	config: { suitCount: 4, hasExtraSpace: true, dealFlag: 3 },
+	config: preferences.spiderette,
 	isMenuOpen: false,
+	menuMode: 'spiderette',
+	preferences,
+}
+
+function revertPrefs(state: AppState) {
+	const result: AppState = {
+		...state,
+		isMenuOpen: false,
+		menuMode: state.mode,
+		preferences: { ...state.preferences, [state.mode]: state.config },
+	}
+
+	return result
 }
 
 export function useAppState() {
 	const [state, setState] = useState(initState)
 
 	const actions = useForever<AppActions>({
-		launchGame(mode, config) {
-			const initLayout = RULES[mode].init(config)
+		launchGame() {
+			setState(({ menuMode, preferences }) => {
+				const config = preferences[menuMode]
+				const layout = RULES[menuMode].init(config)
 
-			setState({
-				history: [initLayout],
-				selection: null,
-				mode,
-				config,
-				isMenuOpen: false,
+				return {
+					history: [layout],
+					selection: null,
+					mode: menuMode,
+					config,
+					isMenuOpen: false,
+					menuMode,
+					preferences,
+				}
 			})
 		},
 		setSelection(selection) {
@@ -78,22 +115,35 @@ export function useAppState() {
 		},
 		restart() {
 			setState(prev => ({
-				...prev,
+				...revertPrefs(prev),
 				history: prev.history.slice(0, 1),
 				selection: null,
-				isMenuOpen: false,
 			}))
 		},
 		playAnother() {
 			setState(prev => ({
-				...prev,
+				...revertPrefs(prev),
 				history: [RULES[prev.mode].init(prev.config)],
 				selection: null,
-				isMenuOpen: false,
 			}))
 		},
-		setIsMenuOpen(isMenuOpen) {
-			setState(prev => ({ ...prev, isMenuOpen }))
+		openMenu() {
+			setState(prev => ({ ...prev, isMenuOpen: true, menuMode: prev.mode }))
+		},
+		dismissMenu() {
+			setState(revertPrefs)
+		},
+		setMenuMode(menuMode) {
+			setState(prev => ({ ...prev, menuMode }))
+		},
+		updatePreferences(changeset) {
+			setState(prev => {
+				const combined = { ...prev.preferences[prev.menuMode], ...changeset }
+				
+				return {
+				...prev,
+				preferences: { ...prev.preferences, [prev.menuMode]: combined },
+			}})
 		},
 	})
 
