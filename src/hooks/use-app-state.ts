@@ -127,8 +127,12 @@ export function useAppState() {
 				selection: null,
 			}))
 		},
-		openMenu() {
-			setState(prev => ({ ...prev, isMenuOpen: true, menuMode: prev.mode }))
+		openMenu(clearHistory = false) {
+			if (clearHistory) {
+				setState(prev => ({ ...prev, history: [], menuMode: prev.mode }))
+			} else {
+				setState(prev => ({ ...prev, isMenuOpen: true, menuMode: prev.mode }))
+			}
 		},
 		dismissMenu() {
 			setState(revertPrefs)

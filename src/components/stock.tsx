@@ -1,4 +1,4 @@
-import { ArrowCounterClockwise, Recycle, X } from '@phosphor-icons/react'
+import { Recycle, X } from '@phosphor-icons/react'
 import { generateArray } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat } from '../functions'

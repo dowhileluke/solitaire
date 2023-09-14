@@ -1,10 +1,9 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
-import { ArrowCounterClockwise, Info, List, Play, XCircle } from '@phosphor-icons/react'
+import { ArrowCounterClockwise, List, Play } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
 import { concat, toSelectedCards } from '../functions'
 import { useAppState } from '../hooks/use-app-state'
-import { useDraftState } from '../hooks/use-draft-state'
 import { GameState, Location } from '../types'
 import { Button } from './button'
 import { Card } from './card'
@@ -84,7 +83,7 @@ export function App() {
 			<div className={concat('viewport-height', classes.app)}>
 				<nav className={classes.red}>
 					<div className={concat('controls', state.isMenuOpen && 'fade')}>
-						<Button disabled={!layout} onClick={actions.openMenu}>
+						<Button disabled={!layout} onClick={() => actions.openMenu()}>
 							<List />
 							Menu
 						</Button>
