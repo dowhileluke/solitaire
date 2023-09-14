@@ -18,6 +18,7 @@ import { CARD_DATA } from '../data'
 import { Pills } from './pills'
 import { MODE_OPTIONS } from '../rules'
 import { Rules } from './rules'
+import { Cells } from './cells'
 
 function isGameOver({ tableau, stock, waste, cells }: GameState) {
 	const isTableauEmpty = tableau.every(pile => pile.cardIds.length === 0)
@@ -96,10 +97,18 @@ export function App() {
 				{layout ? (
 					<main className={concat(classes.layout, 'full-height overflow-hidden', state.isMenuOpen && 'fade')}>
 						<div className={concat(classes.zones, 'overflow-hidden')}>
-							<div className={classes.wasteland}>
-								<Stock state={layout} onClick={actions.deal} mode={state.mode} modeFlags={state.config.modeFlags} />
-								{layout.waste && (<Waste state={layout.waste} selection={state.selection} />)}
-							</div>
+							{(layout.stock || layout.waste) && (
+								<div className={classes.wasteland}>
+									<Stock
+										state={layout}
+										onClick={actions.deal}
+										mode={state.mode}
+										modeFlags={state.config.modeFlags}
+									/>
+									{layout.waste && (<Waste state={layout.waste} selection={state.selection} />)}
+								</div>
+							)}
+							<Cells state={layout} location={state.selection} />
 							<Foundations state={layout} selection={state.selection} mode={state.mode} />
 						</div>
 						<div className="full-height overflow-hidden">

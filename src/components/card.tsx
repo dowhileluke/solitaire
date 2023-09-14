@@ -6,7 +6,7 @@ import { toId } from '../functions/to-id'
 import { CascadeCard, Location } from '../types'
 import classes from './card.module.css'
 
-type CardProps = {
+type CardProps = ComponentPropsWithoutRef<'div'> & {
 	details: CascadeCard | null
 }
 
@@ -41,7 +41,7 @@ function toContents(card: CascadeCard | null) {
 	)
 }
 
-export const Card = forwardRef<HTMLDivElement, CardProps & ComponentPropsWithoutRef<'div'>>((
+export const Card = forwardRef<HTMLDivElement, CardProps>((
 	{ details, className, children, ...props },
 	fwdRef,
 ) => {

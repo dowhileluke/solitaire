@@ -80,7 +80,7 @@ export const klondike: Rules = {
 
 			return appendAtLocation(removeAtLocation(state, from), to, movingCardIds)
 		}
-	
+
 		if (to.zone === 'foundation') {
 			if (movingCards.length > 1 || !state.foundations) return null
 

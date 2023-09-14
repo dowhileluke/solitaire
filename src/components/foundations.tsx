@@ -13,6 +13,8 @@ type FoundationsProps = {
 
 // const DOWN_CARD: CascadeCard = { ...CARD_DATA[0], isDown: true, isConnected: false, isAvailable: true }
 
+const EMPTY_ICON = 'A'
+
 export function Foundations({ state, selection, mode }: FoundationsProps) {
 	if (!state.foundations) return null
 
@@ -31,7 +33,9 @@ export function Foundations({ state, selection, mode }: FoundationsProps) {
 
 				if (isZoneSelected && selection.x === x) {
 					return (
-						<Card key={x} details={toCascadeCard(nextId, false, false, false)} />
+						<Card key={x} details={toCascadeCard(nextId, false, false, false)}>
+							{EMPTY_ICON}
+						</Card>
 					)
 				}
 
@@ -40,7 +44,9 @@ export function Foundations({ state, selection, mode }: FoundationsProps) {
 				const topMode = !selection && topCard ? 'drag' : 'drop'
 
 				return (
-					<DndCard key={x} details={topCard} location={location} mode={topMode} />
+					<DndCard key={x} details={topCard} location={location} mode={topMode}>
+						{EMPTY_ICON}
+					</DndCard>
 				)
 			})}
 		</div>
