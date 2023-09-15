@@ -4,6 +4,7 @@ import { Card, DndCard } from './card'
 import { concat, toCascadeCard } from '../functions'
 import classes from './foundations.module.css'
 import { X } from '@phosphor-icons/react'
+import { tail } from '@dowhileluke/fns'
 
 type FoundationsProps = {
 	state: GameState;
@@ -15,7 +16,7 @@ type FoundationsProps = {
 
 const EMPTY_ICON = 'A'
 
-export function Foundations({ state, selection, mode }: FoundationsProps) {
+export function FoundationsV1({ state, selection, mode }: FoundationsProps) {
 	if (!state.foundations) return null
 
 	const isZoneSelected = selection?.zone === 'foundation'
@@ -45,6 +46,32 @@ export function Foundations({ state, selection, mode }: FoundationsProps) {
 
 				return (
 					<DndCard key={x} details={topCard} location={location} mode={topMode}>
+						{EMPTY_ICON}
+					</DndCard>
+				)
+			})}
+		</div>
+	)
+}
+
+export function Foundations({ state, mode }: FoundationsProps) {
+	if (!state.foundations) return null
+
+	return (
+		<div className={concat(classes.foundations, 'overflow-hidden')}>
+			{state.foundations.map((cardIds, x) => {
+				const topCard = toCascadeCard(tail(cardIds) ?? null, false, false, false)
+
+				if (mode === 'spiderette') {
+					return (
+						<Card key={x} details={topCard} />
+					)
+				}
+
+				const location: Location = { zone: 'foundation', x, y: cardIds.length }
+
+				return (
+					<DndCard key={x} details={topCard} location={location} mode="drop">
 						{EMPTY_ICON}
 					</DndCard>
 				)

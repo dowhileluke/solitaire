@@ -82,7 +82,7 @@ export function App() {
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
 			<div className={concat('viewport-height', classes.app)}>
-				<nav className={classes.red}>
+				<nav className={classes.menu}>
 					<div className={concat('controls', state.isMenuOpen && 'fade')}>
 						<Button disabled={!layout} onClick={() => actions.openMenu()}>
 							<List />
@@ -123,7 +123,10 @@ export function App() {
 								<div>
 									<h1>Game Complete!</h1>
 									<div className="controls">
-										<Button isBig isRed onClick={actions.playAnother}>New Game <Play /></Button>
+										<Button isBig isRed onClick={actions.playAnother}>
+											New Game
+											<Play weight="fill" />
+										</Button>
 									</div>
 								</div>
 							)}

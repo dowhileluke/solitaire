@@ -18,7 +18,3 @@
 	width: var(--card-width);
 	margin: 0;
 }
-
-.foundations > div:last-child {
-	flex-shrink: 5;
-}

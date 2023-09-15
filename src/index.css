@@ -13,7 +13,7 @@
 
 	--space: 0.125em;
 	--space-xl: 1em;
-	--max-width: 480px;
+	--max-width: 520px;
 	--suit-ratio: 170%;
 }
 
@@ -95,6 +95,10 @@ body {
 	width: var(--card-width);
 	display: flex;
 	flex-direction: column;
+}
+
+.cascade > div:last-child {
+	flex-shrink: 0;
 }
 
 p {

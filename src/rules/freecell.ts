@@ -1,9 +1,20 @@
 import { generateArray, tail } from '@dowhileluke/fns'
-import { generateDeck, shuffle, toFlatLayout, toSelectedCards } from '../functions'
-import { CardId, Pile, Rules } from '../types'
-import { isConnected } from './klondike'
+import { generateDeck, isSequential, shuffle, toFlatLayout, toSelectedCards } from '../functions'
+import { CardId, IsConnectedFn, Pile, Rules } from '../types'
 import { appendAtLocation, removeAtLocation } from '../functions/movement'
 import { CARD_DATA } from '../data'
+
+export const FLAG_BAKERS_GAME = 1
+
+const isConnected: IsConnectedFn = (a, b, { suitCount, modeFlags }) => {
+	const isSequence = isSequential(b, a)
+
+	if (!isSequence) return false
+
+	if (suitCount === 1 || modeFlags & FLAG_BAKERS_GAME) return a.suit === b.suit
+
+	return a.isRed !== b.isRed
+}
 
 function getMaxHeight(tableau: Pile[], cells: Array<CardId | null>) {
 	const emptyCascCount = tableau.filter(p => p.cardIds.length === 0).length
@@ -142,7 +153,7 @@ export const freecell: Rules = {
 			}
 		}
 
-		if (from.zone !== 'cell') {
+		if (from.zone !== 'cell' && movingCardIds.length === 1) {
 			for (const [x, id] of state.cells.entries()) {
 				if (id === null) {
 					return { zone: 'cell', x }

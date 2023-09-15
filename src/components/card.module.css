@@ -1,5 +1,6 @@
 .card {
 	font-size: 125%;
+	white-space: nowrap;
 	box-sizing: border-box;
 	height: var(--card-height);
 	margin-bottom: var(--card-overlap);
@@ -19,7 +20,6 @@
 
 .card:last-child { 
 	margin: 0;
-	flex-shrink: 0;
 }
 
 .available {

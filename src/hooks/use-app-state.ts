@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
+import { getPersistedState, setPersistedState } from '../functions/persist'
 import { RULES } from '../rules'
+import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
 import { AppActions, AppState } from '../types'
 import { useForever } from './use-forever'
-import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
 
 const preferences: AppState['preferences'] = {
 	spiderette: {
@@ -23,14 +24,19 @@ const preferences: AppState['preferences'] = {
 	}
 }
 
+const persistedState = getPersistedState()
+const mode = persistedState.mode ?? 'spiderette'
+const config = persistedState.config ?? preferences[mode]
+
 const initState: AppState = {
 	history: [],
-	selection: null,
-	mode: 'spiderette',
-	config: preferences.spiderette,
-	isMenuOpen: false,
-	menuMode: 'spiderette',
 	preferences,
+	...persistedState,
+	selection: null,
+	mode,
+	config,
+	isMenuOpen: false,
+	menuMode: mode,
 }
 
 function revertPrefs(state: AppState) {
@@ -46,6 +52,13 @@ function revertPrefs(state: AppState) {
 
 export function useAppState() {
 	const [state, setState] = useState(initState)
+	const { history, preferences, mode, config } = state
+
+	useEffect(() => {
+		setPersistedState({
+			history, preferences, mode, config,
+		})
+	}, [history, preferences, mode, config])
 
 	const actions = useForever<AppActions>({
 		launchGame() {

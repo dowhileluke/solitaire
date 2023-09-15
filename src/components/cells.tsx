@@ -14,7 +14,7 @@ export function Cells({ state, location }: CellsProps) {
 	const isAnySelected = location?.zone === 'cell'
 
 	return (
-		<div className={classes.cells}>
+		<div className={`${classes.cells} overflow-hidden`}>
 			{state.cells.map((cardId, x) => {
 				const isSelected = isAnySelected && location.x === x
 				const details = isSelected ? null : toCascadeCard(cardId, false, false, true)

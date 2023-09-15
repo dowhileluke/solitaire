@@ -6,6 +6,7 @@ import { Button } from './button'
 import { LabeledValue, Pills } from './pills'
 import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
 import { FLAG_EXTRA_SPACE } from '../rules/spider'
+import { FLAG_BAKERS_GAME } from '../rules/freecell'
 
 type ConfigFormProps = {
 	mode: Mode;
@@ -37,7 +38,12 @@ const DEAL_PILLS: Array<LabeledValue<number>> = [
 	{ value: 0, label: 'Deal 1'},
 ]
 
-function getNote(mode: Mode, modeFlags: number, deckCount: number) {
+const BUILD_PILLS: Array<LabeledValue<number>> = [
+	{ value: 0, label: 'Alternating colors'},
+	{ value: FLAG_BAKERS_GAME, label: 'Matching suits'},
+]
+
+function getNote(mode: Mode, { deckCount, modeFlags, suitCount }: GameConfig) {
 	if (mode === 'spiderette') {
 		if (deckCount === 2) return 'Classic 10-column Spider (small screens beware)'
 		if (modeFlags & FLAG_EXTRA_SPACE) return 'Spiderette with an extra empty space'
@@ -55,18 +61,22 @@ function getNote(mode: Mode, modeFlags: number, deckCount: number) {
 
 		return `Deal ${perDeal} ${cards} at a time` + limit
 	}
+
+	if (mode === 'freecell' && suitCount > 1) {
+		if (modeFlags & FLAG_BAKERS_GAME) return "AKA Baker\'s Game"
+
+		return 'Build sequences with alternating colors'
+	}
 }
 
 export function ConfigForm({ mode, state, onChange, onInfo, onRetry, submitLabel }: ConfigFormProps) {
-	const isSpider = mode === 'spiderette'
-	const isKlondike = mode === 'klondike'
-	const note = getNote(mode, state.modeFlags, state.deckCount)
+	const note = getNote(mode, state)
 
 	return (
 		<>
 			<Pills value={state.suitCount} onChange={suitCount => onChange({ suitCount })} options={SUIT_PILLS} />
 			<div>
-				{isSpider ? (
+				{mode === 'spiderette' && (
 					<Pills
 						value={(state.deckCount > 1 ? F_DOUBLE_DECK : 0) | state.modeFlags}
 						onChange={flags => onChange({
@@ -75,12 +85,20 @@ export function ConfigForm({ mode, state, onChange, onInfo, onRetry, submitLabel
 						})}
 						options={DECK_PILLS}
 					/>
-				) : (
+				)}
+				{mode === 'klondike' && (
 					<Pills
 						value={state.modeFlags}
 						onChange={modeFlags => onChange({ modeFlags })}
 						options={DEAL_PILLS}
-						className={isKlondike ? '' : 'hidden'}
+					/>
+				)}
+				{mode === 'freecell' && (
+					<Pills
+						value={state.modeFlags}
+						onChange={modeFlags => onChange({ modeFlags })}
+						options={BUILD_PILLS}
+						disabled={state.suitCount === 1}
 					/>
 				)}
 				<div className={concat('note', !note && 'hidden')}>

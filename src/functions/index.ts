@@ -1,5 +1,6 @@
 export { concat } from './concat'
 export { generateDeck } from './generate-deck'
+export { isSequential } from './is-sequential'
 export { shuffle } from './shuffle'
 export { toCascade } from './to-cascade'
 export { toCascadeCard } from './to-cascade-card'
