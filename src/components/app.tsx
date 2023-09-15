@@ -133,12 +133,15 @@ export function App() {
 						</div>
 					</main>
 				) : (
-					<div className="full-height overflow-auto">
-						<form onSubmit={handleSubmit} className={concat(classes.init, 'grid-form')}>
-							{modePills}
-							{configForm}
-						</form>
-					</div>
+					<>
+						<div>
+							<form onSubmit={handleSubmit} className={concat(classes.init, 'grid-form')}>
+								{modePills}
+								{configForm}
+							</form>
+						</div>
+						<footer className={concat(classes.foot, 'note')}>Add me to your home screen for offline mode!</footer>
+					</>
 				)}
 			</div>
 			<DragOverlay className={concat('cascade', classes.overlay)}>

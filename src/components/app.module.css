@@ -1,6 +1,6 @@
 .app {
 	display: grid;
-	grid-template-rows: auto 1fr;
+	grid-template-rows: auto 1fr auto;
 }
 
 .app h1 {
@@ -61,4 +61,22 @@
 
 .rules {
 	max-height: 20em;
+}
+
+.foot {
+	margin: 0.5rem;
+	padding: 0;
+	display: none;
+}
+
+@supports (margin: max(0px)) {
+	.foot {
+		margin-bottom: max(0.5rem, env(safe-area-inset-bottom));
+	}
+}
+
+@media (display-mode: browser) {
+	.foot {
+		display: block;
+	}
 }

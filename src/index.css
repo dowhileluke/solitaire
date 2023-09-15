@@ -1,6 +1,7 @@
 :root {
 	font: 16px arial, sans-serif;
 	line-height: 1;
+	-webkit-text-size-adjust: 100%;
 
 	--black: #333;
 	--red: firebrick;
@@ -81,7 +82,7 @@ body {
 .grid-form {
 	display: grid;
 	gap: var(--space-xl);
-	margin: var(--space-xl) auto;
+	/* margin: var(--space-xl) auto; */
 	padding: var(--space-xl);
 	box-sizing: border-box;
 	max-width: var(--max-width);
