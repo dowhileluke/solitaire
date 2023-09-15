@@ -73,23 +73,15 @@ export type GameConfig = {
 }
 
 export type IsConnectedFn = (low: Card, high: Card, config: GameConfig) => boolean
-
-export type Rules = {
-	v: 1,
-	init: (config: GameConfig) => GameState;
-	deal: (config: GameConfig, state: GameState) => GameState | null;
-	move: (config: GameConfig, state: GameState, from: Location, to: Location) => GameState | null;
-	autoMove?: (config: GameConfig, state: GameState, from: Location) => Location | null;
-	isConnected: IsConnectedFn;
-}
+export type IsValidTargetFn = (config: GameConfig, state: GameState, movingCards: Card[], to: Location) => boolean
 
 // movingCards are validated before the rule functions are called
-export type RulesV2 = {
+export type Rules = {
 	v: 2,
 	init: (config: GameConfig) => GameState;
 	deal: (config: GameConfig, state: GameState) => GameState | null;
 	isConnected: IsConnectedFn;
-	isValidTarget: (config: GameConfig, state: GameState, movingCards: Card[], to: Location) => boolean;
+	isValidTarget: IsValidTargetFn;
 	validateState?: (state: GameState) => GameState;
 	guessMove: (config: GameConfig, state: GameState, movingCards: Card[], from: Location) => Location | null;
 }

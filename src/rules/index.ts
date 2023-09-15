@@ -1,15 +1,15 @@
-import { Rules, RulesV2 } from '../types'
-import { freecellV2 } from './freecell'
+import { Rules } from '../types'
+import { freecell } from './freecell'
 import { klondike } from './klondike'
-import { spiderV2 } from './spider'
+import { spider } from './spider'
 import { LabeledValue } from '../components/pills'
 
 export type Mode = 'spiderette' | 'klondike' | 'freecell'
 export const MODES: Mode[] = ['spiderette', 'klondike', 'freecell']
-export const RULES: Record<Mode, Rules | RulesV2> = {
-	spiderette: spiderV2,
+export const RULES: Record<Mode, Rules> = {
+	spiderette: spider,
 	klondike,
-	freecell: freecellV2,
+	freecell,
 }
 
 const MODE_LABELS: Record<Mode, string> = {

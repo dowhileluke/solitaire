@@ -18,7 +18,7 @@ type StockProps = {
 const DOWN_CARD: CascadeCard = { ...CARD_DATA[0], isDown: true, isConnected: false, isAvailable: true }
 
 export function Stock({ state, onClick, mode, modeFlags }: StockProps) {
-	const isSpiderette = mode === 'spiderette'
+	const isSpider = mode === 'spiderette'
 	const { stock, tableau, waste } = state
 
 	if (!stock) return null
@@ -26,7 +26,7 @@ export function Stock({ state, onClick, mode, modeFlags }: StockProps) {
 	function isStockExhausted() {
 		if (!stock) return true
 		if (stock.length > 0) return false
-		if (isSpiderette) return true
+		if (isSpider) return true
 
 		const hasPassLimit = Boolean(modeFlags & FLAG_DEAL_LIMIT)
 
@@ -52,7 +52,7 @@ export function Stock({ state, onClick, mode, modeFlags }: StockProps) {
 			)
 		}
 
-		if (isSpiderette) {
+		if (isSpider) {
 			return generateArray(Math.ceil(stock.length / tableau.length), i => (
 				<Card key={i} details={DOWN_CARD} />
 			))

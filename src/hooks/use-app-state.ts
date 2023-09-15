@@ -104,51 +104,32 @@ export function useAppState() {
 				if (!prev.selection) return prev
 				
 				const NEVERMIND: AppState = { ...prev, selection: null, }
-				const rules = RULES[prev.mode]
+				const { isConnected, isValidTarget, guessMove, validateState } = RULES[prev.mode]
+				const layout = tail(prev.history)
 
-				if (rules.v === 2) {
-					const layout = tail(prev.history)
+				if (!isSourceVisible(layout, prev.selection)) return NEVERMIND
 
-					if (!isSourceVisible(layout, prev.selection)) return NEVERMIND
+				const movingCardIds = toSelectedCards(layout, prev.selection)
+				const movingCards = movingCardIds.map(id => CARD_DATA[id])
 
-					const movingCardIds = toSelectedCards(layout, prev.selection)
-					const movingCards = movingCardIds.map(id => CARD_DATA[id])
-
-					if (movingCards.length === 0 || !isAllAvailable(movingCards, rules.isConnected, prev.config)) {
-						return NEVERMIND
-					}
-
-					let target = to && rules.isValidTarget(config, layout, movingCards, to) ? to : null
-
-					if (!to) {
-						target = rules.guessMove(config, layout, movingCards, prev.selection)
-					}
-
-					if (!target) return NEVERMIND
-					
-					const roughLayout = moveCardIds(layout, movingCardIds, prev.selection, target)
-					const finalLayout = rules.validateState?.(roughLayout) ?? roughLayout
-
-					return {
-						...prev,
-						history: prev.history.concat(finalLayout),
-						selection: null,
-					}
+				if (movingCards.length === 0 || !isAllAvailable(movingCards, isConnected, prev.config)) {
+					return NEVERMIND
 				}
 
-				const prevLayout = tail(prev.history)
-				const { move, autoMove } = rules
-				const whereTo = to ?? autoMove?.(prev.config, prevLayout, prev.selection) ?? null
+				let target = to && isValidTarget(config, layout, movingCards, to) ? to : null
 
-				if (!whereTo) return NEVERMIND
+				if (!to) {
+					target = guessMove(config, layout, movingCards, prev.selection)
+				}
 
-				const nextLayout = move(prev.config, prevLayout, prev.selection, whereTo)
-
-				if (!nextLayout) return NEVERMIND
+				if (!target) return NEVERMIND
+				
+				const roughLayout = moveCardIds(layout, movingCardIds, prev.selection, target)
+				const finalLayout = validateState?.(roughLayout) ?? roughLayout
 
 				return {
 					...prev,
-					history: prev.history.concat(nextLayout),
+					history: prev.history.concat(finalLayout),
 					selection: null,
 				}
 			})
