@@ -75,7 +75,7 @@
 	}
 }
 
-@media (display-mode: browser) {
+@media (display-mode: browser) and (max-width: 1023px) {
 	.foot {
 		display: block;
 	}
