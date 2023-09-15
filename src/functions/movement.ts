@@ -9,11 +9,17 @@ function sanitize(pile: Pile) {
 	}
 }
 
+export function trimPile(pile: Pile, trimBy: number) {
+	if (trimBy < 1) return pile
+
+	return sanitize({ cardIds: pile.cardIds.slice(0, -trimBy), down: pile.down })
+}
+
 function truncatePile({ cardIds, down }: Pile, size: number) {
 	return sanitize({ cardIds: cardIds.slice(0, size), down })
 }
 
-function extendPile(pile: Pile, incomingIds: CardId[]) {
+export function extendPile(pile: Pile, incomingIds: CardId[]) {
 	if (incomingIds.length === 0) return pile
 
 	return {

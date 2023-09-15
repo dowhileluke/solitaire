@@ -3,8 +3,10 @@ import { tail } from '@dowhileluke/fns'
 import { getPersistedState, setPersistedState } from '../functions/persist'
 import { RULES } from '../rules'
 import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
-import { AppActions, AppState } from '../types'
+import { AppActions, AppState, GameConfig, GameState, IsConnectedFn, Location } from '../types'
 import { useForever } from './use-forever'
+import { toSelectedCards } from '../functions'
+import { CARD_DATA } from '../data'
 
 const preferences: AppState['preferences'] = {
 	spiderette: {
@@ -50,6 +52,21 @@ function revertPrefs(state: AppState) {
 	return result
 }
 
+function toValidCards(config: GameConfig, state: GameState, source: Location, isConnected: IsConnectedFn) {
+	if (source.zone === 'tableau') {
+		const pile = state.tableau[source.x]
+
+		if (pile.down > source.y) return []
+
+		const pileCards = pile.cardIds.slice(0, source.y).map(id => CARD_DATA[id])
+		const isAvailable = pileCards.slice(0, -1).every((card, i) => isConnected(card, pileCards[i + 1], config))
+
+		return isAvailable ? pileCards : []
+	}
+
+	return toSelectedCards(state, source)
+}
+
 export function useAppState() {
 	const [state, setState] = useState(initState)
 	const { history, preferences, mode, config } = state
@@ -83,10 +100,19 @@ export function useAppState() {
 		moveCards(to) {
 			setState(prev => {
 				if (!prev.selection) return prev
-
+				
 				const NEVERMIND: AppState = { ...prev, selection: null, }
+				const rules = RULES[prev.mode]
+
+				if (rules.v === 2) {
+					const layout = tail(prev.history)
+					const movingCardIds = toSelectedCards(layout, prev.selection)
+
+					return NEVERMIND
+				}
+
 				const prevLayout = tail(prev.history)
-				const { move, autoMove } = RULES[prev.mode]
+				const { move, autoMove } = rules
 				const whereTo = to ?? autoMove?.(prev.config, prevLayout, prev.selection) ?? null
 
 				if (!whereTo) return NEVERMIND

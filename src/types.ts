@@ -72,12 +72,25 @@ export type GameConfig = {
 	modeFlags: number;
 }
 
-export type IsConnectedFn = (above: Card, below: Card, config: GameConfig) => boolean
+export type IsConnectedFn = (low: Card, high: Card, config: GameConfig) => boolean
 
 export type Rules = {
+	v: 1,
 	init: (config: GameConfig) => GameState;
 	deal: (config: GameConfig, state: GameState) => GameState | null;
 	move: (config: GameConfig, state: GameState, from: Location, to: Location) => GameState | null;
 	autoMove?: (config: GameConfig, state: GameState, from: Location) => Location | null;
 	isConnected: IsConnectedFn;
+}
+
+export type RulesV2 = {
+	v: 2,
+	init: (config: GameConfig) => GameState;
+	deal: (config: GameConfig, state: GameState) => GameState | null;
+	isConnected: IsConnectedFn;
+	/** moving value is validated */
+	isValidTarget: (config: GameConfig, state: GameState, moving: CascadeCard[], target: Location) => boolean;
+	validateState?: (state: GameState) => GameState;
+	/** moving value is validated */
+	guessMove: (config: GameConfig, state: GameState, moving: CascadeCard[]) => Location | null;
 }

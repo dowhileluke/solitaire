@@ -16,6 +16,7 @@ export const isConnected: IsConnectedFn = (a, b, { suitCount }) => {
 }
 
 export const klondike: Rules = {
+	v: 1,
 	init({ suitCount, deckCount }) {
 		const deck = generateDeck(suitCount)
 		const isDoubleDeck = deckCount > 1

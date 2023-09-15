@@ -24,6 +24,7 @@ function getMaxHeight(tableau: Pile[], cells: Array<CardId | null>) {
 }
 
 export const freecell: Rules = {
+	v: 1,
 	init({ suitCount }) {
 		const deck = shuffle(generateDeck(suitCount))
 		const tableau = toFlatLayout(deck, 8, true)
