@@ -1,5 +1,5 @@
 import { Rules, RulesV2 } from '../types'
-import { freecell } from './freecell'
+import { freecellV2 } from './freecell'
 import { klondike } from './klondike'
 import { spiderV2 } from './spider'
 import { LabeledValue } from '../components/pills'
@@ -9,7 +9,7 @@ export const MODES: Mode[] = ['spiderette', 'klondike', 'freecell']
 export const RULES: Record<Mode, Rules | RulesV2> = {
 	spiderette: spiderV2,
 	klondike,
-	freecell,
+	freecell: freecellV2,
 }
 
 const MODE_LABELS: Record<Mode, string> = {

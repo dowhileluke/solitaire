@@ -237,10 +237,10 @@ export const spiderV2: RulesV2 = {
 		return { ...prev, tableau, stock }
 	},
 	isConnected,
-	isValidTarget(_, state, movingCards, target) {
-		if (target.zone !== 'tableau') return false
+	isValidTarget(_, state, movingCards, to) {
+		if (to.zone !== 'tableau') return false
 	
-		const targetPile = state.tableau[target.x]
+		const targetPile = state.tableau[to.x]
 	
 		if (targetPile.cardIds.length === 0) return true
 	
@@ -273,9 +273,9 @@ export const spiderV2: RulesV2 = {
 		return null
 	},
 	validateState(state) {
-		let isChanged = false
 		const tableau: Pile[] = []
 		const foundations = state.foundations.slice()
+		let isChanged = false
 	
 		for (const pile of state.tableau) {
 			if (hasFullSequence(pile.cardIds)) {

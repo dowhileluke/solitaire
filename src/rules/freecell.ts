@@ -1,6 +1,6 @@
 import { generateArray, tail } from '@dowhileluke/fns'
 import { generateDeck, isSequential, shuffle, toFlatLayout, toSelectedCards } from '../functions'
-import { CardId, IsConnectedFn, Pile, Rules } from '../types'
+import { CardId, IsConnectedFn, Location, Pile, Rules, RulesV2 } from '../types'
 import { appendAtLocation, removeAtLocation } from '../functions/movement'
 import { CARD_DATA } from '../data'
 
@@ -23,7 +23,7 @@ function getMaxHeight(tableau: Pile[], cells: Array<CardId | null>) {
 	return (2 ** emptyCascCount) * (emptyCellCount + 1)
 }
 
-export const freecell: Rules = {
+const freecell: Rules = {
 	v: 1,
 	init({ suitCount }) {
 		const deck = shuffle(generateDeck(suitCount))
@@ -169,4 +169,117 @@ export const freecell: Rules = {
 		return null
 	},
 	isConnected,
+}
+
+export const freecellV2: RulesV2 = {
+	v: 2,
+	init({ suitCount }) {
+		const deck = shuffle(generateDeck(suitCount))
+		const tableau = toFlatLayout(deck, 8, true)
+
+		return {
+			tableau,
+			foundations: generateArray(4, () => []),
+			cells: generateArray(4, () => null),
+		}
+	},
+	deal() {
+		throw new Error('Not implemented!')
+	},
+	isConnected,
+	isValidTarget(config, state, movingCards, to) {
+		const maxHeight = getMaxHeight(state.tableau, state.cells ?? [])
+
+		if (movingCards.length > maxHeight) return false
+
+		if (to.zone === 'tableau') {
+			const halfMax = maxHeight >> 1
+			const targetPile = state.tableau[to.x]
+
+			if (targetPile.cardIds.length === 0) return movingCards.length <= halfMax
+
+			const targetCard = CARD_DATA[tail(targetPile.cardIds)]
+
+			return isConnected(movingCards[0], targetCard, config)
+		}
+
+		if (to.zone === 'foundation') {
+			const smallestMoving = tail(movingCards)
+			const target = state.foundations[to.x]
+
+			if (target.length === 0) {
+				if (smallestMoving.rank !== 0) return false
+				if (movingCards.length === 1) return true
+
+				// moving cards are all same-suited if this statement is true
+				return Boolean(config.modeFlags & FLAG_BAKERS_GAME) || config.suitCount === 1
+			}
+
+			const targetCard = CARD_DATA[tail(target)]
+
+			return smallestMoving.suit === targetCard.suit && smallestMoving.rank === targetCard.rank + 1
+		}
+
+		if (movingCards.length !== 1) return false
+		if (to.zone === 'cell') return state.cells![to.x] === null
+
+		return false
+	},
+	validateState(state) {
+		const foundations: number[][] = []
+		let isChanged = false
+
+		// check for foundations with a top value that doesn't match its height
+		for (const cardIds of state.foundations) {
+			if (cardIds.length === 0 || tail(cardIds) % 13 === cardIds.length - 1) {
+				foundations.push(cardIds)
+			} else {
+				foundations.push(cardIds.slice().sort((a, b) => a - b))
+				isChanged = true
+			}
+		}
+
+		if (!isChanged) return state
+
+		return {
+			...state,
+			foundations,
+		}
+	},
+	guessMove(config, state, movingCards, from) {
+		const isBakers = Boolean(config.modeFlags & FLAG_BAKERS_GAME) || config.suitCount > 1
+		const lowestFoundationRank = state.foundations.reduce((lo, f) => Math.min(lo, f.length), 999) - 1
+		let eligibleFoundation: Location | null = null
+
+		for (const target of generateArray(state.foundations.length, (x): Location => ({ zone: 'foundation', x, y: 0 }))) {
+			const isValid = this.isValidTarget(config, state, movingCards, target)
+
+			if (isValid) {
+				if (isBakers || movingCards[0].rank < lowestFoundationRank + 3) return target
+
+				eligibleFoundation ??= target
+			}
+		}
+
+		let openCascade: Location | null = null
+
+		for (const [x, pile] of state.tableau.entries()) {
+			const target: Location = { zone: 'tableau', x, y: 0 }
+			const isValid = this.isValidTarget(config, state, movingCards, target)
+
+			if (isValid) {
+				if (pile.cardIds.length > 0) return target
+
+				openCascade ??= target
+			}
+		}
+
+		if (movingCards.length === 1 && from.zone !== 'cell') {
+			for (const [x, id] of state.cells!.entries()) {
+				if (id === null) return { zone: 'cell', x }
+			}
+		} 
+
+		return openCascade ?? eligibleFoundation
+	},
 }

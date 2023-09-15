@@ -83,14 +83,13 @@ export type Rules = {
 	isConnected: IsConnectedFn;
 }
 
+// movingCards are validated before the rule functions are called
 export type RulesV2 = {
 	v: 2,
 	init: (config: GameConfig) => GameState;
 	deal: (config: GameConfig, state: GameState) => GameState | null;
 	isConnected: IsConnectedFn;
-	/** moving value is validated */
-	isValidTarget: (config: GameConfig, state: GameState, moving: CascadeCard[], target: Location) => boolean;
+	isValidTarget: (config: GameConfig, state: GameState, movingCards: Card[], to: Location) => boolean;
 	validateState?: (state: GameState) => GameState;
-	/** moving value is validated */
-	guessMove: (config: GameConfig, state: GameState, moving: CascadeCard[]) => Location | null;
+	guessMove: (config: GameConfig, state: GameState, movingCards: Card[], from: Location) => Location | null;
 }

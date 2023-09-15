@@ -3,10 +3,11 @@ import { tail } from '@dowhileluke/fns'
 import { getPersistedState, setPersistedState } from '../functions/persist'
 import { RULES } from '../rules'
 import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
-import { AppActions, AppState, GameConfig, GameState, IsConnectedFn, Location } from '../types'
+import { AppActions, AppState, Card, GameConfig, GameState, IsConnectedFn, Location } from '../types'
 import { useForever } from './use-forever'
 import { toSelectedCards } from '../functions'
 import { CARD_DATA } from '../data'
+import { moveCardIds } from '../functions/movement'
 
 const preferences: AppState['preferences'] = {
 	spiderette: {
@@ -52,19 +53,20 @@ function revertPrefs(state: AppState) {
 	return result
 }
 
-function toValidCards(config: GameConfig, state: GameState, source: Location, isConnected: IsConnectedFn) {
+function isSourceVisible(state: GameState, source: Location) {
 	if (source.zone === 'tableau') {
-		const pile = state.tableau[source.x]
-
-		if (pile.down > source.y) return []
-
-		const pileCards = pile.cardIds.slice(0, source.y).map(id => CARD_DATA[id])
-		const isAvailable = pileCards.slice(0, -1).every((card, i) => isConnected(card, pileCards[i + 1], config))
-
-		return isAvailable ? pileCards : []
+		return source.y >= state.tableau[source.x].down
+	} else if (source.zone === 'waste') {
+		if (!state.waste) return false
+		
+		return source.y >= state.waste.down
 	}
 
-	return toSelectedCards(state, source)
+	return true
+}
+
+function isAllAvailable(cards: Card[], isConnected: IsConnectedFn, config: GameConfig) {
+	return cards.slice(0, -1).every((x, i) => isConnected(cards[i + 1], x, config))
 }
 
 export function useAppState() {
@@ -106,9 +108,32 @@ export function useAppState() {
 
 				if (rules.v === 2) {
 					const layout = tail(prev.history)
-					const movingCardIds = toSelectedCards(layout, prev.selection)
 
-					return NEVERMIND
+					if (!isSourceVisible(layout, prev.selection)) return NEVERMIND
+
+					const movingCardIds = toSelectedCards(layout, prev.selection)
+					const movingCards = movingCardIds.map(id => CARD_DATA[id])
+
+					if (movingCards.length === 0 || !isAllAvailable(movingCards, rules.isConnected, prev.config)) {
+						return NEVERMIND
+					}
+
+					let target = to && rules.isValidTarget(config, layout, movingCards, to) ? to : null
+
+					if (!to) {
+						target = rules.guessMove(config, layout, movingCards, prev.selection)
+					}
+
+					if (!target) return NEVERMIND
+					
+					const roughLayout = moveCardIds(layout, movingCardIds, prev.selection, target)
+					const finalLayout = rules.validateState?.(roughLayout) ?? roughLayout
+
+					return {
+						...prev,
+						history: prev.history.concat(finalLayout),
+						selection: null,
+					}
 				}
 
 				const prevLayout = tail(prev.history)
@@ -130,14 +155,16 @@ export function useAppState() {
 		},
 		deal() {
 			setState(prev => {
-				const { deal } = RULES[prev.mode]
-				const nextLayout = deal(prev.config, tail(prev.history))
+				const rules = RULES[prev.mode]
+				const roughLayout = rules.deal(prev.config, tail(prev.history))
 
-				if (!nextLayout) return prev
+				if (!roughLayout) return prev
+
+				const finalLayout = rules.v === 2 && rules.validateState?.(roughLayout) || roughLayout
 
 				return {
 					...prev,
-					history: prev.history.concat(nextLayout),
+					history: prev.history.concat(finalLayout),
 				}
 			})
 		},

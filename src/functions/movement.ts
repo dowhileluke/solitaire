@@ -87,3 +87,7 @@ export function appendAtLocation(state: GameState, loc: Location, cardIds: CardI
 
 	return state
 }
+
+export function moveCardIds(state: GameState, cardIds: CardId[], from: Location, to: Location) {
+	return appendAtLocation(removeAtLocation(state, from), to, cardIds)
+}
