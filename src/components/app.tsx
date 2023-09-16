@@ -2,23 +2,24 @@ import { FormEvent, useRef, useState } from 'react'
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
 import { ArrowCounterClockwise, List, Play } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
+import { CARD_DATA } from '../data'
 import { concat, toSelectedCards } from '../functions'
 import { useAppState } from '../hooks/use-app-state'
-import { GameState, Location } from '../types'
+import { MODES, MODE_LABELS } from '../rules'
+import { FLAG_SUITED_ONLY } from '../rules/freecell'
+import { GameConfig, GameState, Location, Mode } from '../types'
 import { Button } from './button'
 import { Card } from './card'
+import { Cells } from './cells'
 import { ConfigForm } from './config-form'
 import { Foundations } from './foundations'
 import { Modal } from './modal'
+import { LabeledValue, Pills } from './pills'
+import { Rules } from './rules'
 import { Stock } from './stock'
 import { Tableau } from './tableau'
 import { Waste } from './waste'
 import classes from './app.module.css'
-import { CARD_DATA } from '../data'
-import { Pills } from './pills'
-import { MODE_OPTIONS } from '../rules'
-import { Rules } from './rules'
-import { Cells } from './cells'
 
 function isGameOver({ tableau, stock, waste, cells }: GameState) {
 	const isTableauEmpty = tableau.every(pile => pile.cardIds.length === 0)
@@ -26,6 +27,18 @@ function isGameOver({ tableau, stock, waste, cells }: GameState) {
 
 	return isTableauEmpty && isCellsEmpty && [stock?.length ?? 0, waste?.cardIds.length ?? 0].every(n => n === 0)
 }
+
+function getVariantName(mode: Mode, { deckCount, modeFlags }: GameConfig) {
+	if (mode === 'spiderette' && deckCount === 1) return 'Spiderette'
+	if (mode === 'freecell' && modeFlags & FLAG_SUITED_ONLY) return "Baker's Game"
+	if (mode === 'yukon' && modeFlags & FLAG_SUITED_ONLY) return 'Russian'
+
+	return MODE_LABELS[mode]
+}
+
+const MODE_OPTIONS = MODES.map((value): LabeledValue<Mode> => ({
+	value, label: MODE_LABELS[value],
+}))
 
 export function App() {
 	const [state, actions] = useAppState()
@@ -86,7 +99,7 @@ export function App() {
 					<div className={concat('controls', state.isMenuOpen && 'fade')}>
 						<Button disabled={!layout} onClick={() => actions.openMenu()}>
 							<List />
-							Menu
+							{layout ? getVariantName(state.mode, state.config) : 'Menu'}
 						</Button>
 						<Button onClick={actions.undo} disabled={isNew && !state.isMenuOpen}>
 							<ArrowCounterClockwise />
