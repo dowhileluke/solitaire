@@ -142,7 +142,7 @@ export function useAppState() {
 
 				if (!roughLayout) return prev
 
-				const finalLayout = rules.v === 2 && rules.validateState?.(roughLayout) || roughLayout
+				const finalLayout = rules.validateState?.(roughLayout) || roughLayout
 
 				return {
 					...prev,
