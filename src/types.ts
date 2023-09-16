@@ -74,6 +74,7 @@ export type GameConfig = {
 
 export type IsConnectedFn = (low: Card, high: Card, config: GameConfig) => boolean
 export type IsValidTargetFn = (config: GameConfig, state: GameState, movingCards: Card[], to: Location) => boolean
+export type GuessMoveFn = (config: GameConfig, state: GameState, movingCards: Card[], from: Location) => Location | null
 
 // movingCards are validated before the rule functions are called
 export type Rules = {
@@ -82,5 +83,5 @@ export type Rules = {
 	isConnected: IsConnectedFn;
 	isValidTarget: IsValidTargetFn;
 	validateState?: (state: GameState) => GameState;
-	guessMove?: (config: GameConfig, state: GameState, movingCards: Card[], from: Location) => Location | null;
+	guessMove?: GuessMoveFn;
 }

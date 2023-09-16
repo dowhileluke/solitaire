@@ -1,7 +1,7 @@
 import { generateArray, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { generateDeck, isSequential, shuffle, toFlatLayout } from '../functions'
-import { CardId, GameState, IsConnectedFn, IsValidTargetFn, Location, Pile, Rules } from '../types'
+import { CardId, GameState, GuessMoveFn, IsConnectedFn, IsValidTargetFn, Location, Pile, Rules } from '../types'
 
 export const FLAG_SUITED_ONLY = 1
 
@@ -81,6 +81,47 @@ export function validateState(state: GameState) {
 	}
 }
 
+export function toGuessMoveFn(isValidTarget: IsValidTargetFn) {
+	const result: GuessMoveFn = (config, state, movingCards, from) => {
+		const isSuitedOnly = Boolean(config.modeFlags & FLAG_SUITED_ONLY)
+		const lowestFoundationRank = state.foundations.reduce((lo, f) => Math.min(lo, f.length), 999) - 1
+		let eligibleFoundation: Location | null = null
+	
+		for (const target of generateArray(state.foundations.length, (x): Location => ({ zone: 'foundation', x, y: 0 }))) {
+			const isValid = isValidTarget(config, state, movingCards, target)
+	
+			if (isValid) {
+				if (isSuitedOnly || movingCards[0].rank < lowestFoundationRank + 3) return target
+	
+				eligibleFoundation ??= target
+			}
+		}
+	
+		let openCascade: Location | null = null
+	
+		for (const [x, pile] of state.tableau.entries()) {
+			const target: Location = { zone: 'tableau', x, y: 0 }
+			const isValid = isValidTarget(config, state, movingCards, target)
+	
+			if (isValid) {
+				if (pile.cardIds.length > 0) return target
+	
+				openCascade ??= target
+			}
+		}
+	
+		if (state.cells && movingCards.length === 1 && from.zone !== 'cell') {
+			for (const [x, id] of state.cells.entries()) {
+				if (id === null) return { zone: 'cell', x }
+			}
+		} 
+	
+		return openCascade ?? eligibleFoundation
+	}
+
+	return result
+}
+
 export const freecell: Rules = {
 	init({ suitCount }) {
 		const deck = shuffle(generateDeck(suitCount))
@@ -98,40 +139,5 @@ export const freecell: Rules = {
 	isConnected,
 	isValidTarget,
 	validateState,
-	guessMove(config, state, movingCards, from) {
-		const isBakers = Boolean(config.modeFlags & FLAG_SUITED_ONLY) || config.suitCount === 1
-		const lowestFoundationRank = state.foundations.reduce((lo, f) => Math.min(lo, f.length), 999) - 1
-		let eligibleFoundation: Location | null = null
-
-		for (const target of generateArray(state.foundations.length, (x): Location => ({ zone: 'foundation', x, y: 0 }))) {
-			const isValid = isValidTarget(config, state, movingCards, target)
-
-			if (isValid) {
-				if (isBakers || movingCards[0].rank < lowestFoundationRank + 3) return target
-
-				eligibleFoundation ??= target
-			}
-		}
-
-		let openCascade: Location | null = null
-
-		for (const [x, pile] of state.tableau.entries()) {
-			const target: Location = { zone: 'tableau', x, y: 0 }
-			const isValid = isValidTarget(config, state, movingCards, target)
-
-			if (isValid) {
-				if (pile.cardIds.length > 0) return target
-
-				openCascade ??= target
-			}
-		}
-
-		if (movingCards.length === 1 && from.zone !== 'cell') {
-			for (const [x, id] of state.cells!.entries()) {
-				if (id === null) return { zone: 'cell', x }
-			}
-		} 
-
-		return openCascade ?? eligibleFoundation
-	},
+	guessMove: toGuessMoveFn(isValidTarget),
 }
