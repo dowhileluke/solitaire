@@ -1,6 +1,6 @@
 import { split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
-import { generateDeck, isSequential, shuffle, toFlatLayout, toKlondikeLayout } from '../functions'
+import { generateDeck, isSequential, shuffle, toFlatLayout, toAscendingLayout } from '../functions'
 import { extendPile, trimPile } from '../functions/movement'
 import { CardId, GameState, IsConnectedFn, Pile, Rules } from '../types'
 
@@ -47,11 +47,10 @@ export const spider: Rules = {
 		const foundations: never[] = []
 
 		if (deckCount === 1) {
-			const layout = toKlondikeLayout(shuffle(deck), 7)
-
-			if (modeFlags & FLAG_EXTRA_SPACE) {
-				layout.tableau.unshift({ cardIds: [], down: 0 })
-			}
+			const hasExtraSpace = Boolean(modeFlags & FLAG_EXTRA_SPACE)
+			const layout = hasExtraSpace
+				? toAscendingLayout(shuffle(deck), 8, 0)
+				: toAscendingLayout(shuffle(deck), 7)
 
 			return { ...layout, foundations }
 		}

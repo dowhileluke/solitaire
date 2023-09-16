@@ -77,7 +77,7 @@ export type IsValidTargetFn = (config: GameConfig, state: GameState, movingCards
 
 // movingCards are validated before the rule functions are called
 export type Rules = {
-	v: 2,
+	v?: 2,
 	init: (config: GameConfig) => GameState;
 	deal: (config: GameConfig, state: GameState) => GameState | null;
 	isConnected: IsConnectedFn;

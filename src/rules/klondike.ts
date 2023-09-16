@@ -1,6 +1,6 @@
 import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
-import { generateDeck, isSequential, shuffle, toKlondikeLayout } from '../functions'
+import { generateDeck, isSequential, shuffle, toAscendingLayout } from '../functions'
 import { IsConnectedFn, IsValidTargetFn, Location, Rules } from '../types'
 
 export const FLAG_DEAL_TRIPLE = 1
@@ -46,7 +46,7 @@ export const klondike: Rules = {
 		const pileCount = isDoubleDeck ? 9 : 7
 
 		return {
-			...toKlondikeLayout(shuffle(isDoubleDeck ? deck.concat(deck) : deck), pileCount),
+			...toAscendingLayout(shuffle(isDoubleDeck ? deck.concat(deck) : deck), pileCount),
 			foundations: generateArray(isDoubleDeck ? 8 : 4, () => []),
 			waste: { cardIds: [], down: 0 },
 			pass: 1,
