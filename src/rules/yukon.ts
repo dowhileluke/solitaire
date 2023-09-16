@@ -1,7 +1,7 @@
 import { generateArray, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { generateDeck, isAllConnected, shuffle, toAscendingLayout } from '../functions'
-import { GameConfig, IsValidTargetFn, Rules } from '../types'
+import { GameConfig, IsValidTargetFn, Location, Rules } from '../types'
 import { FLAG_SUITED_ONLY, isConnected, validateState } from './freecell'
 
 const isValidTarget: IsValidTargetFn = (config, state, movingCards, to) => {
@@ -44,12 +44,27 @@ export const yukon: Rules = {
 			foundations: generateArray(4, () => []),
 		}
 	},
-	deal() {
-		throw new Error('No can dosville')
+	deal(_, state) {
+		return state
 	},
 	isConnected() {
 		return true
 	},
 	isValidTarget,
 	validateState,
+	guessMove(config, state, movingCards) {
+		for (const x of generateArray(state.foundations.length)) {
+			const target: Location = { zone: 'foundation', x, y: 0 }
+
+			if (isValidTarget(config, state, movingCards, target)) return target
+		}
+
+		for (const x of generateArray(state.tableau.length)) {
+			const target: Location = { zone: 'tableau', x, y: 0 }
+
+			if (isValidTarget(config, state, movingCards, target)) return target
+		}
+
+		return null
+	},
 }
