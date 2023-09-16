@@ -5,14 +5,11 @@ import { CardId, IsConnectedFn, IsValidTargetFn, Location, Pile, Rules } from '.
 
 export const FLAG_BAKERS_GAME = 1
 
-const isConnected: IsConnectedFn = (a, b, { suitCount, modeFlags }) => {
-	const isSequence = isSequential(b, a)
+const isConnected: IsConnectedFn = (low, high, { suitCount, modeFlags }) => {
+	if (!isSequential(low, high)) return false
+	if (suitCount === 1 || modeFlags & FLAG_BAKERS_GAME) return low.suit === high.suit
 
-	if (!isSequence) return false
-
-	if (suitCount === 1 || modeFlags & FLAG_BAKERS_GAME) return a.suit === b.suit
-
-	return a.isRed !== b.isRed
+	return low.isRed !== high.isRed
 }
 
 function getMaxHeight(tableau: Pile[], cells: Array<CardId | null>) {

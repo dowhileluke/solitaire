@@ -6,7 +6,7 @@ import { CardId, GameState, IsConnectedFn, Pile, Rules } from '../types'
 
 export const FLAG_EXTRA_SPACE = 1
 
-const isConnected: IsConnectedFn = (a, b) => a.suit === b.suit && a.rank + 1 === b.rank
+const isConnected: IsConnectedFn = (low, high) => isSequential(low, high) && low.suit === high.suit
 
 function isDealAllowed<T extends GameState>(layout: T): layout is T & Required<Pick<T, 'stock'>> {
 	if (!layout.stock || layout.stock.length === 0) return false
@@ -80,9 +80,10 @@ export const spider: Rules = {
 	
 		const targetCard = CARD_DATA[tail(targetPile.cardIds)]
 	
-		return isSequential(targetCard, movingCards[0])
+		return isSequential(movingCards[0], targetCard)
 	},
 	guessMove(_, state, movingCards) {
+		const highestMoving = movingCards[0]
 		let openX: number | null = null
 		let sequentialX: number | null = null
 	
@@ -92,8 +93,8 @@ export const spider: Rules = {
 			} else {
 				const pileCard = CARD_DATA[tail(pile.cardIds)]
 	
-				if (isSequential(pileCard, movingCards[0])) {
-					if (pileCard.suit === movingCards[0].suit) return { zone: 'tableau', x, y: 0 }
+				if (isSequential(highestMoving, pileCard)) {
+					if (highestMoving.suit === pileCard.suit) return { zone: 'tableau', x, y: 0 }
 	
 					sequentialX ??= x
 				}

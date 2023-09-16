@@ -7,11 +7,9 @@ export const FLAG_DEAL_TRIPLE = 1
 export const FLAG_DEAL_LIMIT = 2
 
 const isConnected: IsConnectedFn = (low, high, { suitCount }) => {
-	const isOrdered = isSequential(high, low)
+	if (!isSequential(low, high)) return false
 
-	if (suitCount === 1) return isOrdered
-
-	return isOrdered && low.isRed !== high.isRed
+	return suitCount === 1 || low.isRed !== high.isRed
 }
 
 const isValidTarget: IsValidTargetFn = (config, state, movingCards, to) => {
