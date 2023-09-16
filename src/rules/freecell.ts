@@ -96,10 +96,13 @@ export function toGuessMoveFn(isValidTarget: IsValidTargetFn) {
 				eligibleFoundation ??= target
 			}
 		}
-	
+
+		const isFromTableau = from.zone === 'tableau'
 		let openCascade: Location | null = null
 	
 		for (const [x, pile] of state.tableau.entries()) {
+			if (isFromTableau && from.x === x) continue
+
 			const target: Location = { zone: 'tableau', x, y: 0 }
 			const isValid = isValidTarget(config, state, movingCards, target)
 	
