@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
-import { toSelectedCards } from '../functions'
+import { isAllConnected, toSelectedCards } from '../functions'
 import { moveCardIds } from '../functions/movement'
 import { getPersistedState, setPersistedState } from '../functions/persist'
 import { RULES } from '../rules'
 import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
-import { AppActions, AppState, Card, GameConfig, GameState, IsConnectedFn, Location } from '../types'
+import { AppActions, AppState, GameState, Location } from '../types'
 import { useForever } from './use-forever'
 
-const preferences: AppState['preferences'] = {
+const DEFAULT_PREFERENCES: AppState['preferences'] = {
 	spiderette: {
 		suitCount: 4,
 		deckCount: 1,
@@ -24,17 +24,22 @@ const preferences: AppState['preferences'] = {
 		suitCount: 4,
 		deckCount: 1,
 		modeFlags: 0,
-	}
+	},
+	yukon: {
+		suitCount: 4,
+		deckCount: 1,
+		modeFlags: 0,
+	},
 }
 
 const persistedState = getPersistedState()
 const mode = persistedState.mode ?? 'spiderette'
-const config = persistedState.config ?? preferences[mode]
+const config = persistedState.config ?? DEFAULT_PREFERENCES[mode]
 
 const initState: AppState = {
 	history: [],
-	preferences,
 	...persistedState,
+	preferences: { ...DEFAULT_PREFERENCES, ...persistedState.preferences },
 	selection: null,
 	mode,
 	config,
@@ -63,10 +68,6 @@ function isSourceVisible(state: GameState, source: Location) {
 	}
 
 	return true
-}
-
-function isAllAvailable(cards: Card[], isConnected: IsConnectedFn, config: GameConfig) {
-	return cards.slice(0, -1).every((x, i) => isConnected(cards[i + 1], x, config))
 }
 
 export function useAppState() {
@@ -112,7 +113,7 @@ export function useAppState() {
 				const movingCardIds = toSelectedCards(layout, prev.selection)
 				const movingCards = movingCardIds.map(id => CARD_DATA[id])
 
-				if (movingCards.length === 0 || !isAllAvailable(movingCards, isConnected, prev.config)) {
+				if (movingCards.length === 0 || !isAllConnected(movingCards, isConnected, prev.config)) {
 					return NEVERMIND
 				}
 

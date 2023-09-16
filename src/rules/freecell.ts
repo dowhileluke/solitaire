@@ -1,11 +1,11 @@
 import { generateArray, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { generateDeck, isSequential, shuffle, toFlatLayout } from '../functions'
-import { CardId, IsConnectedFn, IsValidTargetFn, Location, Pile, Rules } from '../types'
+import { CardId, GameState, IsConnectedFn, IsValidTargetFn, Location, Pile, Rules } from '../types'
 
 export const FLAG_SUITED_ONLY = 1
 
-const isConnected: IsConnectedFn = (low, high, { suitCount, modeFlags }) => {
+export const isConnected: IsConnectedFn = (low, high, { suitCount, modeFlags }) => {
 	if (!isSequential(low, high)) return false
 	if (suitCount === 1 || modeFlags & FLAG_SUITED_ONLY) return low.suit === high.suit
 
@@ -59,6 +59,28 @@ const isValidTarget: IsValidTargetFn = (config, state, movingCards, to) => {
 	return false
 }
 
+export function validateState(state: GameState) {
+	const foundations: number[][] = []
+	let isChanged = false
+
+	// check for foundations with a top value that doesn't match its height
+	for (const cardIds of state.foundations) {
+		if (cardIds.length === 0 || tail(cardIds) % 13 === cardIds.length - 1) {
+			foundations.push(cardIds)
+		} else {
+			foundations.push(cardIds.slice().sort((a, b) => a - b))
+			isChanged = true
+		}
+	}
+
+	if (!isChanged) return state
+
+	return {
+		...state,
+		foundations,
+	}
+}
+
 export const freecell: Rules = {
 	v: 2,
 	init({ suitCount }) {
@@ -76,27 +98,7 @@ export const freecell: Rules = {
 	},
 	isConnected,
 	isValidTarget,
-	validateState(state) {
-		const foundations: number[][] = []
-		let isChanged = false
-
-		// check for foundations with a top value that doesn't match its height
-		for (const cardIds of state.foundations) {
-			if (cardIds.length === 0 || tail(cardIds) % 13 === cardIds.length - 1) {
-				foundations.push(cardIds)
-			} else {
-				foundations.push(cardIds.slice().sort((a, b) => a - b))
-				isChanged = true
-			}
-		}
-
-		if (!isChanged) return state
-
-		return {
-			...state,
-			foundations,
-		}
-	},
+	validateState,
 	guessMove(config, state, movingCards, from) {
 		const isBakers = Boolean(config.modeFlags & FLAG_SUITED_ONLY) || config.suitCount === 1
 		const lowestFoundationRank = state.foundations.reduce((lo, f) => Math.min(lo, f.length), 999) - 1

@@ -40,7 +40,7 @@ export type Location =
 	| { zone: 'cell', x: number }
 	| { zone: 'waste', y: number }
 
-export type Mode = 'spiderette' | 'klondike' | 'freecell'
+export type Mode = 'spiderette' | 'klondike' | 'freecell' | 'yukon'
 
 export type AppState = {
 	history: GameState[];

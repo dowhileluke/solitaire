@@ -1,5 +1,6 @@
 export { concat } from './concat'
 export { generateDeck } from './generate-deck'
+export { isAllConnected } from './is-all-connected'
 export { isSequential } from './is-sequential'
 export { shuffle } from './shuffle'
 export { toCascade } from './to-cascade'

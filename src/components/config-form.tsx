@@ -31,15 +31,15 @@ const DECK_PILLS: Array<LabeledValue<number>> = [
 ]
 
 const DEAL_PILLS: Array<LabeledValue<number>> = [
-	{ value: FLAG_DEAL_TRIPLE | FLAG_DEAL_LIMIT, label: 'Deal 3x3'},
-	{ value: FLAG_DEAL_LIMIT, label: 'Deal 1x1'},
-	{ value: FLAG_DEAL_TRIPLE, label: 'Deal 3'},
-	{ value: 0, label: 'Deal 1'},
+	{ value: FLAG_DEAL_TRIPLE | FLAG_DEAL_LIMIT, label: 'Deal 3x3' },
+	{ value: FLAG_DEAL_LIMIT, label: 'Deal 1x1' },
+	{ value: FLAG_DEAL_TRIPLE, label: 'Deal 3' },
+	{ value: 0, label: 'Deal 1' },
 ]
 
-const BUILD_PILLS: Array<LabeledValue<number>> = [
-	{ value: 0, label: 'Build alternating'},
-	{ value: FLAG_SUITED_ONLY, label: 'Build suited'},
+const CONNECT_PILLS: Array<LabeledValue<number>> = [
+	{ value: 0, label: 'Connect alternating' },
+	{ value: FLAG_SUITED_ONLY, label: 'Connect suited' },
 ]
 
 function getNote(mode: Mode, { deckCount, modeFlags, suitCount }: GameConfig) {
@@ -65,6 +65,12 @@ function getNote(mode: Mode, { deckCount, modeFlags, suitCount }: GameConfig) {
 		if (modeFlags & FLAG_SUITED_ONLY) return "AKA Baker\'s Game"
 
 		return 'Build sequences with alternating colors'
+	}
+
+	if (mode === 'yukon' && suitCount > 1) {
+		if (modeFlags & FLAG_SUITED_ONLY) return "AKA Russian"
+
+		return 'Move piles to opposite colors'
 	}
 }
 
@@ -92,11 +98,11 @@ export function ConfigForm({ mode, state, onChange, onInfo, onRetry, submitLabel
 						options={DEAL_PILLS}
 					/>
 				)}
-				{mode === 'freecell' && (
+				{(mode === 'freecell' || mode === 'yukon') && (
 					<Pills
 						value={state.modeFlags}
 						onChange={modeFlags => onChange({ modeFlags })}
-						options={BUILD_PILLS}
+						options={CONNECT_PILLS}
 						disabled={state.suitCount === 1}
 					/>
 				)}
