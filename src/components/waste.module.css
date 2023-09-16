@@ -1,6 +1,7 @@
 .waste {
 	display: flex;
 	min-width: 7em;
+	padding-left: var(--space);
 }
 
 .waste > div {

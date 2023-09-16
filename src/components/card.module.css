@@ -5,9 +5,9 @@
 	height: var(--card-height);
 	margin-bottom: var(--card-overlap);
 	flex-shrink: 5;
-	background-color: white;
+	background-color: var(--card-face);
 	border: 1px solid var(--black);
-	border-radius: 0.25em;
+	border-radius: var(--radius);
 	padding: 2px;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 
@@ -32,7 +32,7 @@
 }
 
 .down {
-	background-color: var(--blue);
+	background-color: var(--card-back);
 	margin-bottom: var(--down-overlap);
 	flex-shrink: 1;
 }

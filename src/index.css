@@ -5,7 +5,8 @@
 
 	--black: #333;
 	--red: firebrick;
-	--blue: aliceblue;
+	--card-back: aliceblue;
+	--card-face: white;
 
 	--card-width: 45px;
 	--card-height: 60px;
@@ -16,6 +17,7 @@
 	--space-xl: 1em;
 	--max-width: 520px;
 	--suit-ratio: 170%;
+	--radius: 5px;
 }
 
 @media (min-width: 1024px) {
@@ -26,6 +28,7 @@
 		--card-height: 80px;
 		--card-overlap: -47px;
 		--down-overlap: -74px;
+		--radius: 6px;
 	}
 }
 
@@ -33,6 +36,13 @@ body {
 	color: var(--black);
 	margin: 0;
 	background-color: linen;
+}
+
+body.neon {
+	--black: cyan;
+	--red: magenta;
+	--card-face: #333;
+	background-color: #999;
 }
 
 .full-height {

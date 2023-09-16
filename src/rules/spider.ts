@@ -114,8 +114,8 @@ export const spider: Rules = {
 		for (const pile of state.tableau) {
 			if (hasFullSequence(pile.cardIds)) {
 				isChanged = true
-				tableau.push(trimPile(pile, pile.cardIds.length - 13))
-				foundations.push(pile.cardIds.slice(-1))
+				tableau.push(trimPile(pile, 13))
+				foundations.unshift(pile.cardIds.slice(-1))
 			} else {
 				tableau.push(pile)
 			}

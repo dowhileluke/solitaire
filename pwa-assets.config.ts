@@ -11,7 +11,9 @@ const preset: Preset = {
 		padding: 0,
   },
   maskable: {
-    sizes: [512],
+    sizes: [
+			// 512
+		],
 		padding,
 		resizeOptions,
   },

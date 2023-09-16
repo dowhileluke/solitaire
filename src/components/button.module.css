@@ -4,8 +4,8 @@
 	color: inherit;
 	font-weight: inherit;
 
-	background-color: white;
-	border: 1px solid white;
+	background-color: var(--card-face);
+	border: 1px solid var(--card-face);;
 	border-radius: 0.5em;
 
 	box-sizing: border-box;

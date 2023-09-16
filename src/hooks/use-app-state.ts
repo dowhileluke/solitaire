@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
+import { CARD_DATA } from '../data'
+import { toSelectedCards } from '../functions'
+import { moveCardIds } from '../functions/movement'
 import { getPersistedState, setPersistedState } from '../functions/persist'
 import { RULES } from '../rules'
 import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
 import { AppActions, AppState, Card, GameConfig, GameState, IsConnectedFn, Location } from '../types'
 import { useForever } from './use-forever'
-import { toSelectedCards } from '../functions'
-import { CARD_DATA } from '../data'
-import { moveCardIds } from '../functions/movement'
 
 const preferences: AppState['preferences'] = {
 	spiderette: {
@@ -116,10 +116,10 @@ export function useAppState() {
 					return NEVERMIND
 				}
 
-				let target = to && isValidTarget(config, layout, movingCards, to) ? to : null
+				let target = to && isValidTarget(prev.config, layout, movingCards, to) ? to : null
 
 				if (!to) {
-					target = guessMove(config, layout, movingCards, prev.selection)
+					target = guessMove(prev.config, layout, movingCards, prev.selection)
 				}
 
 				if (!target) return NEVERMIND
