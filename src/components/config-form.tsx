@@ -1,12 +1,11 @@
 import { Info, Play, Rewind } from '@phosphor-icons/react'
 import { concat } from '../functions'
-import { Mode } from '../rules'
-import { GameConfig } from '../types'
-import { Button } from './button'
-import { LabeledValue, Pills } from './pills'
+import { FLAG_SUITED_ONLY } from '../rules/freecell'
 import { FLAG_DEAL_LIMIT, FLAG_DEAL_TRIPLE } from '../rules/klondike'
 import { FLAG_EXTRA_SPACE } from '../rules/spider'
-import { FLAG_BAKERS_GAME } from '../rules/freecell'
+import { GameConfig, Mode } from '../types'
+import { Button } from './button'
+import { LabeledValue, Pills } from './pills'
 
 type ConfigFormProps = {
 	mode: Mode;
@@ -39,8 +38,8 @@ const DEAL_PILLS: Array<LabeledValue<number>> = [
 ]
 
 const BUILD_PILLS: Array<LabeledValue<number>> = [
-	{ value: 0, label: 'Alternating colors'},
-	{ value: FLAG_BAKERS_GAME, label: 'Matching suits'},
+	{ value: 0, label: 'Build alternating'},
+	{ value: FLAG_SUITED_ONLY, label: 'Build suited'},
 ]
 
 function getNote(mode: Mode, { deckCount, modeFlags, suitCount }: GameConfig) {
@@ -63,7 +62,7 @@ function getNote(mode: Mode, { deckCount, modeFlags, suitCount }: GameConfig) {
 	}
 
 	if (mode === 'freecell' && suitCount > 1) {
-		if (modeFlags & FLAG_BAKERS_GAME) return "AKA Baker\'s Game"
+		if (modeFlags & FLAG_SUITED_ONLY) return "AKA Baker\'s Game"
 
 		return 'Build sequences with alternating colors'
 	}

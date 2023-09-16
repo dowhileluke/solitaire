@@ -3,11 +3,11 @@ import { CARD_DATA } from '../data'
 import { generateDeck, isSequential, shuffle, toFlatLayout } from '../functions'
 import { CardId, IsConnectedFn, IsValidTargetFn, Location, Pile, Rules } from '../types'
 
-export const FLAG_BAKERS_GAME = 1
+export const FLAG_SUITED_ONLY = 1
 
 const isConnected: IsConnectedFn = (low, high, { suitCount, modeFlags }) => {
 	if (!isSequential(low, high)) return false
-	if (suitCount === 1 || modeFlags & FLAG_BAKERS_GAME) return low.suit === high.suit
+	if (suitCount === 1 || modeFlags & FLAG_SUITED_ONLY) return low.suit === high.suit
 
 	return low.isRed !== high.isRed
 }
@@ -29,7 +29,7 @@ const isValidTarget: IsValidTargetFn = (config, state, movingCards, to) => {
 			if (movingCards.length === 1) return true
 
 			// moving cards are all same-suited if this statement is true
-			return Boolean(config.modeFlags & FLAG_BAKERS_GAME) || config.suitCount === 1
+			return Boolean(config.modeFlags & FLAG_SUITED_ONLY) || config.suitCount === 1
 		}
 
 		const targetCard = CARD_DATA[tail(target)]
@@ -98,7 +98,7 @@ export const freecell: Rules = {
 		}
 	},
 	guessMove(config, state, movingCards, from) {
-		const isBakers = Boolean(config.modeFlags & FLAG_BAKERS_GAME) || config.suitCount === 1
+		const isBakers = Boolean(config.modeFlags & FLAG_SUITED_ONLY) || config.suitCount === 1
 		const lowestFoundationRank = state.foundations.reduce((lo, f) => Math.min(lo, f.length), 999) - 1
 		let eligibleFoundation: Location | null = null
 

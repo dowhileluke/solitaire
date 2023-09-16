@@ -1,9 +1,9 @@
-import { categorize, split } from '@dowhileluke/fns';
-import { GameConfig, Location, Pile } from '../types';
-import { Card, DndCard } from './card';
+import { categorize, split } from '@dowhileluke/fns'
+import { concat, toCascade } from '../functions'
+import { RULES } from '../rules'
+import { GameConfig, Location, Mode, Pile } from '../types'
+import { Card, DndCard } from './card'
 import classes from './tableau.module.css'
-import { Mode, RULES } from '../rules';
-import { concat, toCascade } from '../functions';
 
 type TableauProps = {
 	state: Pile[];

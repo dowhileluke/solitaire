@@ -1,4 +1,4 @@
-import { Mode } from '../rules'
+import { Mode } from '../types'
 import { Button } from './button';
 
 type RulesProps = {

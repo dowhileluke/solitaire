@@ -1,10 +1,9 @@
-import { Mode } from '../rules'
-import { GameState, Location } from '../types'
-import { Card, DndCard } from './card'
-import { concat, toCascadeCard } from '../functions'
-import classes from './foundations.module.css'
 import { X } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
+import { concat, toCascadeCard } from '../functions'
+import { GameState, Location, Mode } from '../types'
+import { Card, DndCard } from './card'
+import classes from './foundations.module.css'
 
 type FoundationsProps = {
 	state: GameState;

@@ -1,5 +1,3 @@
-import { Mode } from "./rules";
-
 export type CardId = number
 
 export type Pile = {
@@ -42,6 +40,8 @@ export type Location =
 	| { zone: 'cell', x: number }
 	| { zone: 'waste', y: number }
 
+export type Mode = 'spiderette' | 'klondike' | 'freecell'
+
 export type AppState = {
 	history: GameState[];
 	selection: Location | null;
@@ -83,5 +83,5 @@ export type Rules = {
 	isConnected: IsConnectedFn;
 	isValidTarget: IsValidTargetFn;
 	validateState?: (state: GameState) => GameState;
-	guessMove: (config: GameConfig, state: GameState, movingCards: Card[], from: Location) => Location | null;
+	guessMove?: (config: GameConfig, state: GameState, movingCards: Card[], from: Location) => Location | null;
 }

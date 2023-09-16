@@ -118,7 +118,7 @@ export function useAppState() {
 
 				let target = to && isValidTarget(prev.config, layout, movingCards, to) ? to : null
 
-				if (!to) {
+				if (!to && guessMove) {
 					target = guessMove(prev.config, layout, movingCards, prev.selection)
 				}
 
