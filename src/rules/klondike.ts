@@ -39,7 +39,6 @@ const isValidTarget: IsValidTargetFn = (config, state, movingCards, to) => {
 }
 
 export const klondike: Rules = {
-	v: 2,
 	init({ suitCount, deckCount }) {
 		const deck = generateDeck(suitCount)
 		const isDoubleDeck = deckCount > 1

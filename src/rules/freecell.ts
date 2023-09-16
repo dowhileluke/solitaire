@@ -82,7 +82,6 @@ export function validateState(state: GameState) {
 }
 
 export const freecell: Rules = {
-	v: 2,
 	init({ suitCount }) {
 		const deck = shuffle(generateDeck(suitCount))
 		const tableau = toFlatLayout(deck, 8, true)

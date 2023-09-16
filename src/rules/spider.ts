@@ -41,7 +41,6 @@ function hasFullSequence(cardIds: CardId[]) {
 }
 
 export const spider: Rules = {
-	v: 2,
 	init({ suitCount, deckCount, modeFlags }) {
 		const deck = generateDeck(suitCount)
 		const foundations: never[] = []
