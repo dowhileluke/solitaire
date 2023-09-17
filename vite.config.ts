@@ -12,7 +12,7 @@ export default defineConfig({
       manifest: {
         name: 'Solitaire',
         short_name: 'Solitaire',
-        description: 'Spider, Klondike, and FreeCell solitaire card games',
+        description: 'Spider, Klondike, FreeCell, and Yukon solitaire card games',
         theme_color: 'firebrick',
         background_color: 'linen',
         icons: [
