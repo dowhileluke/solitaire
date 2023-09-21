@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from 'react'
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
-import { ArrowCounterClockwise, List, Play } from '@phosphor-icons/react'
+import { ArrowCounterClockwise, List, Palette, Play } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat, toSelectedCards } from '../functions'
@@ -167,6 +167,11 @@ export function App() {
 				onClose={isRulesVisible ? () => setIsRulesVisible(false) : actions.dismissMenu}
 				onSubmit={handleSubmit}
 				title={isRulesVisible ? null : 'Game Settings'}
+				headerNode={
+					<Button isRed onClick={actions.cycleTheme}>
+						<Palette />
+					</Button>
+				}
 			>
 				{modePills}
 				{configForm}

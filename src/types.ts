@@ -50,6 +50,7 @@ export type AppState = {
 	isMenuOpen: boolean;
 	menuMode: Mode;
 	preferences: Record<Mode, GameConfig>;
+	themeIndex: number;
 }
 
 export type AppActions = {
@@ -64,6 +65,7 @@ export type AppActions = {
 	dismissMenu: () => void;
 	setMenuMode: (menuMode: Mode) => void;
 	updatePreferences: (changeset: Partial<GameConfig>) => void;
+	cycleTheme: () => void;
 }
 
 export type GameConfig = {

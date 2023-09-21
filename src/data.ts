@@ -24,3 +24,14 @@ export const CARD_DATA: Record<CardId, Card> = Object.fromEntries(generateArray(
 
 	return [id, result] as const
 }))
+
+type Theme = {
+	name: string;
+	accentColor: string;
+}
+
+export const THEMES: Theme[] = [
+	{ name: 'default', accentColor: 'firebrick' },
+	{ name: 'pumpkin', accentColor: '#f18001' },
+	{ name: 'frost', accentColor: 'cornflowerblue' },
+]

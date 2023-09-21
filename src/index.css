@@ -45,6 +45,17 @@ body.neon {
 	background-color: #999;
 }
 
+body.pumpkin {
+	--black: #4b3621;
+	--red: #f18001;
+	--card-back: #d3df70;
+}
+
+body.frost {
+	--black: navy;
+	--red: cornflowerblue;
+}
+
 .full-height {
 	height: 100%;
 }

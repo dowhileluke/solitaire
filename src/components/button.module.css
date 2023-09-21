@@ -38,15 +38,15 @@
 }
 
 .black {
-	background-color: black;
-	border-color: black;
+	background-color: var(--black);
+	border-color: var(--black);
 	color: white;
 }
 
 .hollow {
 	background: none;
 	border-color: currentColor;
-	color: black;
+	color: var(--black);
 }
 
 .hollow.red {

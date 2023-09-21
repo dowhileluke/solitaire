@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
-import { CARD_DATA } from '../data'
+import { CARD_DATA, THEMES } from '../data'
 import { isAllConnected, toSelectedCards } from '../functions'
 import { moveCardIds } from '../functions/movement'
 import { getPersistedState, setPersistedState } from '../functions/persist'
@@ -38,6 +38,7 @@ const config = persistedState.config ?? DEFAULT_PREFERENCES[mode]
 
 const initState: AppState = {
 	history: [],
+	themeIndex: 0,
 	...persistedState,
 	preferences: { ...DEFAULT_PREFERENCES, ...persistedState.preferences },
 	selection: null,
@@ -72,17 +73,24 @@ function isSourceVisible(state: GameState, source: Location) {
 
 export function useAppState() {
 	const [state, setState] = useState(initState)
-	const { history, preferences, mode, config } = state
+	const { history, preferences, mode, config, themeIndex } = state
 
 	useEffect(() => {
 		setPersistedState({
-			history, preferences, mode, config,
+			history, preferences, mode, config, themeIndex
 		})
-	}, [history, preferences, mode, config])
+	}, [history, preferences, mode, config, themeIndex])
+
+	useEffect(() => {
+		const { name, accentColor } = THEMES[themeIndex]
+
+		document.body.className = name
+		document.querySelector('meta[name=theme-color]')?.setAttribute('content', accentColor)
+	}, [themeIndex])
 
 	const actions = useForever<AppActions>({
 		launchGame() {
-			setState(({ menuMode, preferences }) => {
+			setState(({ menuMode, preferences, themeIndex }) => {
 				const config = preferences[menuMode]
 				const layout = RULES[menuMode].init(config)
 
@@ -94,6 +102,7 @@ export function useAppState() {
 					isMenuOpen: false,
 					menuMode,
 					preferences,
+					themeIndex,
 				}
 			})
 		},
@@ -196,6 +205,9 @@ export function useAppState() {
 				...prev,
 				preferences: { ...prev.preferences, [prev.menuMode]: combined },
 			}})
+		},
+		cycleTheme() {
+			setState(prev => ({ ...prev, themeIndex: (prev.themeIndex + 1) % THEMES.length}))
 		},
 	})
 
