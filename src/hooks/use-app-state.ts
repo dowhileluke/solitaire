@@ -73,13 +73,13 @@ function isSourceVisible(state: GameState, source: Location) {
 
 export function useAppState() {
 	const [state, setState] = useState(initState)
-	const { history, preferences, mode, config } = state
+	const { history, preferences, mode, config, isFaces } = state
 
 	useEffect(() => {
 		setPersistedState({
-			history, preferences, mode, config,
+			history, preferences, mode, config, isFaces
 		})
-	}, [history, preferences, mode, config])
+	}, [history, preferences, mode, config, isFaces])
 
 	const actions = useForever<AppActions>({
 		launchGame() {
