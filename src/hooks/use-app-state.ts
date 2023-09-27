@@ -38,6 +38,7 @@ const config = persistedState.config ?? DEFAULT_PREFERENCES[mode]
 
 const initState: AppState = {
 	history: [],
+	isFaces: false,
 	...persistedState,
 	preferences: { ...DEFAULT_PREFERENCES, ...persistedState.preferences },
 	selection: null,
@@ -82,7 +83,7 @@ export function useAppState() {
 
 	const actions = useForever<AppActions>({
 		launchGame() {
-			setState(({ menuMode, preferences }) => {
+			setState(({ menuMode, preferences, isFaces }) => {
 				const config = preferences[menuMode]
 				const layout = RULES[menuMode].init(config)
 
@@ -94,6 +95,7 @@ export function useAppState() {
 					isMenuOpen: false,
 					menuMode,
 					preferences,
+					isFaces,
 				}
 			})
 		},
@@ -196,6 +198,9 @@ export function useAppState() {
 				...prev,
 				preferences: { ...prev.preferences, [prev.menuMode]: combined },
 			}})
+		},
+		toggleFaces() {
+			setState(prev => ({ ...prev, isFaces: !prev.isFaces }))
 		},
 	})
 

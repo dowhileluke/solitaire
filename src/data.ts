@@ -10,6 +10,9 @@ const NAMED_RANKS: Record<number, string> = {
 	12: 'K',
 }
 
+const RANK_INITIALS = 'a23456789tjqk'.split('')
+const SUIT_INITIALS = 'shdc'.split('')
+
 export const CARD_DATA: Record<CardId, Card> = Object.fromEntries(generateArray(52, (id: CardId) => {
 	const rank = id % 13
 	const suitIndex = Math.floor(id / 13)
@@ -20,6 +23,7 @@ export const CARD_DATA: Record<CardId, Card> = Object.fromEntries(generateArray(
 		suit,
 		isRed: suitIndex === 1 || suitIndex === 2,
 		label: (NAMED_RANKS[rank] || rank + 1) + suit,
+		name: RANK_INITIALS[rank] + SUIT_INITIALS[suitIndex],
 	}
 
 	return [id, result] as const

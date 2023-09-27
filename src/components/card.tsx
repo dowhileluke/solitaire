@@ -1,10 +1,11 @@
-import { ComponentPropsWithoutRef, forwardRef } from 'react'
+import { CSSProperties, ComponentPropsWithoutRef, forwardRef, useContext } from 'react'
 import { useDraggable, useDroppable } from '@dnd-kit/core'
 import { CrownSimple, FlowerLotus } from '@phosphor-icons/react'
 import { concat } from '../functions/concat'
 import { toId } from '../functions/to-id'
 import { CascadeCard, Location } from '../types'
 import classes from './card.module.css'
+import { useCardContext } from '../hooks/use-card-context'
 
 type CardProps = ComponentPropsWithoutRef<'div'> & {
 	details: CascadeCard | null
@@ -25,11 +26,25 @@ function toConditionalClasses(card: CascadeCard | null) {
 	)
 }
 
-function toContents(card: CascadeCard | null) {
+function toStyle(card: CascadeCard | null, style?: CSSProperties) {
+	if (!card || card.isDown || card.rank < 10) return style
+
+	const result: CSSProperties = {
+		...style,
+		// backgroundImage: `url(/faces/kc.png)`,
+		backgroundImage: `url(faces/${card.name}.png)`,
+	}
+
+	return result
+}
+
+function toContents(card: CascadeCard | null, isFaces: boolean) {
 	if (!card) return null
 	if (card.isDown) return <FlowerLotus size="100%" weight="thin" />
 	// if (card.isDown) return '\u269C'
 	// if (card.isDown) return '\u0FCF'
+
+	if (isFaces && card.rank > 9) return card.label
 
 	return (
 		<>
@@ -42,16 +57,19 @@ function toContents(card: CascadeCard | null) {
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>((
-	{ details, className, children, ...props },
+	{ details, className, style, children, ...props },
 	fwdRef,
 ) => {
+	const isFaces = useCardContext()
+
 	return (
 		<div
 			ref={fwdRef}
 			className={concat(classes.card, toConditionalClasses(details), 'overflow-hidden', className)}
+			style={isFaces ? toStyle(details, style) : style}
 			{...props}
 		>
-			{toContents(details) ?? children}
+			{toContents(details, isFaces) ?? children}
 		</div>
 	)
 })

@@ -11,6 +11,7 @@ export type Card = {
 	suit: string;
 	isRed: boolean;
 	label: string;
+	name: string;
 }
 
 export type CascadeCard = Card & {
@@ -50,6 +51,7 @@ export type AppState = {
 	isMenuOpen: boolean;
 	menuMode: Mode;
 	preferences: Record<Mode, GameConfig>;
+	isFaces: boolean;
 }
 
 export type AppActions = {
@@ -64,6 +66,7 @@ export type AppActions = {
 	dismissMenu: () => void;
 	setMenuMode: (menuMode: Mode) => void;
 	updatePreferences: (changeset: Partial<GameConfig>) => void;
+	toggleFaces: () => void;
 }
 
 export type GameConfig = {

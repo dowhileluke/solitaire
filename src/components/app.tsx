@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from 'react'
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
-import { ArrowCounterClockwise, List, Play } from '@phosphor-icons/react'
+import { ArrowCounterClockwise, CrownSimple, List, Play, Smiley } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat, toSelectedCards } from '../functions'
@@ -20,6 +20,7 @@ import { Stock } from './stock'
 import { Tableau } from './tableau'
 import { Waste } from './waste'
 import classes from './app.module.css'
+import { CardContextProvider } from '../hooks/use-card-context'
 
 function isGameOver({ tableau, stock, waste, cells }: GameState) {
 	const isTableauEmpty = tableau.every(pile => pile.cardIds.length === 0)
@@ -93,84 +94,91 @@ export function App() {
 	)
 
 	return (
-		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
-			<div className={concat('viewport-height', classes.app)}>
-				<nav className={classes.menu}>
-					<div className={concat('controls', state.isMenuOpen && 'fade')}>
-						<Button disabled={!layout} onClick={() => actions.openMenu()}>
-							<List />
-							{layout ? getVariantName(state.mode, state.config) : 'Menu'}
-						</Button>
-						<Button onClick={actions.undo} disabled={isNew && !state.isMenuOpen}>
-							<ArrowCounterClockwise />
-							Undo
-						</Button>
-					</div>
-				</nav>
-				{layout ? (
-					<main className={concat(classes.layout, 'full-height overflow-hidden', state.isMenuOpen && 'fade')}>
-						<div className={concat(classes.zones, 'overflow-hidden')}>
-							{(layout.stock || layout.waste) && (
-								<div className={classes.wasteland}>
-									<Stock
-										state={layout}
-										onClick={actions.deal}
-										mode={state.mode}
-										modeFlags={state.config.modeFlags}
-									/>
-									{layout.waste && (<Waste state={layout.waste} selection={state.selection} />)}
-								</div>
-							)}
-							<Cells state={layout} location={state.selection} />
-							<Foundations state={layout} selection={state.selection} mode={state.mode} />
+		<CardContextProvider value={state.isFaces}>
+			<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
+				<div className={concat('viewport-height', classes.app)}>
+					<nav className={classes.menu}>
+						<div className={concat('controls', state.isMenuOpen && 'fade')}>
+							<Button disabled={!layout} onClick={() => actions.openMenu()}>
+								<List />
+								{layout ? getVariantName(state.mode, state.config) : 'Menu'}
+							</Button>
+							<Button onClick={actions.undo} disabled={isNew && !state.isMenuOpen}>
+								<ArrowCounterClockwise />
+								Undo
+							</Button>
 						</div>
-						<div className="full-height overflow-hidden">
-							<Tableau
-								state={layout.tableau}
-								config={state.config}
-								selection={state.selection}
-								mode={state.mode}
-								isDone={isDone}
-							/>
-							{isDone && (
-								<div>
-									<h1>Game Complete!</h1>
-									<div className="controls">
-										<Button isBig isRed onClick={actions.playAnother}>
-											New Game
-											<Play weight="fill" />
-										</Button>
+					</nav>
+					{layout ? (
+						<main className={concat(classes.layout, 'full-height overflow-hidden', state.isMenuOpen && 'fade')}>
+							<div className={concat(classes.zones, 'overflow-hidden')}>
+								{(layout.stock || layout.waste) && (
+									<div className={classes.wasteland}>
+										<Stock
+											state={layout}
+											onClick={actions.deal}
+											mode={state.mode}
+											modeFlags={state.config.modeFlags}
+										/>
+										{layout.waste && (<Waste state={layout.waste} selection={state.selection} />)}
 									</div>
-								</div>
-							)}
-						</div>
-					</main>
-				) : (
-					<>
-						<div>
-							<form onSubmit={handleSubmit} className={concat(classes.init, 'grid-form')}>
-								{modePills}
-								{configForm}
-							</form>
-						</div>
-						<footer className={concat(classes.foot, 'note')}>Add me to your home screen for offline mode!</footer>
-					</>
-				)}
-			</div>
-			<DragOverlay className={concat('cascade', classes.overlay)}>
-				{layout && toSelectedCards(layout, state.selection).map((id, i) => (
-					<Card key={i} details={{ ...CARD_DATA[id], isDown: false, isConnected: i > 0, isAvailable: true }} />
-				))}
-			</DragOverlay>
-			<Modal
-				isOpen={state.isMenuOpen}
-				onClose={isRulesVisible ? () => setIsRulesVisible(false) : actions.dismissMenu}
-				onSubmit={handleSubmit}
-				title={isRulesVisible ? null : 'Game Settings'}
-			>
-				{modePills}
-				{configForm}
-			</Modal>
-		</DndContext>
+								)}
+								<Cells state={layout} location={state.selection} />
+								<Foundations state={layout} selection={state.selection} mode={state.mode} />
+							</div>
+							<div className="full-height overflow-hidden">
+								<Tableau
+									state={layout.tableau}
+									config={state.config}
+									selection={state.selection}
+									mode={state.mode}
+									isDone={isDone}
+								/>
+								{isDone && (
+									<div>
+										<h1>Game Complete!</h1>
+										<div className="controls">
+											<Button isBig isRed onClick={actions.playAnother}>
+												New Game
+												<Play weight="fill" />
+											</Button>
+										</div>
+									</div>
+								)}
+							</div>
+						</main>
+					) : (
+						<>
+							<div>
+								<form onSubmit={handleSubmit} className={concat(classes.init, 'grid-form')}>
+									{modePills}
+									{configForm}
+								</form>
+							</div>
+							<footer className={concat(classes.foot, 'note')}>Add me to your home screen for offline mode!</footer>
+						</>
+					)}
+				</div>
+				<DragOverlay className={concat('cascade', classes.overlay)}>
+					{layout && toSelectedCards(layout, state.selection).map((id, i) => (
+						<Card key={i} details={{ ...CARD_DATA[id], isDown: false, isConnected: i > 0, isAvailable: true }} />
+					))}
+				</DragOverlay>
+				<Modal
+					isOpen={state.isMenuOpen}
+					onClose={isRulesVisible ? () => setIsRulesVisible(false) : actions.dismissMenu}
+					onSubmit={handleSubmit}
+					title={isRulesVisible ? null : 'Game Settings'}
+					headerNode={
+						<Button isRed isHollow onClick={actions.toggleFaces}>
+							<CrownSimple weight={state.isFaces ? 'regular' : 'fill'} />
+						</Button>
+					}
+				>
+					{modePills}
+					{configForm}
+				</Modal>
+			</DndContext>
+		</CardContextProvider>
 	)
 }
