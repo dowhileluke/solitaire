@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from 'react'
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core'
-import { ArrowCounterClockwise, CrownSimple, List, Play, Smiley } from '@phosphor-icons/react'
+import { ArrowCounterClockwise, CrownSimple, List, Play } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat, toSelectedCards } from '../functions'
