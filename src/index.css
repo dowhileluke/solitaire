@@ -36,6 +36,9 @@ body {
 	color: var(--black);
 	margin: 0;
 	background-color: linen;
+
+	user-select: none;
+	touch-action: none;
 }
 
 body.neon {
