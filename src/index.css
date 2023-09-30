@@ -8,26 +8,26 @@
 	--card-back: aliceblue;
 	--card-face: white;
 
-	--card-width: 45px;
-	--card-height: 60px;
-	--card-overlap: -35px;
-	--down-overlap: -55px;
+	--card-width: 44px;
+	--card-height: 58px;
+	--card-overlap: -33px;
+	--down-overlap: -53px;
 
 	--space: 0.125em;
 	--space-xl: 1em;
 	--max-width: 520px;
-	--suit-ratio: 170%;
+	--suit-ratio: 150%;
 	--radius: 5px;
 }
 
 @media (min-width: 1024px) {
 	:root {
-		font-size: 20px;
+		font-size: 24px;
 
-		--card-width: 60px;
-		--card-height: 80px;
-		--card-overlap: -47px;
-		--down-overlap: -74px;
+		--card-width: 65px;
+		--card-height: 86px;
+		--card-overlap: -50px;
+		--down-overlap: -80px;
 		--radius: 6px;
 	}
 }

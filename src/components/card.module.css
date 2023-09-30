@@ -64,6 +64,10 @@
 	letter-spacing: 0;
 }
 
+.suit svg {
+	padding-top: 2px;
+}
+
 .icon {
 	width: 100%;
 }

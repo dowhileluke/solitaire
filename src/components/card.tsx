@@ -50,7 +50,7 @@ function toContents(card: CascadeCard | null, isFaces: boolean) {
 		<>
 			{card.label}
 			<div className={concat(classes.suit, 'center')}>
-				{card.rank > 9 ? (<CrownSimple size="0.7em" weight="fill" />) : card.suit}
+				{card.rank > 9 ? (<CrownSimple size="0.75em" weight="fill" />) : card.suit}
 			</div>
 		</>
 	)
