@@ -22,12 +22,12 @@
 
 @media (min-width: 1024px) {
 	:root {
-		font-size: 24px;
+		font-size: 20px;
 
-		--card-width: 65px;
-		--card-height: 86px;
-		--card-overlap: -50px;
-		--down-overlap: -80px;
+		--card-width: 58px;
+		--card-height: 77px;
+		--card-overlap: -47px;
+		--down-overlap: -70px;
 		--radius: 6px;
 	}
 }
