@@ -1,0 +1,38 @@
+:root {
+	font: 16px arial, sans-serif;
+	line-height: 1;
+	-webkit-text-size-adjust: 100%;
+
+	--black: #333;
+	--red: firebrick;
+
+	--card-width: 44px;
+	--card-height: 58px;
+	--card-overlap: -33px;
+	--down-overlap: -53px;
+}
+
+body {
+	margin: 0;
+
+	--card-back: aliceblue;
+	--card-face: white;
+	color: var(--black);
+	background-color: linen;
+
+	user-select: none;
+	touch-action: none;
+}
+
+.viewport-height {
+	height: 100vh;
+	height: -webkit-fill-available;
+}
+
+.full-height {
+	height: 100%;
+}
+
+.overflow-hidden {
+	overflow: hidden;
+}
