@@ -20,8 +20,19 @@ body {
 	color: var(--black);
 	background-color: linen;
 
+	--spades: var(--black);
+	--hearts: var(--red);
+	--diams: var(--red);
+	--clubs: var(--black);
+
 	user-select: none;
 	touch-action: none;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
 }
 
 .viewport-height {
@@ -35,4 +46,10 @@ body {
 
 .overflow-hidden {
 	overflow: hidden;
+}
+
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

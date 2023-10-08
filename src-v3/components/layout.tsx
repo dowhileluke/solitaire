@@ -1,8 +1,12 @@
 import { useRef } from 'react'
 import { DragStartEvent, DragEndEvent, DndContext, DragOverlay } from '@dnd-kit/core'
+import { tail } from '@dowhileluke/fns'
+import { toSelectedCardIds } from '../functions/to-selected-card-ids'
 import { useAppState } from '../hooks/use-app-state'
 import { Position } from '../types'
+import { Pile } from './pile'
 import { Tableau } from './tableau'
+import classes from './layout.module.css'
 
 export function Layout() {
 	const [state, actions] = useAppState()
@@ -21,6 +25,7 @@ export function Layout() {
 
 		if (isImmediate) {
 			console.log('actions.moveCards()')
+			actions.setSelection(null)
 		} else {
 			actions.setSelection(null)
 		}
@@ -38,11 +43,13 @@ export function Layout() {
 
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
-			<main>
+			<main className={classes.layout}>
 				<Tableau />
 			</main>
 			<DragOverlay>
-				{/* render selected cards */}
+				{state.selection && (
+					<Pile cardIds={toSelectedCardIds(tail(state.history), state.selection)} toPos={null} />
+				)}
 			</DragOverlay>
 		</DndContext>
 	)

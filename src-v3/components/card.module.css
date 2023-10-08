@@ -1,0 +1,48 @@
+.card {
+	font-size: 125%;
+	box-sizing: border-box;
+	padding: 2px;
+	height: var(--card-height);
+	border: 1px solid var(--black);
+	border-radius: 5px;
+}
+
+.card:last-child {
+	margin: 0;
+}
+
+.connected {
+	border-top-style: dashed;
+	/* border-top: none; */
+	/* padding-top: 3px; */
+}
+
+.up {
+	background-color: var(--card-face);
+	margin-bottom: var(--card-overlap);
+}
+
+.down {
+	background-color: var(--card-back);
+	margin-bottom: var(--down-overlap);
+}
+
+.placeholder {
+	margin-bottom: calc(-1 * var(--card-height));
+}
+
+.suit-s {
+	color: var(--spades);
+}
+
+.suit-h {
+	color: var(--hearts);
+}
+
+.suit-d {
+	color: var(--diams);
+}
+
+.suit-c {
+	color: var(--clubs);
+}

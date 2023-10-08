@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { generateArray } from '@dowhileluke/fns'
-import { generateDeck, shuffle } from '../../src/functions'
+import { generateDeck } from '../functions/generate-deck'
+import { shuffle } from '../functions/shuffle'
 import { CardId, Pile } from '../../src/types'
 import { useForever } from '../../src/hooks/use-forever'
 
@@ -24,7 +25,7 @@ const beleaguered: GameDef = {
 
 const klondike: GameDef = {
 	decks: 1,
-	open: 5,
+	open: 1,
 	up: 1,
 	down: 6,
 	repeat: -1,

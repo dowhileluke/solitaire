@@ -1,11 +1,6 @@
 import { CARD_DATA } from '../data';
+import { GameDef } from '../games';
 import { Card, CardId, PileCard, Rules } from '../types'
-
-type GameDef = {
-	buildDirection: 'descending' | 'either';
-	buildRestriction: 'none' | 'alt-color' | 'suit';
-	groupRestriction: 'none' | 'alt-color' | 'suit' | 'restricted';
-}
 
 export function toRules(def: GameDef) {
 	function isSequential(source: Card, target: Card) {

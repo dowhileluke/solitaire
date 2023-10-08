@@ -1,3 +1,5 @@
+import { GameKey } from "./games";
+
 export type CardId = number
 
 export type Pile = {
@@ -11,7 +13,7 @@ export type Card = {
 	suit: string;
 	isRed: boolean;
 	label: string;
-	name: string;
+	initials: string;
 }
 
 export type PileCard = Card & {
@@ -40,6 +42,7 @@ export type Rules = {
 export type AppState = {
 	history: GameState[];
 	selection: Position | null;
+	gameKey: GameKey;
 	rules: Rules;
 }
 

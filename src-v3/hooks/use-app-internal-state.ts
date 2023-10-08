@@ -1,21 +1,20 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { AppActions, AppState } from '../types'
 import { useForever } from './use-forever'
 import { v3test } from './use-v3-state'
 import { toRules } from '../functions/to-rules'
+import { GAME_CATALOG } from '../games'
 
-const initialState: AppState = {
+const initialState: Omit<AppState, 'rules'> = {
 	history: [],
 	selection: null,
-	rules: toRules({
-		buildDirection: 'descending',
-		buildRestriction: 'suit',
-		groupRestriction: 'restricted',
-	})
+	gameKey: 'klondike',
 }
 
 export function useAppInternalState() {
 	const [state, setState] = useState(initialState)
+	const rules = useMemo(() => toRules(GAME_CATALOG[state.gameKey]), [state.gameKey])
+	const appState = useMemo((): AppState => ({ ...state, rules }), [state, rules])
 
 	const actions = useForever<AppActions>({
 		launchGame() {
@@ -33,5 +32,5 @@ export function useAppInternalState() {
 		},
 	})
 
-	return [state, actions] as const
+	return [appState, actions] as const
 }

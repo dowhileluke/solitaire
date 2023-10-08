@@ -1,28 +1,104 @@
-import { Pile as PileDef, Position } from '../types'
+import { ReactNode } from 'react'
+import { generateArray, split, tail } from '@dowhileluke/fns'
 import { useAppState } from '../hooks/use-app-state'
-import { truthy } from '@dowhileluke/fns'
+import { Pile as PileDef, PileCard, Position, Rules, CardId } from '../types'
+import { Card, DndCard } from './card'
+import classes from './pile.module.css'
+import { CARD_DATA } from '../data'
 
-type PileProps = PileDef & Pick<Position, 'zone'>
+type PileProps = {
+	toPos: ((index: number) => Position) | null;
+	cardIds: CardId[];
+	down?: number;
+	maxDepth?: number;
+	emptyNode?: ReactNode;
+	isDragOnly?: boolean;
+}
 
-export function Pile({ cardIds, down }: PileProps) {
-	const [{ rules }] = useAppState()
-	const upCards = rules.toPileCards(cardIds.slice(down))
+function toDetails({ cardIds, down }: PileDef, rules: Rules) {
+	const downCards = generateArray<PileCard | null>(down, () => null)
 
-	function toLabel(index: number) {
-		if (index < down) return 'down'
+	return downCards.concat(rules.toPileCards(cardIds.slice(down)))
+}
 
-		const curr = upCards[index - down]
+function toSimpleDetails(cardIds: CardId[]) {
+	return cardIds.map((id, index): PileCard => ({
+		...CARD_DATA[id],
+		isConnected: false,
+		isAvailable: index === cardIds.length - 1,
+	}))
+}
 
-		return curr.label + ':' + truthy(curr.isAvailable && 'available', curr.isConnected && 'connected').join(', ')
+function isPosMatch(cardPos: Position, selection: Position) {
+	if (cardPos.zone === 'tableau' && selection.zone === 'tableau') {
+		if (cardPos.x !== selection.x) return false
+		if (cardPos.y >= selection.y) return true
+
+		return 'partial'
+	} else if (cardPos.zone === 'foundation' && selection.zone === 'foundation') {
+		return cardPos.x === selection.x
+	}
+
+	return false
+}
+
+export function Pile({ toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly = false }: PileProps) {
+	const [{ rules, selection }] = useAppState()
+	const details = maxDepth ? toSimpleDetails(cardIds) : toDetails({ cardIds, down }, rules)
+	const [hidden, visible] = split(details, maxDepth ? -maxDepth : -999)
+
+	function getPlaceholder() {
+		if (!toPos) return null
+
+		const posZero = toPos(0)
+
+		if (cardIds.length === 0) {
+			if (isDragOnly) return null
+
+			return (
+				<DndCard isPlaceholder details={null} mode="drop" pos={posZero}>
+					{emptyNode}
+				</DndCard>
+			)
+		}
+
+		return (
+			<Card isPlaceholder details={tail(hidden) ?? null}>
+				{emptyNode}
+			</Card>
+		)
 	}
 
 	return (
-		<ul>
-			{cardIds.map((id, index) => (
-				<li key={index}>
-					{id} {toLabel(index)}
-				</li>
-			))}
+		<ul className={classes.pile}>
+			{getPlaceholder()}
+			{visible.map((card, index) => {
+				const simpleCard = (<Card key={index} isDown={index < down - hidden.length} details={card} />)
+
+				if (!card || !card.isAvailable || !toPos) {
+					return simpleCard
+				}
+
+				const cardPos = toPos(index)
+
+				if (!selection) {
+					return (
+						<DndCard key={index} details={card} mode="drag" pos={cardPos} />
+					)
+				}
+
+				const posMatch = isPosMatch(cardPos, selection)
+
+				if (posMatch === true) {
+					return null
+				} else if (posMatch === 'partial' || index < visible.length - 1) {
+					return simpleCard
+				} else {
+					return (
+						<DndCard key={index} details={card} mode="drop" pos={cardPos} />
+					)
+				}
+			})}
 		</ul>
 	)
 }
