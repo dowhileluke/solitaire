@@ -36,6 +36,8 @@ export type Position =
 
 export type Rules = {
 	isConnected: (low: Card, high: Card) => boolean;
+
+	/** only for face-up cards */
 	toPileCards: (cardIds: CardId[]) => PileCard[];
 }
 	

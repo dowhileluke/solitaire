@@ -12,19 +12,18 @@ export function toRules(def: GameDef) {
 	}
 
 	function isConnected(source: Card, target: Card) {
+		if (def.groupRestriction === 'none') return true
 		if (!isSequential(source, target)) return false
 		if (def.groupRestriction === 'suit') return source.suit === target.suit
-		if (def.groupRestriction === 'alt-color') return source.isRed !== source.isRed
-		if (def.groupRestriction === 'none') return true
+		if (def.groupRestriction === 'alt-color') return source.isRed !== target.isRed
 
 		// else use supermove logic
 		if (def.buildRestriction === 'suit') return source.suit === target.suit
-		if (def.buildRestriction === 'alt-color') return source.isRed !== source.isRed
+		if (def.buildRestriction === 'alt-color') return source.isRed !== target.isRed
 
 		return true
 	}
 
-	/** not to include face-down cards */
 	function toPileCards(cardIds: CardId[]) {
 		const cards = cardIds.map(id => CARD_DATA[id]).reverse()
 		const result: PileCard[] = []

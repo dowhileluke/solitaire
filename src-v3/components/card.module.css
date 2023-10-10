@@ -12,14 +12,15 @@
 }
 
 .connected {
-	border-top-style: dashed;
-	/* border-top: none; */
-	/* padding-top: 3px; */
+	border-top: none;
+	padding-top: 3px;
 }
 
 .up {
 	background-color: var(--card-face);
 	margin-bottom: var(--card-overlap);
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+	cursor: pointer;
 }
 
 .down {

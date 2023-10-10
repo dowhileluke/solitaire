@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react'
 import { AppActions, AppState } from '../types'
 import { useForever } from './use-forever'
-import { v3test } from './use-v3-state'
 import { toRules } from '../functions/to-rules'
 import { GAME_CATALOG } from '../games'
+import { toInitialState } from '../functions/to-initial-state'
 
 const initialState: Omit<AppState, 'rules'> = {
 	history: [],
 	selection: null,
-	gameKey: 'klondike',
+	gameKey: 'scorpion',
 }
 
 export function useAppInternalState() {
@@ -18,13 +18,9 @@ export function useAppInternalState() {
 
 	const actions = useForever<AppActions>({
 		launchGame() {
-			const { tableau, stock } = v3test()
-
 			setState(prev => ({
 				...prev,
-				history: [
-					{ tableau, stock, foundations: [], cells: [], waste: null, pass: 0, }
-				],
+				history: [toInitialState(GAME_CATALOG[prev.gameKey])],
 			}))
 		},
 		setSelection(selection) {
