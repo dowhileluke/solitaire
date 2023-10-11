@@ -6,7 +6,9 @@ import { useAppState } from '../hooks/use-app-state'
 import { Position } from '../types'
 import { Pile } from './pile'
 import { Tableau } from './tableau'
+import { Foundations } from './foundations'
 import classes from './layout.module.css'
+import pileClasses from './pile.module.css'
 
 export function Layout() {
 	const [state, actions] = useAppState()
@@ -36,19 +38,21 @@ export function Layout() {
 
 		if (!to) return handleDragCancel()
 
-		// TODO: implement moves
-		console.log('actions.moveCards(to)')
-		handleDragCancel()
+		actions.moveCards(to)
 	}
 
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
 			<main className={classes.layout}>
+				<Foundations />
 				<Tableau />
 			</main>
-			<DragOverlay>
+			<DragOverlay wrapperElement="ul" className={pileClasses.overlay}>
 				{state.selection && (
-					<Pile cardIds={toSelectedCardIds(tail(state.history), state.selection)} toPos={null} />
+					<Pile
+						cardIds={toSelectedCardIds(tail(state.history), state.selection)}
+						toPos={null}
+					/>
 				)}
 			</DragOverlay>
 		</DndContext>

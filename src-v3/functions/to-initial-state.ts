@@ -10,13 +10,13 @@ function toTableau(
 	allCards: CardId[],
 	{
 		wasteRate = 0, dealLimit = 0, invert,
-		baseRowEmpty = 0, baseRowUp, baseRowDown, baseRowRepeat,
-		upperWidth = 0, upperRepeat = 0,
+		baseRowEmpty = 0, baseRowUp, baseRowDown, baseRowRepeat, upperWidth = 0, upperRepeat = 0,
 	}: GameDef,
 ) {
 	const baseRowWidth = baseRowUp + baseRowDown
 	const tableauWidth = baseRowEmpty + baseRowWidth
 
+	// determine which groups have a preferred number of cards
 	const isUpperFixed = upperWidth > 0 && (0 < upperRepeat && upperRepeat < 999)
 	const isBaseFixed = (0 < baseRowRepeat && baseRowRepeat < 999)
 	const isStockFixed = wasteRate === 0 && (0 < dealLimit && dealLimit < 999)
@@ -25,12 +25,12 @@ function toTableau(
 	let [lowerCards, upperCards] = isUpperFixed ? split(allCards, -upperWidth * upperRepeat) : [allCards, []]
 	let [stock, baseCards] = isBaseFixed
 		? split(lowerCards, -baseRowWidth * baseRowRepeat)
-		: (isStockFixed ? split(lowerCards, -baseRowWidth * dealLimit) : [lowerCards, []])
+		: (isStockFixed ? split(lowerCards, -baseRowWidth * dealLimit) : [[], lowerCards])
 
+	// assign baseCards to piles
 	let index = 0
 	const basePileCardIds = generateArray<CardId[]>(tableauWidth, () => [])
 
-	// assign baseCards to piles
 	if (baseRowRepeat === -1) {
 		for (let rowIndex = 0; rowIndex < baseRowWidth; rowIndex++) {
 			const rowWidth = baseRowWidth - rowIndex
@@ -77,6 +77,7 @@ function toTableau(
 		}
 	}
 
+	// convert to a final array of piles
 	const tableau = generateArray(tableauWidth, (i) => toPile(basePileCardIds[i], basePileDown[i]))
 
 	if (invert) tableau.reverse()
@@ -87,8 +88,8 @@ function toTableau(
 }
 
 export function toInitialState(def: GameDef) {
-	const { decks, goal, wasteRate = 0, emptyCells = 0, filledCells = 0 } = def
-	const d = generateDeck()
+	const { decks, suits = 4, goal, wasteRate = 0, emptyCells = 0, filledCells = 0 } = def
+	const d = generateDeck(suits)
 	const allCards = shuffle(decks === 1 ? d : d.concat(d))
 
 	// foundations

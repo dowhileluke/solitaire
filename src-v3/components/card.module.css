@@ -30,6 +30,7 @@
 
 .placeholder {
 	margin-bottom: calc(-1 * var(--card-height));
+	box-shadow: none;
 }
 
 .suit-s {

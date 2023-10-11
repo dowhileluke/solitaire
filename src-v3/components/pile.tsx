@@ -7,7 +7,7 @@ import classes from './pile.module.css'
 import { CARD_DATA } from '../data'
 
 type PileProps = {
-	toPos: ((index: number) => Position) | null;
+	toPos: ((index: number, card?: PileCard) => Position) | null;
 	cardIds: CardId[];
 	down?: number;
 	maxDepth?: number;
@@ -42,7 +42,7 @@ function isPosMatch(cardPos: Position, selection: Position) {
 	return false
 }
 
-export function Pile({ toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly = false }: PileProps) {
+export function Pile({ toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly = false, }: PileProps) {
 	const [{ rules, selection }] = useAppState()
 	const details = maxDepth ? toSimpleDetails(cardIds) : toDetails({ cardIds, down }, rules)
 	const [hidden, visible] = split(details, maxDepth ? -maxDepth : -999)
@@ -62,15 +62,21 @@ export function Pile({ toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly
 			)
 		}
 
+		if (hidden.length) {
+			return (
+				<Card isPlaceholder details={tail(hidden)} />
+			)
+		}
+
 		return (
-			<Card isPlaceholder details={tail(hidden) ?? null}>
+			<Card isPlaceholder details={null}>
 				{emptyNode}
 			</Card>
 		)
 	}
 
-	return (
-		<ul className={classes.pile}>
+	const cards = (
+		<>
 			{getPlaceholder()}
 			{visible.map((card, index) => {
 				const simpleCard = (<Card key={index} isDown={index < down - hidden.length} details={card} />)
@@ -79,7 +85,7 @@ export function Pile({ toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly
 					return simpleCard
 				}
 
-				const cardPos = toPos(index)
+				const cardPos = toPos(index, card)
 
 				if (!selection) {
 					return (
@@ -99,6 +105,16 @@ export function Pile({ toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly
 					)
 				}
 			})}
+		</>
+	)
+
+	if (!toPos) {
+		return cards
+	}
+
+	return (
+		<ul className={classes.pile}>
+			{cards}
 		</ul>
 	)
 }

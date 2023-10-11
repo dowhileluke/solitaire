@@ -6,6 +6,7 @@ export function Controls() {
 	return (
 		<nav>
 			<button onClick={actions.launchGame}>Launch</button>
+			<button onClick={actions.undo}>Undo</button>
 		</nav>
 	)
 }

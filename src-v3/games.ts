@@ -3,6 +3,7 @@ export type GameDef = {
 
 	// deck & stock
 	decks: 1 | 2;
+	suits?: 1 | 2 | 3 | 4;
 	goal: 'sequence' | 'foundation' | 'foundation@2';
 	wasteRate?: number;
 	dealLimit?: number;
@@ -110,6 +111,7 @@ const scorpion: GameDef = {
 	baseRowRepeat: 3,
 	upperWidth: 7,
 	upperRepeat: 4,
+	buildRestriction: 'suit',
 }
 
 export const GAME_CATALOG = {

@@ -32,15 +32,21 @@ export type GameState = {
 
 export type Position =
 	| { zone: 'tableau'; x: number; y: number }
-	| { zone: 'foundation'; x: number; }
+	| { zone: 'foundation'; x: number; y?: number; }
+	| { zone: 'waste'; n: number; }
+	| { zone: 'cell'; x: number; }
+
+export type MoveValidation = 'invert' | 'simple' | false
 
 export type Rules = {
 	isConnected: (low: Card, high: Card) => boolean;
+	finalizeState: (state: GameState) => GameState;
+	isValidMove: (state: GameState, movingCardIds: CardId[], to: Position) => MoveValidation;
 
 	/** only for face-up cards */
 	toPileCards: (cardIds: CardId[]) => PileCard[];
 }
-	
+
 export type AppState = {
 	history: GameState[];
 	selection: Position | null;
@@ -51,4 +57,6 @@ export type AppState = {
 export type AppActions = {
 	launchGame: () => void;
 	setSelection: (pos: Position | null) => void;
+	moveCards: (pos: Position) => void;
+	undo: () => void;
 }

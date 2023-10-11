@@ -1,5 +1,9 @@
-.pile {
+.pile, .overlay {
 	display: flex;
 	flex-direction: column;
 	width: var(--card-width);
+}
+
+.overlay li {
+	flex-shrink: 0;
 }
