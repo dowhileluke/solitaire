@@ -10,6 +10,8 @@
 	--card-height: 58px;
 	--card-overlap: -33px;
 	--down-overlap: -53px;
+	--suit-ratio: 150%;
+	--radius: 5px;
 }
 
 body {

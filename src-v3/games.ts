@@ -41,6 +41,13 @@ const klondike: GameDef = {
 	emptyRestriction: 'kings',
 }
 
+const klondike2: GameDef = {
+	...klondike,
+	name: 'Klondike (2 decks)',
+	decks: 2,
+	baseRowDown: 8,
+}
+
 const yukon: GameDef = {
 	...klondike,
 	name: 'Yukon',
@@ -48,6 +55,12 @@ const yukon: GameDef = {
 	upperWidth: 6,
 	upperRepeat: 4,
 	groupRestriction: 'none',
+}
+
+const russian: GameDef = {
+	...yukon,
+	name: 'Russian',
+	buildRestriction: 'suit',
 }
 
 const freecell: GameDef = {
@@ -64,12 +77,35 @@ const freecell: GameDef = {
 	emptyRestriction: 'none',
 }
 
+const bakers: GameDef = {
+	...freecell,
+	name: "Baker's Game",
+	buildRestriction: 'suit',
+}
+
+const forecell: GameDef = {
+	...freecell,
+	name: 'ForeCell',
+	emptyCells: 0,
+	filledCells: 4,
+	emptyRestriction: 'kings',
+}
+
 const fortress: GameDef = {
 	...freecell,
+	name: 'Fortress',
 	emptyCells: 0,
 	baseRowUp: 10,
 	buildDirection: 'either',
 	buildRestriction: 'suit',
+}
+
+const beleaguered: GameDef = {
+	...freecell,
+	name: 'Beleaguered',
+	goal: 'foundation@2',
+	emptyCells: 0,
+	buildRestriction: 'none',
 }
 
 const spiderette: GameDef = {
@@ -115,9 +151,14 @@ const scorpion: GameDef = {
 }
 
 export const GAME_CATALOG = {
+	bakers,
+	beleaguered,
+	forecell,
 	fortress,
 	freecell,
 	klondike,
+	klondike2,
+	russian,
 	scorpion,
 	simple,
 	spider,

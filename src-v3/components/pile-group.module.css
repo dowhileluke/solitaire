@@ -1,5 +1,10 @@
 .group {
 	display: flex;
+	justify-content: center;
 	gap: 2px;
 	padding: 2px;
+}
+
+.nopad {
+	padding: 0;
 }

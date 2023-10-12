@@ -1,10 +1,11 @@
 .card {
 	font-size: 125%;
+	white-space: nowrap;
 	box-sizing: border-box;
 	padding: 2px;
 	height: var(--card-height);
 	border: 1px solid var(--black);
-	border-radius: 5px;
+	border-radius: var(--radius);
 }
 
 .card:last-child {
@@ -21,16 +22,40 @@
 	margin-bottom: var(--card-overlap);
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 	cursor: pointer;
+	flex-shrink: 5;
+
+	display: grid;
+	grid-template-rows: auto 1fr;
+
+	background-position: center 1.33em;
+	background-size: 100%;
+	background-repeat: no-repeat;
 }
 
 .down {
 	background-color: var(--card-back);
 	margin-bottom: var(--down-overlap);
+	flex-shrink: 1;
 }
 
 .placeholder {
 	margin-bottom: calc(-1 * var(--card-height));
 	box-shadow: none;
+}
+
+.squeeze {
+	letter-spacing: -0.15em;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+.symbol {
+	font-size: var(--suit-ratio);
+	letter-spacing: 0;
+}
+
+.symbol svg {
+	padding-top: 4px;
 }
 
 .suit-s {

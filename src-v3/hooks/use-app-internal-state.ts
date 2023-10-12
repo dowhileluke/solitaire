@@ -2,18 +2,27 @@ import { useEffect, useMemo, useState } from 'react'
 import { AppActions, AppState, Position } from '../types'
 import { useForever } from './use-forever'
 import { toRules } from '../functions/to-rules'
-import { GAME_CATALOG } from '../games'
+import { GAME_CATALOG, GameDef, GameKey } from '../games'
 import { toInitialState } from '../functions/to-initial-state'
 import { tail } from '@dowhileluke/fns'
 import { toSelectedCardIds } from '../functions/to-selected-card-ids'
 import { moveCardIds } from '../functions/move-card-ids'
 import { setPersistedState, getPersistedState } from '../functions/persist'
 
-const initialState: Omit<AppState, 'rules'> = {
+const initialState: Omit<AppState, 'rules' | 'config'> = {
 	history: [],
 	selection: null,
-	gameKey: 'fortress',
+	gameKey: 'klondike2',
 	...getPersistedState(),
+}
+
+function test(gameKey: GameKey) {
+	const result: GameDef = {
+		...GAME_CATALOG[gameKey],
+		suits: 3,
+	}
+
+	return result
 }
 
 function isSelfTargeting(source: Position, target: Position) {
@@ -30,19 +39,19 @@ function isSelfTargeting(source: Position, target: Position) {
 
 export function useAppInternalState() {
 	const [state, setState] = useState(initialState)
-	const { history, gameKey } = state
-	const rules = useMemo(() => toRules(GAME_CATALOG[state.gameKey]), [state.gameKey])
-	const appState = useMemo((): AppState => ({ ...state, rules }), [state, rules])
+	const { history } = state
+	const config = useMemo(() => test(state.gameKey), [state.gameKey])
+	const rules = useMemo(() => toRules(config), [config])
 
 	useEffect(() => {
-		setPersistedState({ history, gameKey })
-	}, [history, gameKey])
+		setPersistedState({ history })
+	}, [history])
 
 	const actions = useForever<AppActions>({
 		launchGame() {
 			setState(prev => ({
 				...prev,
-				history: [toInitialState(GAME_CATALOG[prev.gameKey])],
+				history: [toInitialState(test(prev.gameKey))],
 			}))
 		},
 		setSelection(selection) {
@@ -54,28 +63,42 @@ export function useAppInternalState() {
 
 				const NEVERMIND: typeof prev = { ...prev, selection: null }
 
-				if (isSelfTargeting(prev.selection, to)) return NEVERMIND
+				if (to && isSelfTargeting(prev.selection, to)) return NEVERMIND
 
 				const GAME_STATE = tail(prev.history)
-				const { isValidMove, finalizeState } = toRules(GAME_CATALOG[prev.gameKey])
+				const { isValidMove, guessMove, finalizeState } = toRules(test(prev.gameKey))
 				const selectedCardIds = toSelectedCardIds(GAME_STATE, prev.selection)
 
 				if (selectedCardIds.length === 0) return NEVERMIND
 
-				const validity = isValidMove(GAME_STATE, selectedCardIds, to)
+				let target: Position | null = to ?? null
+				let invert = false
 
-				if (!validity) return NEVERMIND
+				if (to) {
+					const validity = isValidMove(GAME_STATE, selectedCardIds, to)
 
-				const nextState = finalizeState(moveCardIds(
+					if (!validity) return NEVERMIND
+
+					invert = validity === 'invert'
+				} else {
+					const guess = guessMove(GAME_STATE, selectedCardIds, prev.selection)
+
+					target = guess
+					invert = Boolean(guess?.invert)
+				}
+
+				if (!target) return NEVERMIND
+
+				const nextGameState = finalizeState(moveCardIds(
 					GAME_STATE,
-					validity === 'invert' ? selectedCardIds.slice().reverse() : selectedCardIds,
+					invert ? selectedCardIds.slice().reverse() : selectedCardIds,
 					prev.selection,
-					to,
+					target,
 				))
 
 				return {
 					...prev,
-					history: prev.history.concat(nextState),
+					history: prev.history.concat(nextGameState),
 					selection: null,
 				}
 			})
@@ -91,7 +114,21 @@ export function useAppInternalState() {
 				}
 			})
 		},
+		deal() {
+			setState(prev => {
+				const { dealStock, finalizeState } = toRules(test(prev.gameKey))
+				const nextGameState = dealStock(tail(prev.history))
+
+				if (!nextGameState) return prev
+
+				return {
+					...prev,
+					history: prev.history.concat(finalizeState(nextGameState)),
+					selection: null,
+				}
+			})
+		},
 	})
 
-	return [appState, actions] as const
+	return [{ ...state, config, rules }, actions] as const
 }

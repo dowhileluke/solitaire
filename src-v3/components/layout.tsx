@@ -9,6 +9,10 @@ import { Tableau } from './tableau'
 import { Foundations } from './foundations'
 import classes from './layout.module.css'
 import pileClasses from './pile.module.css'
+import { Cells } from './cells'
+import { PileGroup } from './pile-group'
+import { Stock } from './stock'
+import { Waste } from './waste'
 
 export function Layout() {
 	const [state, actions] = useAppState()
@@ -26,8 +30,7 @@ export function Layout() {
 		const isImmediate = Date.now() - timestampRef.current < 200
 
 		if (isImmediate) {
-			console.log('actions.moveCards()')
-			actions.setSelection(null)
+			actions.moveCards()
 		} else {
 			actions.setSelection(null)
 		}
@@ -44,7 +47,13 @@ export function Layout() {
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
 			<main className={classes.layout}>
-				<Foundations />
+				<PileGroup noPad>
+					<Stock />
+					<Waste />
+					<Cells />
+					<div className={classes.push} />
+					<Foundations />
+				</PileGroup>
 				<Tableau />
 			</main>
 			<DragOverlay wrapperElement="ul" className={pileClasses.overlay}>

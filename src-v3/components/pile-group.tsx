@@ -1,12 +1,16 @@
-import { PropsWithChildren } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
+import { concat } from '../functions/concat'
 import classes from './pile-group.module.css'
 
-const groupClass = `overflow-hidden ${classes.group}`
+type PileGroupProps = ComponentPropsWithoutRef<'section'> & {
+	noPad?: boolean;
+}
 
-export function PileGroup({ children }: PropsWithChildren) {
+export function PileGroup({ className, noPad, ...props }: PileGroupProps) {
 	return (
-		<section className={groupClass}>
-			{children}
-		</section>
+		<section
+			{...props}
+			className={concat('overflow-hidden', classes.group, noPad && classes.nopad, className)}
+		/>
 	)
 }

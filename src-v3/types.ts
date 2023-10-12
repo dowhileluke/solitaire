@@ -1,4 +1,4 @@
-import { GameKey } from "./games";
+import { GameDef, GameKey } from "./games";
 
 export type CardId = number
 
@@ -32,9 +32,11 @@ export type GameState = {
 
 export type Position =
 	| { zone: 'tableau'; x: number; y: number }
-	| { zone: 'foundation'; x: number; y?: number; }
-	| { zone: 'waste'; n: number; }
-	| { zone: 'cell'; x: number; }
+	| { zone: 'foundation'; x: number; y?: number | null }
+	| { zone: 'waste'; y?: number | null; }
+	| { zone: 'cell'; x: number; y?: number | null }
+
+export type GuessedPosition = Position & { invert?: boolean }
 
 export type MoveValidation = 'invert' | 'simple' | false
 
@@ -42,6 +44,8 @@ export type Rules = {
 	isConnected: (low: Card, high: Card) => boolean;
 	finalizeState: (state: GameState) => GameState;
 	isValidMove: (state: GameState, movingCardIds: CardId[], to: Position) => MoveValidation;
+	guessMove: (state: GameState, movingCardIds: CardId[], from: Position) => GuessedPosition | null;
+	dealStock: (state: GameState) => GameState | null;
 
 	/** only for face-up cards */
 	toPileCards: (cardIds: CardId[]) => PileCard[];
@@ -51,12 +55,14 @@ export type AppState = {
 	history: GameState[];
 	selection: Position | null;
 	gameKey: GameKey;
+	config: GameDef;
 	rules: Rules;
 }
 
 export type AppActions = {
 	launchGame: () => void;
 	setSelection: (pos: Position | null) => void;
-	moveCards: (pos: Position) => void;
+	moveCards: (pos?: Position) => void;
 	undo: () => void;
+	deal: () => void;
 }

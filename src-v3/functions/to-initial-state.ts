@@ -4,7 +4,7 @@ import { GameDef } from '../games'
 import { CardId, GameState } from '../types'
 import { generateDeck } from './generate-deck'
 import { shuffle } from './shuffle'
-import { toPile } from './to-pile'
+import { toPile } from './pile'
 
 function toTableau(
 	allCards: CardId[],
@@ -25,7 +25,7 @@ function toTableau(
 	let [lowerCards, upperCards] = isUpperFixed ? split(allCards, -upperWidth * upperRepeat) : [allCards, []]
 	let [stock, baseCards] = isBaseFixed
 		? split(lowerCards, -baseRowWidth * baseRowRepeat)
-		: (isStockFixed ? split(lowerCards, -baseRowWidth * dealLimit) : [[], lowerCards])
+		: (isStockFixed ? split(lowerCards, baseRowWidth * dealLimit) : [[], lowerCards])
 
 	// assign baseCards to piles
 	let index = 0

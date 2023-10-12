@@ -1,0 +1,9 @@
+.stock {
+	display: flex;
+	flex-direction: row;
+}
+
+.stock li {
+	width: var(--card-width);
+	margin-right: var(--card-overlap);
+}

@@ -23,7 +23,7 @@ export function Foundations() {
 			{tail(history).foundations.map((id, x) => (
 				<Pile
 					key={x}
-					toPos={(_, card) => ({ zone: 'foundation', x, y: card?.rank })}
+					toPos={(_, card) => ({ zone: 'foundation', x, y: card?.rank ?? null })}
 					emptyNode="A"
 					cardIds={mockCardIds(id)}
 					maxDepth={1}

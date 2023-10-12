@@ -1,10 +1,6 @@
 import { CARD_DATA } from '../data'
-import { CardId, GameState, Pile, Position } from '../types'
-import { toPile } from './to-pile'
-
-function truncatePile({ cardIds, down }: Pile, length: number) {
-	return toPile(cardIds.slice(0, length), down)
-}
+import { CardId, GameState, Position } from '../types'
+import { truncatePile, extendPile } from './pile'
 
 function purgeCardIds(state: GameState, target: Position) {
 	const result: GameState = { ...state }
@@ -40,10 +36,6 @@ function purgeCardIds(state: GameState, target: Position) {
 	}
 
 	throw new Error('Unknown zone!')
-}
-
-function extendPile({ cardIds, down }: Pile, moreIds: CardId[]) {
-	return toPile(cardIds.concat(moreIds), down)
 }
 
 function placeCardIds(state: GameState, cardIds: CardId[], target: Position) {
