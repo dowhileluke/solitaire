@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
 import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
+import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { Pile as PileDef, PileCard, Position, Rules, CardId } from '../types'
-import { Card, CardProps, DndCard } from './card'
+import { Card, DndCard } from './card'
 import classes from './pile.module.css'
-import { concat } from '../functions/concat'
 
 type PileProps = {
 	toPos: ((index: number, card: PileCard | null) => Position) | null;
@@ -14,6 +14,7 @@ type PileProps = {
 	maxDepth?: number;
 	emptyNode?: ReactNode;
 	isDragOnly?: boolean;
+	isDropOnly?: boolean;
 	horizontal?: boolean;
 	placeholderClass?: string;
 }
@@ -50,7 +51,7 @@ function isPosMatch(cardPos: Position, selection: Position) {
 }
 
 export function Pile({
-	toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly = false, horizontal, placeholderClass,
+	toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly, isDropOnly, horizontal, placeholderClass,
 }: PileProps) {
 	const [{ rules, selection }] = useAppState()
 	const details = maxDepth ? toSimpleDetails(cardIds) : toDetails({ cardIds, down }, rules)
@@ -61,16 +62,12 @@ export function Pile({
 		if (!toPos || isHorizontal) return null
 
 		const posZero = toPos(0, null)
-		const props: Partial<CardProps> = {
-			isPlaceholder: true,
-			className: placeholderClass,
-		}
 
 		if (cardIds.length === 0) {
 			if (isDragOnly) return null
 
 			return (
-				<DndCard {...props} details={null} mode="drop" pos={posZero}>
+				<DndCard isPlaceholder className={placeholderClass} details={null} mode="drop" pos={posZero}>
 					{emptyNode}
 				</DndCard>
 			)
@@ -78,12 +75,12 @@ export function Pile({
 
 		if (hidden.length) {
 			return (
-				<Card {...props} details={tail(hidden)} />
+				<Card isPlaceholder details={tail(hidden)} />
 			)
 		}
 
 		return (
-			<Card {...props} details={null}>
+			<Card isPlaceholder className={placeholderClass} details={null}>
 				{emptyNode}
 			</Card>
 		)
@@ -102,6 +99,8 @@ export function Pile({
 				const cardPos = toPos(index + hidden.length, card)
 
 				if (!selection) {
+					if (isDropOnly) return simpleCard
+
 					return (
 						<DndCard key={index} details={card} mode="drag" pos={cardPos} />
 					)
@@ -127,7 +126,7 @@ export function Pile({
 	}
 
 	return (
-		<ul className={concat(classes.pile, horizontal && classes.horizontal)}>
+		<ul className={concat(classes.pile, horizontal && classes.wide, isHorizontal && classes.horizontal)}>
 			{cards}
 		</ul>
 	)

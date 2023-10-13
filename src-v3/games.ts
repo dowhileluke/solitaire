@@ -1,5 +1,6 @@
 export type GameDef = {
 	name: string;
+	winRate?: number;
 
 	// deck & stock
 	decks: 1 | 2;
@@ -48,6 +49,25 @@ const klondike2: GameDef = {
 	baseRowDown: 8,
 }
 
+const easthaven: GameDef = {
+	...klondike,
+	name: 'Easthaven',
+	baseRowUp: 0,
+	baseRowDown: 7,
+	baseRowRepeat: 2,
+	upperWidth: 7,
+	upperRepeat: 1,
+	wasteRate: 0,
+}
+
+const easthaven2: GameDef = {
+	...easthaven,
+	name: 'Easthaven (2 decks)',
+	decks: 2,
+	baseRowDown: 8,
+	upperWidth: 8,
+}
+
 const yukon: GameDef = {
 	...klondike,
 	name: 'Yukon',
@@ -65,6 +85,7 @@ const russian: GameDef = {
 
 const freecell: GameDef = {
 	name: 'FreeCell',
+	winRate: 99,
 	decks: 1,
 	goal: 'foundation',
 	emptyCells: 4,
@@ -80,12 +101,14 @@ const freecell: GameDef = {
 const bakers: GameDef = {
 	...freecell,
 	name: "Baker's Game",
+	winRate: 75,
 	buildRestriction: 'suit',
 }
 
 const forecell: GameDef = {
 	...freecell,
 	name: 'ForeCell',
+	winRate: 85,
 	emptyCells: 0,
 	filledCells: 4,
 	emptyRestriction: 'kings',
@@ -94,6 +117,7 @@ const forecell: GameDef = {
 const fortress: GameDef = {
 	...freecell,
 	name: 'Fortress',
+	winRate: 20,
 	emptyCells: 0,
 	baseRowUp: 10,
 	buildDirection: 'either',
@@ -103,9 +127,18 @@ const fortress: GameDef = {
 const beleaguered: GameDef = {
 	...freecell,
 	name: 'Beleaguered',
+	winRate: 68,
 	goal: 'foundation@2',
 	emptyCells: 0,
 	buildRestriction: 'none',
+}
+
+const canister: GameDef = {
+	...freecell,
+	name: 'Canister',
+	emptyCells: 0,
+	buildDirection: 'either',
+	emptyRestriction: 'kings',
 }
 
 const spiderette: GameDef = {
@@ -130,9 +163,28 @@ const spider: GameDef = {
 	upperRepeat: 1,
 }
 
+const willo: GameDef = {
+	...spiderette,
+	name: "Will o' the Wisp",
+	baseRowDown: 7,
+	baseRowUp: 0,
+	baseRowRepeat: 2,
+	upperWidth: 7, 
+	upperRepeat: 1,
+}
+
+const kiev: GameDef = {
+	...willo,
+	name: 'Kiev',
+	baseRowRepeat: 3,
+	buildRestriction: 'suit',
+	groupRestriction: 'none',
+}
+
 const simple: GameDef = {
 	...spiderette,
 	name: 'Simple Simon',
+	winRate: 97,
 	baseRowUp: 10,
 	baseRowDown: 0,
 }
@@ -150,12 +202,40 @@ const scorpion: GameDef = {
 	buildRestriction: 'suit',
 }
 
+const thieves: GameDef = {
+	name: 'Forty Thieves',
+	decks: 2,
+	goal: 'foundation',
+	wasteRate: 1,
+	dealLimit: 1,
+	baseRowUp: 10,
+	baseRowDown: 0,
+	baseRowRepeat: 4,
+	buildDirection: 'descending',
+	buildRestriction: 'suit',
+	groupRestriction: 'restricted',
+	emptyRestriction: 'none',
+}
+
+const forty_eight: GameDef = {
+	...thieves,
+	name: 'Forty and Eight',
+	dealLimit: 2,
+	baseRowUp: 8,
+	baseRowRepeat: 5,
+}
+
 export const GAME_CATALOG = {
 	bakers,
 	beleaguered,
+	canister,
+	easthaven,
+	easthaven2,
 	forecell,
 	fortress,
+	forty_eight,
 	freecell,
+	kiev,
 	klondike,
 	klondike2,
 	russian,
@@ -163,6 +243,8 @@ export const GAME_CATALOG = {
 	simple,
 	spider,
 	spiderette,
+	thieves,
+	willo,
 	yukon,
 }
 

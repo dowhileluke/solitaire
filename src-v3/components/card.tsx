@@ -21,6 +21,7 @@ export const Card = forwardRef<HTMLLIElement, CardProps>((
 	fwdRef,
 ) => {
 	const detailsClasses = details ? concat(
+		'overflow-hidden',
 		classes.up,
 		classes[`suit-${details.initials.charAt(1)}`],
 		details.isConnected && classes.connected,

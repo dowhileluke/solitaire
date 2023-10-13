@@ -203,7 +203,7 @@ export function toRules(def: GameDef) {
 		let lowest = 999
 
 		for (const id of state.foundations) {
-			if (id === null) return 2
+			if (id === null) return 1
 
 			const { rank } = CARD_DATA[id]
 

@@ -1,9 +1,10 @@
+import { Recycle, X } from '@phosphor-icons/react'
 import { generateArray, tail } from '@dowhileluke/fns'
+import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { Card } from './card'
 import { PileGroup } from './pile-group'
 import classes from './stock.module.css'
-import { Recycle, X } from '@phosphor-icons/react'
 
 export function Stock() {
 	const [{ history, config }, actions] = useAppState()
@@ -17,7 +18,7 @@ export function Stock() {
 
 	return (
 		<PileGroup onClick={actions.deal}>
-			<ul className={classes.stock}>
+			<ul className={concat('overflow-hidden', classes.stock, stock.length === 0 && 'fade')}>
 				{stock.length === 0 ? (
 					<Card isPlaceholder details={null}>
 						{canRepeat ? <Recycle /> : <X />}

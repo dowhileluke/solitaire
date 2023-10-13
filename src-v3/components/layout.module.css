@@ -5,6 +5,11 @@
 	justify-content: center;
 }
 
-.push {
-	flex: 1;
+.zones {
+	display: flex;
+}
+
+.zones section:last-child {
+	flex-grow: 1;
+	margin-left: 0.5em;
 }

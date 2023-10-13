@@ -12,6 +12,19 @@
 	--down-overlap: -53px;
 	--suit-ratio: 150%;
 	--radius: 5px;
+	--space: 0.125em;
+}
+
+@media (min-width: 1024px) {
+	:root {
+		font-size: 20px;
+
+		--card-width: 58px;
+		--card-height: 77px;
+		--card-overlap: -47px;
+		--down-overlap: -70px;
+		--radius: 6px;
+	}
 }
 
 body {
@@ -26,15 +39,17 @@ body {
 	--hearts: var(--red);
 	--diams: var(--red);
 	--clubs: var(--black);
-
-	user-select: none;
-	touch-action: none;
 }
 
 ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
+}
+
+.no-touch {
+	user-select: none;
+	touch-action: none;
 }
 
 .viewport-height {
@@ -54,4 +69,8 @@ ul {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.fade {
+	opacity: 0.4;
 }

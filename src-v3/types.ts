@@ -51,10 +51,13 @@ export type Rules = {
 	toPileCards: (cardIds: CardId[]) => PileCard[];
 }
 
-export type AppState = {
+export type BaseAppState = {
 	history: GameState[];
 	selection: Position | null;
 	gameKey: GameKey;
+}
+
+export type AppState = BaseAppState & {
 	config: GameDef;
 	rules: Rules;
 }

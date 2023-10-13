@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { AppActions, AppState, Position } from '../types'
+import { AppActions, AppState, BaseAppState, Position } from '../types'
 import { useForever } from './use-forever'
 import { toRules } from '../functions/to-rules'
 import { GAME_CATALOG, GameDef, GameKey } from '../games'
@@ -9,17 +9,17 @@ import { toSelectedCardIds } from '../functions/to-selected-card-ids'
 import { moveCardIds } from '../functions/move-card-ids'
 import { setPersistedState, getPersistedState } from '../functions/persist'
 
-const initialState: Omit<AppState, 'rules' | 'config'> = {
+const initialState: BaseAppState = {
 	history: [],
 	selection: null,
-	gameKey: 'klondike2',
+	gameKey: 'canister',
 	...getPersistedState(),
 }
 
 function test(gameKey: GameKey) {
 	const result: GameDef = {
 		...GAME_CATALOG[gameKey],
-		suits: 3,
+		suits: 4,
 	}
 
 	return result
@@ -42,6 +42,11 @@ export function useAppInternalState() {
 	const { history } = state
 	const config = useMemo(() => test(state.gameKey), [state.gameKey])
 	const rules = useMemo(() => toRules(config), [config])
+	const appState: AppState = {
+		...state,
+		config,
+		rules,
+	}
 
 	useEffect(() => {
 		setPersistedState({ history })
@@ -130,5 +135,5 @@ export function useAppInternalState() {
 		},
 	})
 
-	return [{ ...state, config, rules }, actions] as const
+	return [appState, actions] as const
 }

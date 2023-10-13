@@ -1,3 +1,7 @@
+.waste {
+	flex-shrink: 0;
+}
+
 .void {
 	border: none;
 }

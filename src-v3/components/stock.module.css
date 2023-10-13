@@ -7,3 +7,7 @@
 	width: var(--card-width);
 	margin-right: var(--card-overlap);
 }
+
+.stock li:last-child {
+	flex-shrink: 1;
+}

@@ -1,9 +1,10 @@
 import { tail } from '@dowhileluke/fns'
+import { CARD_DATA } from '../data'
 import { useAppState } from '../hooks/use-app-state'
+import { CardId } from '../types'
 import { PileGroup } from './pile-group'
 import { Pile } from './pile'
-import { CARD_DATA } from '../data'
-import { CardId } from '../types'
+import classes from './foundations.module.css'
 
 function mockCardIds(id: CardId | null) {
 	if (id === null) return []
@@ -16,10 +17,10 @@ function mockCardIds(id: CardId | null) {
 }
 
 export function Foundations() {
-	const [{ history }] = useAppState()
+	const [{ history, config }] = useAppState()
 
 	return (
-		<PileGroup>
+		<PileGroup className={classes.foundations}>
 			{tail(history).foundations.map((id, x) => (
 				<Pile
 					key={x}
@@ -27,6 +28,7 @@ export function Foundations() {
 					emptyNode="A"
 					cardIds={mockCardIds(id)}
 					maxDepth={1}
+					isDropOnly={!config.allowRecant}
 				/>
 			))}
 		</PileGroup>

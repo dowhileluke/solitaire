@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { PropsWithChildren, useRef } from 'react'
 import { DragStartEvent, DragEndEvent, DndContext, DragOverlay } from '@dnd-kit/core'
 import { tail } from '@dowhileluke/fns'
 import { toSelectedCardIds } from '../functions/to-selected-card-ids'
@@ -7,12 +7,22 @@ import { Position } from '../types'
 import { Pile } from './pile'
 import { Tableau } from './tableau'
 import { Foundations } from './foundations'
-import classes from './layout.module.css'
-import pileClasses from './pile.module.css'
 import { Cells } from './cells'
-import { PileGroup } from './pile-group'
 import { Stock } from './stock'
 import { Waste } from './waste'
+import classes from './layout.module.css'
+import pileClasses from './pile.module.css'
+
+const layoutClass = `full-height overflow-hidden ${classes.layout}`
+const zonesClass = `overflow-hidden ${classes.zones}`
+
+function Zones({ children }: PropsWithChildren) {
+	return (
+		<section className={zonesClass}>
+			{children}
+		</section>
+	)
+}
 
 export function Layout() {
 	const [state, actions] = useAppState()
@@ -46,14 +56,13 @@ export function Layout() {
 
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
-			<main className={classes.layout}>
-				<PileGroup noPad>
+			<main className={layoutClass}>
+				<Zones>
 					<Stock />
 					<Waste />
 					<Cells />
-					<div className={classes.push} />
 					<Foundations />
-				</PileGroup>
+				</Zones>
 				<Tableau />
 			</main>
 			<DragOverlay wrapperElement="ul" className={pileClasses.overlay}>

@@ -1,8 +1,8 @@
 .group {
 	display: flex;
 	justify-content: center;
-	gap: 2px;
-	padding: 2px;
+	gap: var(--space);
+	padding: var(--space);
 }
 
 .nopad {
