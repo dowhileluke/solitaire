@@ -12,7 +12,7 @@
 	--down-overlap: -53px;
 	--suit-ratio: 150%;
 	--radius: 5px;
-	--space: 0.125em;
+	--space: 0.125rem;
 }
 
 @media (min-width: 1024px) {

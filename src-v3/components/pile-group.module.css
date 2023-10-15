@@ -1,7 +1,7 @@
 .group {
 	display: flex;
 	justify-content: center;
-	gap: var(--space);
+	gap: calc(2 * var(--space));
 	padding: var(--space);
 }
 
