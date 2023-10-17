@@ -24,13 +24,8 @@ const isValidTarget: IsValidTargetFn = (config, state, movingCards, to) => {
 		const smallestMoving = tail(movingCards)
 		const target = state.foundations[to.x]
 
-		if (target.length === 0) {
-			if (smallestMoving.rank !== 0) return false
-			if (movingCards.length === 1) return true
-
-			// moving cards are all same-suited if this statement is true
-			return Boolean(config.modeFlags & FLAG_SUITED_ONLY) || config.suitCount === 1
-		}
+		if (movingCards.some(x => x.suit !== smallestMoving.suit)) return false
+		if (target.length === 0) return smallestMoving.rank === 0
 
 		const targetCard = CARD_DATA[tail(target)]
 

@@ -169,11 +169,11 @@ export function App() {
 					onClose={isRulesVisible ? () => setIsRulesVisible(false) : actions.dismissMenu}
 					onSubmit={handleSubmit}
 					title={isRulesVisible ? null : 'Game Settings'}
-					headerNode={
+					headerNode={isRulesVisible ? null : (
 						<Button isRed isHollow onClick={actions.toggleFaces}>
 							<CrownSimple weight={state.isFaces ? 'regular' : 'fill'} />
 						</Button>
-					}
+					)}
 				>
 					{modePills}
 					{configForm}

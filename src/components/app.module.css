@@ -80,3 +80,10 @@
 		display: block;
 	}
 }
+
+.debug {
+	color: lime;
+	background-color: black;
+	font-family: 'Courier New', Courier, monospace;
+	padding: 4px;
+}
