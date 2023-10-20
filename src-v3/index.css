@@ -13,6 +13,7 @@
 	--suit-ratio: 150%;
 	--radius: 5px;
 	--space: 0.125rem;
+	--gap: 0.125rem;
 }
 
 @media (min-width: 1024px) {

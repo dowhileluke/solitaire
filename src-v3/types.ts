@@ -10,9 +10,9 @@ export type Pile = {
 export type Card = {
 	id?: CardId;
 	rank: number;
+	name: string;
 	suit: string;
 	isRed: boolean;
-	label: string;
 	initials: string;
 }
 
