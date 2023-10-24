@@ -69,3 +69,5 @@ export type AppActions = {
 	undo: () => void;
 	deal: () => void;
 }
+
+export type LayoutMode = 'generic' | 'castle' | 'towers'

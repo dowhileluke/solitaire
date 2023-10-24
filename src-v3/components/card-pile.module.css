@@ -45,13 +45,13 @@
 .horizontal .card {
 	width: var(--card-width);
 	margin-bottom: 0;
-	margin-right: -1.5rem;
+	margin-right: -1.2em;
 	flex-direction: row;
 }
 
 .horizontal.west .card {
 	margin-right: 0;
-	margin-left: -1.5rem;
+	margin-left: -1.2em;
 }
 
 .up {

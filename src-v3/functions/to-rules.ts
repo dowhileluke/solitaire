@@ -84,7 +84,7 @@ export function toRules(def: GameDef) {
 			if (def.goal === 'sequence') {
 				while (hasTailSequence(cardIds.slice(down))) {
 					foundations.push(tail(cardIds))
-					cardIds = cardIds.slice(-13)
+					cardIds = cardIds.slice(0, -13)
 					isModified = true
 				}
 			}

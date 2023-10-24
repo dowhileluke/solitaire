@@ -42,7 +42,7 @@ export const Card = forwardRef<HTMLLIElement, CardProps>((
 		>
 			{!isDown && details && (
 				<>
-					{details.label}
+					{details.name}
 					<div className={symbolClass}>
 						{details.rank > 9 ? (<CrownSimple size="0.75em" weight="fill" />) : details.suit}
 					</div>

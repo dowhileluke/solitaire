@@ -1,6 +1,10 @@
+import { LayoutMode } from "./types";
+
 export type GameDef = {
 	name: string;
 	winRate?: number;
+	tableauGroups?: 1 | 2;
+	foundationGroups?: 1 | 2;
 
 	// deck & stock
 	decks: 1 | 2;
@@ -225,6 +229,23 @@ const forty_eight: GameDef = {
 	baseRowRepeat: 5,
 }
 
+const seatowers: GameDef = {
+	name: 'Seahaven Towers',
+	winRate: 89,
+	foundationGroups: 2,
+	decks: 1,
+	goal: 'foundation',
+	emptyCells: 2,
+	filledCells: 2,
+	baseRowUp: 10,
+	baseRowDown: 0,
+	baseRowRepeat: 999,
+	buildDirection: 'descending',
+	buildRestriction: 'suit',
+	groupRestriction: 'restricted',
+	emptyRestriction: 'kings',
+}
+
 export const GAME_CATALOG = {
 	bakers,
 	beleaguered,
@@ -240,6 +261,7 @@ export const GAME_CATALOG = {
 	klondike2,
 	russian,
 	scorpion,
+	seatowers,
 	simple,
 	spider,
 	spiderette,

@@ -1,6 +1,7 @@
 .stock {
 	display: flex;
 	flex-direction: row;
+	cursor: pointer;
 }
 
 .stock li {
@@ -10,4 +11,11 @@
 
 .stock li:last-child {
 	flex-shrink: 1;
+}
+
+.dots {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	padding: var(--card-gap) 0;
 }

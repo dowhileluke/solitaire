@@ -1,15 +1,15 @@
 .layout {
-	display: grid;
-	grid-template-rows: auto 1fr;
-	gap: 1em;
-	justify-content: center;
+	box-sizing: border-box;
+	gap: var(--ui-gap);
 }
 
-.zones {
-	display: flex;
-}
-
-.zones section:last-child {
+.layout > :last-child {
 	flex-grow: 1;
-	margin-left: 0.5em;
+}
+
+@supports (padding: max(0px)) {
+	.layout {
+		padding-right: max(0px, env(safe-area-inset-right));
+		padding-bottom: max(0px, env(safe-area-inset-bottom));
+	}
 }

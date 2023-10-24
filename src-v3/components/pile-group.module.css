@@ -1,10 +1,4 @@
 .group {
-	display: flex;
-	justify-content: center;
-	gap: calc(2 * var(--space));
-	padding: var(--space);
-}
-
-.nopad {
-	padding: 0;
+	gap: var(--card-gap);
+	padding: var(--card-gap);
 }

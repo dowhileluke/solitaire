@@ -1,18 +1,33 @@
 .button {
 	appearance: none;
-	font-size: inherit;
-	line-height: inherit;
 	color: inherit;
+	font-size: inherit;
 	font-weight: inherit;
+	line-height: inherit;
 }
 
 .button {
-	box-sizing: border-box;
-	height: 1.5em;
-	display: flex;
-	align-items: center;
-	gap: 0.5em;
 	background-color: var(--card-face);
+	border: 1px solid transparent;
 	border-radius: 0.5em;
+
+	box-sizing: border-box;
+	padding: 0.25em 0.5em;
+	gap: 0.25em;
+
 	cursor: pointer;
+}
+
+.button:active:not(:disabled) {
+	opacity: 0.9;
+}
+
+.button:disabled {
+	opacity: var(--fade);
+	cursor: default;
+}
+
+.accent {
+	background-color: var(--accent);
+	color: var(--white);
 }

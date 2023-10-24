@@ -14,6 +14,9 @@
 	--radius: 5px;
 	--space: 0.125rem;
 	--gap: 0.125rem;
+	
+	--card-gap: 0.125rem;
+	--ui-gap: 0.5rem;
 }
 
 @media (min-width: 1024px) {
@@ -28,13 +31,20 @@
 	}
 }
 
+* {
+	user-select: none;
+	touch-action: none;
+}
+
 body {
 	margin: 0;
-
-	--card-back: aliceblue;
-	--card-face: white;
 	color: var(--black);
 	background-color: linen;
+
+	--accent: var(--red);
+	--card-face: white;
+	--card-back: aliceblue;
+	--fade: 0.4;
 
 	--spades: var(--black);
 	--hearts: var(--red);
@@ -46,32 +56,4 @@ ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
-}
-
-.no-touch {
-	user-select: none;
-	touch-action: none;
-}
-
-.viewport-height {
-	height: 100vh;
-	height: -webkit-fill-available;
-}
-
-.full-height {
-	height: 100%;
-}
-
-.overflow-hidden {
-	overflow: hidden;
-}
-
-.flex-center {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.fade {
-	opacity: 0.4;
 }

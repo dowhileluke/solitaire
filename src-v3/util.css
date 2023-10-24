@@ -1,0 +1,25 @@
+.viewport-height {
+	height: 100vh;
+	height: -webkit-fill-available;
+}
+
+.full-height {
+	height: 100%;
+}
+
+.overflow-hidden {
+	overflow: hidden;
+}
+
+.flex-center, .justify-center {
+	display: flex;
+	justify-content: center;
+}
+
+.flex-center {
+	align-items: center;
+}
+
+.fade {
+	opacity: var(--fade);
+}

@@ -1,0 +1,8 @@
+.zones {
+	display: flex;
+	gap: var(--ui-gap);
+}
+
+.wasteland {
+	display: flex;
+}

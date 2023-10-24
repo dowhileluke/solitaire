@@ -1,0 +1,57 @@
+.app {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: var(--ui-gap);
+}
+
+.ctrl {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.layout {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	justify-content: center;
+}
+
+@media (min-width: 600px) and (max-height: 600px) {
+	.hide { display: none; }
+
+	.app {
+		grid-template-rows: 1fr;
+		grid-template-columns: auto 1fr;
+	}
+
+	.ctrl {
+		flex-direction: column;
+		justify-content: start;
+	}
+
+	.ctrl button:first-child {
+		margin-top: var(--card-gap);
+	}
+
+	.thin {
+		padding: 0.25em;
+	}
+
+	.layout {
+		grid-template-rows: 1fr;
+		grid-template-columns: auto auto;
+		/* justify-content: start; */
+		margin-top: var(--ui-gap);
+	}
+
+	.zones {
+		flex-direction: column-reverse;
+		justify-content: start;
+	}
+
+	/* increase specificity to override flex */
+	section.grid {
+		display: grid;
+		grid-template-columns: repeat(4, auto);
+	}
+}

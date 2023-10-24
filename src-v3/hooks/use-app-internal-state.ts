@@ -12,7 +12,7 @@ import { setPersistedState, getPersistedState } from '../functions/persist'
 const initialState: BaseAppState = {
 	history: [],
 	selection: null,
-	gameKey: 'canister',
+	gameKey: 'seatowers',
 	...getPersistedState(),
 }
 
