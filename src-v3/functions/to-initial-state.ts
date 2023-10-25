@@ -93,9 +93,10 @@ export function toInitialState(def: GameDef) {
 	const allCards = shuffle(decks === 1 ? d : d.concat(d))
 
 	// foundations
-	const [foundations, stock_1] = goal === 'foundation@2' 
+	const [aces, stock_1] = goal === 'foundation@2' 
 		? categorize(allCards, id => CARD_DATA[id].rank === 0)
-		: [generateArray(decks * 4, () => null), allCards]
+		: [[], allCards]
+	const foundations = goal === 'foundation' ? generateArray(decks * 4, () => null) : aces
 
 	// cells
 	const cells = generateArray<CardId | null>(filledCells, i => stock_1[i])

@@ -1,3 +1,4 @@
+import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { Cells } from './cells'
 import { Foundations } from './foundations'
@@ -6,7 +7,7 @@ import { Waste } from './waste'
 import classes from './zones.module.css'
 import responsive from './responsive.module.css'
 
-const zonesClass = `overflow-hidden ${classes.zones} ${responsive.zones}`
+const zonesClass = `overflow-hidden ${classes.zones}`
 
 function Wasteland() {
 	return (
@@ -26,7 +27,7 @@ export function Zones() {
 	const hasWasteland = wasteRate > 0 || history[0].stock.length > 0
 
 	return (
-		<section className={zonesClass}>
+		<section className={concat(zonesClass, foundationGroups < 2 && responsive.zones)}>
 			{hasWasteland && (<Wasteland />)}
 			{foundationGroups > 1 && (<Foundations groupIndex={0} />)}
 			<Cells />

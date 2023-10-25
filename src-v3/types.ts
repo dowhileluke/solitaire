@@ -55,6 +55,7 @@ export type BaseAppState = {
 	history: GameState[];
 	selection: Position | null;
 	gameKey: GameKey;
+	isExporting: boolean;
 }
 
 export type AppState = BaseAppState & {
@@ -68,6 +69,7 @@ export type AppActions = {
 	moveCards: (pos?: Position) => void;
 	undo: () => void;
 	deal: () => void;
+	toggleExport: () => void;
 }
 
 export type LayoutMode = 'generic' | 'castle' | 'towers'

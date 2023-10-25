@@ -10,13 +10,9 @@
 	justify-content: center;
 }
 
-.layout {
-	display: grid;
-	grid-template-rows: auto 1fr;
-	justify-content: center;
-}
+/* .layout initial def moved to local css for seahaven */
 
-@media (min-width: 600px) and (max-height: 600px) {
+@media (min-width: 600px) and (max-height: 550px) {
 	.hide { display: none; }
 
 	.app {
@@ -29,7 +25,7 @@
 		justify-content: start;
 	}
 
-	.ctrl button:first-child {
+	.ctrl > :first-child {
 		margin-top: var(--card-gap);
 	}
 
@@ -37,14 +33,24 @@
 		padding: 0.25em;
 	}
 
-	.layout {
-		grid-template-rows: 1fr;
-		grid-template-columns: auto auto;
-		/* justify-content: start; */
-		margin-top: var(--ui-gap);
+	main.layout {
+		padding-top: var(--ui-gap);
+		padding-right: var(--ui-gap);
 	}
 
-	.zones {
+	@supports (padding: max(0px)) {
+		main.layout {
+			padding-right: max(var(--ui-gap), env(safe-area-inset-right));
+		}
+	}
+
+	/* two-column layout */
+	main.layout2 {
+		grid-template-rows: 1fr;
+		grid-template-columns: auto auto;
+	}
+
+	section.zones {
 		flex-direction: column-reverse;
 		justify-content: start;
 	}

@@ -14,6 +14,7 @@ const initialState: BaseAppState = {
 	selection: null,
 	gameKey: 'seatowers',
 	...getPersistedState(),
+	isExporting: false,
 }
 
 function test(gameKey: GameKey) {
@@ -132,6 +133,9 @@ export function useAppInternalState() {
 					selection: null,
 				}
 			})
+		},
+		toggleExport() {
+			setState(prev => ({ ...prev, isExporting: !prev.isExporting }))
 		},
 	})
 

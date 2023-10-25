@@ -1,6 +1,7 @@
 import { Stack } from '@phosphor-icons/react'
 import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
+import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { CardId } from '../types'
 import { Card } from './card'
@@ -10,7 +11,6 @@ import classes from './foundations.module.css'
 import pileClasses from './pile.module.css'
 import responsive from './responsive.module.css'
 
-const foundClass = `${classes.found ?? ''} ${responsive.grid}`
 const fauxPileClass = `fade ${pileClasses.pile}`
 
 function mockCardIds(id: CardId | null) {
@@ -27,18 +27,21 @@ type FoundationsProps = {
 	groupIndex: number
 }
 
+const NULL_ARRAY = generateArray<CardId | null>(8, () => null)
+
 export function Foundations({ groupIndex }: FoundationsProps) {
 	const [{ history, config }] = useAppState()
+	const foundationCount = 4 * config.decks
 	const { foundations } = tail(history)
 	const { foundationGroups = 1, goal } = config
-	const portionSize = (foundations.length / foundationGroups)
+	const portionSize = (foundationCount / foundationGroups)
 	const portionIndex = portionSize * groupIndex
-	const bothPortions = split(foundations, portionSize)
-	const portion = bothPortions[groupIndex]
+	const splitPortions = split(foundations.concat(NULL_ARRAY).slice(0, foundationCount), portionSize)
+	const portion = splitPortions[groupIndex]
 	const isBuilding = goal.startsWith('foundation')
 
 	return (
-		<PileGroup className={foundClass}>
+		<PileGroup className={concat(classes.found, foundationGroups === 1 && responsive.grid)}>
 			{portion.map((id, i) => isBuilding || id !== null ? (
 				<Pile
 					key={i}

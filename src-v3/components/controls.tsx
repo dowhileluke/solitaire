@@ -1,4 +1,4 @@
-import { ArrowCounterClockwise, List } from '@phosphor-icons/react'
+import { ArrowCounterClockwise, Export, List } from '@phosphor-icons/react'
 import { useAppState } from '../hooks/use-app-state'
 import { Button } from './interactive'
 import classes from './controls.module.css'
@@ -18,6 +18,9 @@ export function Controls() {
 			<Button thin onClick={actions.undo}>
 				<ArrowCounterClockwise />
 				<span className={responsive.hide}>Undo</span>
+			</Button>
+			<Button thin onClick={actions.toggleExport}>
+				<Export />
 			</Button>
 		</nav>
 	)
