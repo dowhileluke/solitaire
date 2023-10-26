@@ -31,7 +31,7 @@ export function Tableau() {
 
 	return (
 		<div className={classes.multi}>
-		<PileGroup className={classes.vert}>
+			<PileGroup vertical>
 				{left.map((pile, x) => (
 					<Pile
 						key={x}
@@ -43,7 +43,7 @@ export function Tableau() {
 				))}
 			</PileGroup>
 			<Foundations groupIndex={0} vertical />
-			<PileGroup className={classes.vert}>
+			<PileGroup vertical>
 				{right.map((pile, i) => (
 					<Pile
 						key={i}

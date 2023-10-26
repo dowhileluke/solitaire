@@ -2,3 +2,8 @@
 	gap: var(--card-gap);
 	padding: var(--card-gap);
 }
+
+.vert {
+	flex-direction: column;
+	gap: .25rem;
+}
