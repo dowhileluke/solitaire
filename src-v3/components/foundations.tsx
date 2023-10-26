@@ -24,12 +24,13 @@ function mockCardIds(id: CardId | null) {
 }
 
 type FoundationsProps = {
-	groupIndex: number
+	groupIndex: number;
+	vertical?: boolean;
 }
 
 const NULL_ARRAY = generateArray<CardId | null>(8, () => null)
 
-export function Foundations({ groupIndex }: FoundationsProps) {
+export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 	const [{ history, config }] = useAppState()
 	const foundationCount = 4 * config.decks
 	const { foundations } = tail(history)
@@ -41,7 +42,11 @@ export function Foundations({ groupIndex }: FoundationsProps) {
 	const isBuilding = goal.startsWith('foundation')
 
 	return (
-		<PileGroup className={concat(classes.found, foundationGroups === 1 && responsive.grid)}>
+		<PileGroup className={concat(
+			classes.found,
+			vertical && classes.vert,
+			foundationGroups === 1 && !vertical && responsive.grid,
+		)}>
 			{portion.map((id, i) => isBuilding || id !== null ? (
 				<Pile
 					key={i}
@@ -50,6 +55,7 @@ export function Foundations({ groupIndex }: FoundationsProps) {
 					cardIds={mockCardIds(id)}
 					maxDepth={1}
 					isDropOnly={!config.allowRecant}
+					angle={vertical ? 'E' : 'S'}
 				/>
 			) : (
 				<ul key={i} className={fauxPileClass}>

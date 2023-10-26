@@ -5,7 +5,9 @@ import { toSelectedCardIds } from '../functions/to-selected-card-ids'
 import { useAppState } from '../hooks/use-app-state'
 import { Position } from '../types'
 import { Pile } from './pile'
-import classes from './pile.module.css'
+import classes from './card-pile.module.css'
+
+const overlayClass = `${classes.pile} ${classes.overpile}`
 
 export function DndArea({ children }: PropsWithChildren) {
 	const [state, actions] = useAppState()
@@ -40,7 +42,7 @@ export function DndArea({ children }: PropsWithChildren) {
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
 			{children}
-			<DragOverlay wrapperElement="ul" className={classes.overlay}>
+			<DragOverlay wrapperElement="ul" className={overlayClass}>
 				{state.selection && (
 					<Pile
 						cardIds={toSelectedCardIds(tail(state.history), state.selection)}

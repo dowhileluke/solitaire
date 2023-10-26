@@ -8,7 +8,7 @@
 .layout {
 	box-sizing: border-box;
 	gap: var(--ui-gap);
-	padding-bottom: var(--ui-gap);
+	padding: var(--ui-gap) 0;
 }
 
 .layout > :last-child {
@@ -17,7 +17,7 @@
 
 @supports (padding: max(0px)) {
 	.layout {
-		padding-right: max(0px, env(safe-area-inset-right));
+		/* padding-right: max(0px, env(safe-area-inset-right)); */
 		padding-bottom: max(var(--ui-gap), env(safe-area-inset-bottom));
 	}
 }

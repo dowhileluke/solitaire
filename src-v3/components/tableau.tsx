@@ -1,23 +1,59 @@
-import { tail } from '@dowhileluke/fns'
-import { GAME_CATALOG } from '../games'
+import { split, tail } from '@dowhileluke/fns'
 import { useAppState } from '../hooks/use-app-state'
 import { PileGroup } from './pile-group'
 import { Pile } from './pile'
 import classes from './tableau.module.css'
+import { Foundations } from './foundations'
 
 export function Tableau() {
-	const [{ history, gameKey }] = useAppState()
+	const [{ config, history }] = useAppState()
+	const { tableauGroups = 1 } = config
+	const emptyNode = config.emptyRestriction === 'kings' ? 'K' : null
+	const { tableau } = tail(history)
+
+	if (tableauGroups === 1) {
+		return (
+			<PileGroup className={classes.tableau}>
+				{tableau.map((pile, x) => (
+					<Pile
+						key={x}
+						toPos={y => ({ zone: 'tableau', x, y })}
+						emptyNode={emptyNode}
+						{...pile}
+					/>
+				))}
+			</PileGroup>
+		)
+	}
+
+	const half = Math.ceil(tableau.length / 2)
+	const [left, right] = split(tableau, half)
 
 	return (
-		<PileGroup className={classes.tableau}>
-			{tail(history).tableau.map((pile, x) => (
-				<Pile
-					key={x}
-					toPos={y => ({ zone: 'tableau', x, y })}
-					emptyNode={GAME_CATALOG[gameKey].emptyRestriction === 'kings' ? 'K' : null}
-					{...pile}
-				/>
-			))}
-		</PileGroup>
+		<div className={classes.multi}>
+		<PileGroup className={classes.vert}>
+				{left.map((pile, x) => (
+					<Pile
+						key={x}
+						toPos={y => ({ zone: 'tableau', x, y })}
+						emptyNode={emptyNode}
+						angle='W'
+						{...pile}
+					/>
+				))}
+			</PileGroup>
+			<Foundations groupIndex={0} vertical />
+			<PileGroup className={classes.vert}>
+				{right.map((pile, i) => (
+					<Pile
+						key={i}
+						toPos={y => ({ zone: 'tableau', x: half + i, y })}
+						emptyNode={emptyNode}
+						angle='E'
+						{...pile}
+					/>
+				))}
+			</PileGroup>
+		</div>
 	)
 }

@@ -3,11 +3,13 @@
 	position: relative;
 
 	width: var(--card-width);
+	min-height: var(--card-height);
 	flex-direction: column;
 }
 
 .horizontal {
 	width: auto;
+	min-width: var(--card-width);
 	flex-direction: row;
 }
 
@@ -37,9 +39,6 @@
 	border-radius: var(--radius);
 	flex-shrink: 8;
 	z-index: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 }
 
 .horizontal .card {
@@ -55,6 +54,10 @@
 }
 
 .up {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
 	background-color: var(--card-face);
 	box-shadow: 0 0 var(--gap) rgba(0, 0, 0, 0.5);
 }
@@ -62,6 +65,21 @@
 .down {
 	background-color: var(--card-back);
 	flex-shrink: 1;
+}
+
+:not(.horizontal) > .connected {
+	border-top: none;
+	padding-top: 3px;
+}
+
+.horizontal:not(.west) .connected {
+	border-left: none;
+	padding-left: 3px;
+}
+
+.horizontal.west .connected {
+	border-right: none;
+	padding-right: 3px;
 }
 
 /* name & suit */
@@ -102,21 +120,31 @@
 
 /* special cases based on position within pile */
 
-.card:first-child {
+.placeholder {
 	z-index: 0;
 	position: absolute;
-	width: var(--card-width);
+	width: 100%;
 	height: var(--card-height);
 	box-shadow: none;
 }
 
-.west .card:first-child {
+.horizontal .placeholder {
+	width: var(--card-width);
+	height: 100%;
+}
+
+.west .placeholder {
 	right: 0;
 }
 
-.card:first-child, .card:last-child {
+.placeholder, .card:last-child, .horizontal .card:last-child {
 	flex-shrink: 0;
 	margin: 0;
+}
+
+/* drag overlay */
+.overpile li {
+	flex-shrink: 0;
 }
 
 /* suit coloring */

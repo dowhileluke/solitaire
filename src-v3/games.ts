@@ -1,5 +1,3 @@
-import { LayoutMode } from "./types";
-
 export type GameDef = {
 	name: string;
 	winRate?: number;
@@ -124,7 +122,7 @@ const fortress: GameDef = {
 	winRate: 20,
 	// tableauGroups: 2,
 	emptyCells: 0,
-	filledCells: 2,
+	// filledCells: 2,
 	baseRowUp: 10,
 	buildDirection: 'either',
 	buildRestriction: 'suit',
@@ -134,7 +132,7 @@ const beleaguered: GameDef = {
 	...freecell,
 	name: 'Beleaguered',
 	winRate: 68,
-	// tableauGroups: 2,
+	tableauGroups: 2,
 	goal: 'foundation@2',
 	emptyCells: 0,
 	buildRestriction: 'none',

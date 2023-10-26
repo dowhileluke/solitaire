@@ -17,7 +17,7 @@ export function Layout() {
 
 	return (
 		<main className={concat(
-			'four-color',
+			// 'four-color',
 			layoutClass,
 			responsive.layout,
 			foundationGroups < 2 && responsive.layout2,

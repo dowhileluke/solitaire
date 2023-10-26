@@ -4,8 +4,8 @@ import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { Pile as PileDef, PileCard, Position, Rules, CardId } from '../types'
-import { Card, DndCard } from './card'
-import classes from './pile.module.css'
+import { Card, DndCard } from './card2'
+import classes from './card-pile.module.css'
 
 type PileProps = {
 	toPos: ((index: number, card: PileCard | null) => Position) | null;
@@ -15,8 +15,8 @@ type PileProps = {
 	emptyNode?: ReactNode;
 	isDragOnly?: boolean;
 	isDropOnly?: boolean;
-	horizontal?: boolean;
 	placeholderClass?: string;
+	angle?: 'W' | 'E' | 'S';
 }
 
 function toDetails({ cardIds, down }: PileDef, rules: Rules) {
@@ -51,15 +51,15 @@ function isPosMatch(cardPos: Position, selection: Position) {
 }
 
 export function Pile({
-	toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly, isDropOnly, horizontal, placeholderClass,
+	toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly, isDropOnly, placeholderClass, angle = 'S',
 }: PileProps) {
 	const [{ rules, selection }] = useAppState()
 	const details = maxDepth ? toSimpleDetails(cardIds) : toDetails({ cardIds, down }, rules)
 	const [hidden, visible] = split(details, maxDepth ? -maxDepth : -999)
-	const isHorizontal = horizontal && visible.length > 1
+	const isHorizontal = angle !== 'S' && visible.length > 1
 
 	function getPlaceholder() {
-		if (!toPos || isHorizontal) return null
+		if (!toPos) return null
 
 		const posZero = toPos(0, null)
 
@@ -126,7 +126,11 @@ export function Pile({
 	}
 
 	return (
-		<ul className={concat(classes.pile, horizontal && classes.wide, isHorizontal && classes.horizontal)}>
+		<ul className={concat(
+			classes.pile, 
+			angle !== 'S' && classes.horizontal,
+			angle === 'W' && classes.west,
+		)}>
 			{cards}
 		</ul>
 	)

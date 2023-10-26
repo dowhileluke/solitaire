@@ -5,14 +5,19 @@ import { Card } from './card2'
 import classes from './card-pile.module.css'
 
 type CardPileProps = {
-	cardIds: CardId[]
+	cardIds: CardId[];
+	angle?: 'W' | 'E' | 'S';
 }
 
-export function CardPile({ cardIds }: CardPileProps) {
+export function CardPile({ cardIds, angle = 'S' }: CardPileProps) {
 	const [{ rules }] = useAppState()
 
 	return (
-		<ul className={concat(classes.pile, classes.horizontal, classes.west)}>
+		<ul className={concat(
+			classes.pile,
+			angle !== 'S' && classes.horizontal,
+			angle === 'W' && classes.west,
+		)}>
 			<Card details={null} />
 			{rules.toPileCards(cardIds).map(x => (
 				<Card details={x} />
