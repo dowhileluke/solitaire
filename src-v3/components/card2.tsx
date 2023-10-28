@@ -29,6 +29,7 @@ export const Card = forwardRef<HTMLLIElement, CardProps>(({
 		detailsClasses,
 		isDown && classes.down,
 		isPlaceholder && classes.placeholder,
+		className,
 	)
 
 	const label = details && !isDown && (

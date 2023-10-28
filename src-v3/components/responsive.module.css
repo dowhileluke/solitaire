@@ -48,6 +48,10 @@
 		grid-template-columns: auto auto;
 	}
 
+	main.layout3 {
+		grid-template-columns: auto 1fr;
+	}
+
 	section.zones {
 		flex-direction: column-reverse;
 		justify-content: start;

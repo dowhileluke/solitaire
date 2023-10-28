@@ -120,7 +120,7 @@ const fortress: GameDef = {
 	...freecell,
 	name: 'Fortress',
 	winRate: 20,
-	// tableauGroups: 2,
+	tableauGroups: 2,
 	emptyCells: 0,
 	// filledCells: 2,
 	baseRowUp: 10,

@@ -42,7 +42,7 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 	const isBuilding = goal.startsWith('foundation')
 
 	return (
-		<PileGroup vertical={vertical} className={concat(
+		<PileGroup vertical={vertical} spaced={vertical} className={concat(
 			classes.found,
 			foundationGroups === 1 && !vertical && responsive.grid,
 		)}>

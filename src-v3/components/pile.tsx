@@ -56,7 +56,6 @@ export function Pile({
 	const [{ rules, selection }] = useAppState()
 	const details = maxDepth ? toSimpleDetails(cardIds) : toDetails({ cardIds, down }, rules)
 	const [hidden, visible] = split(details, maxDepth ? -maxDepth : -999)
-	const isHorizontal = angle !== 'S' && visible.length > 1
 
 	function getPlaceholder() {
 		if (!toPos) return null
@@ -73,7 +72,7 @@ export function Pile({
 			)
 		}
 
-		if (hidden.length) {
+		if (hidden.length > 0) {
 			return (
 				<Card isPlaceholder details={tail(hidden)} />
 			)

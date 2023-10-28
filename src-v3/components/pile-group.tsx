@@ -6,10 +6,15 @@ const groupClass = `overflow-hidden justify-center ${classes.group}`
 
 type PileGroupProps = ComponentPropsWithoutRef<'section'> & {
 	vertical?: boolean;
+	spaced?: boolean;
 }
 
-export function PileGroup({ vertical, className, ...props }: PileGroupProps) {
+export function PileGroup({ vertical, spaced, className, ...props }: PileGroupProps) {
 	return (
-		<section {...props} className={concat(groupClass, vertical && classes.vert, className)} />
+		<section {...props} className={concat(
+			groupClass,
+			vertical && classes.vert,
+			className,
+		)} />
 	)
 }
