@@ -1,0 +1,42 @@
+type LayoutDef = {
+	piles: number;
+	upPiles?: number;
+	emptyPiles?: number;
+	pileHeight: number;
+	overHeight?: number;
+}
+
+[klondike]
+klondike*
+westcliff*
+easthaven
+double klondike
+double easthaven
+
+[spider]
+spider*
+spiderette
+will o the wisp
+simple simon*
+
+[freecell]
+freecell*
+bakers game
+seahaven towers*
+forecell
+
+[yukon]
+yukon*
+russian
+scorpion*
+wasp
+
+[castle]
+beleaguered
+fortress
+canister
+
+[forty]
+forty thieves
+forty and eight
+
