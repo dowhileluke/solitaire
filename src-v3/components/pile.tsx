@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
@@ -17,6 +17,7 @@ type PileProps = {
 	isDropOnly?: boolean;
 	placeholderClass?: string;
 	angle?: 'W' | 'E' | 'S';
+	onClick?: MouseEventHandler<HTMLLIElement>;
 }
 
 function toDetails({ cardIds, down }: PileDef, rules: Rules) {
@@ -51,7 +52,7 @@ function isPosMatch(cardPos: Position, selection: Position) {
 }
 
 export function Pile({
-	toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly, isDropOnly, placeholderClass, angle = 'S',
+	toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly, isDropOnly, placeholderClass, angle = 'S', onClick,
 }: PileProps) {
 	const [{ rules, selection }] = useAppState()
 	const details = maxDepth ? toSimpleDetails(cardIds) : toDetails({ cardIds, down }, rules)
@@ -66,7 +67,7 @@ export function Pile({
 			if (isDragOnly) return null
 
 			return (
-				<DndCard isPlaceholder className={placeholderClass} details={null} mode="drop" pos={posZero}>
+				<DndCard isPlaceholder className={placeholderClass} details={null} mode="drop" pos={posZero} onClick={onClick}>
 					{emptyNode}
 				</DndCard>
 			)
@@ -74,12 +75,12 @@ export function Pile({
 
 		if (hidden.length > 0) {
 			return (
-				<Card isPlaceholder details={tail(hidden)} />
+				<Card isPlaceholder details={tail(hidden)} onClick={onClick} />
 			)
 		}
 
 		return (
-			<Card isPlaceholder className={placeholderClass} details={null}>
+			<Card isPlaceholder className={placeholderClass} details={null} onClick={onClick}>
 				{emptyNode}
 			</Card>
 		)
@@ -89,7 +90,9 @@ export function Pile({
 		<>
 			{getPlaceholder()}
 			{visible.map((card, index) => {
-				const simpleCard = (<Card key={index} isDown={index < down - hidden.length} details={card} />)
+				const simpleCard = (
+					<Card key={index} isDown={index < down - hidden.length} details={card} onClick={onClick} />
+				)
 
 				if (!card || !card.isAvailable || !toPos) {
 					return simpleCard

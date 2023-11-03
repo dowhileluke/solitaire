@@ -11,10 +11,10 @@ export function Cells() {
 	if (history.length === 0) return null
 	if (history[0].cells.length === 0) return null
 
-	const { foundationGroups = 1 } = config
+	const { isTowers } = config
 
 	return (
-		<PileGroup className={concat(foundationGroups > 1 && classes.group)}>
+		<PileGroup className={concat(isTowers && classes.group)}>
 			{tail(history).cells.map((id, x) => (
 				<Pile
 					key={x}

@@ -1,4 +1,4 @@
-import { GameDef, GameKey } from "./games";
+import { GameDef, GameKey } from "./games2";
 
 export type CardId = number
 
@@ -8,10 +8,11 @@ export type Pile = {
 }
 
 export type Card = {
-	id?: CardId;
+	id: CardId;
 	rank: number;
 	name: string;
 	suit: string;
+	suitIndex: number;
 	isRed: boolean;
 	initials: string;
 }
@@ -46,6 +47,7 @@ export type Rules = {
 	isValidMove: (state: GameState, movingCardIds: CardId[], to: Position) => MoveValidation;
 	guessMove: (state: GameState, movingCardIds: CardId[], from: Position) => GuessedPosition | null;
 	dealStock: (state: GameState) => GameState | null;
+	advanceState: (state: GameState) => GameState | null;
 
 	/** only for face-up cards */
 	toPileCards: (cardIds: CardId[]) => PileCard[];
@@ -59,7 +61,7 @@ export type BaseAppState = {
 }
 
 export type AppState = BaseAppState & {
-	config: GameDef;
+	config: Required<GameDef>;
 	rules: Rules;
 }
 
@@ -70,6 +72,7 @@ export type AppActions = {
 	undo: () => void;
 	deal: () => void;
 	toggleExport: () => void;
+	fastForward: () => void;
 }
 
 export type LayoutMode = 'generic' | 'castle' | 'towers'

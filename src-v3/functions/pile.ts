@@ -1,6 +1,6 @@
 import { CardId, Pile } from '../types'
 
-export function toPile(cardIds: CardId[], down: number) {
+export function toPile(cardIds: CardId[], down = 0) {
 	const result: Pile = { cardIds, down }
 
 	return result

@@ -22,6 +22,7 @@ export const CARD_DATA: Record<CardId, Card> = Object.fromEntries(generateArray(
 		rank,
 		name: (NAMED_RANKS[rank] || rank + 1).toString(),
 		suit,
+		suitIndex,
 		isRed: suitIndex === 1 || suitIndex === 2,
 		initials: RANK_INITIALS[rank] + SUIT_INITIALS[suitIndex],
 	}

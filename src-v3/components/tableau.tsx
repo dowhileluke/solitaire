@@ -7,11 +7,11 @@ import { Foundations } from './foundations'
 
 export function Tableau() {
 	const [{ config, history }] = useAppState()
-	const { tableauGroups = 1 } = config
+	const { layoutMode } = config
 	const emptyNode = config.emptyRestriction === 'kings' ? 'K' : null
 	const { tableau } = tail(history)
 
-	if (tableauGroups === 1) {
+	if (layoutMode === 'horizontal') {
 		return (
 			<PileGroup className={classes.tableau}>
 				{tableau.map((pile, x) => (

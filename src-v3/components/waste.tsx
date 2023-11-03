@@ -16,7 +16,7 @@ export function Waste() {
 	return (
 		<PileGroup style={size} className={classes.waste}>
 			<Pile
-				horizontal
+				angle='E'
 				toPos={y => ({ zone: 'waste', y })}
 				maxDepth={config.wasteRate ? waste.cardIds.length - waste.down : 1}
 				placeholderClass={classes.void}

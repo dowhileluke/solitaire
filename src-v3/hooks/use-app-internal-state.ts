@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { AppActions, AppState, BaseAppState, Position } from '../types'
+import { AppActions, AppState, BaseAppState, GameState, Position } from '../types'
 import { useForever } from './use-forever'
 import { toRules } from '../functions/to-rules'
-import { GAME_CATALOG, GameDef, GameKey } from '../games'
+import { GAME_CATALOG, GameKey, toFullDef } from '../games2'
 import { toInitialState } from '../functions/to-initial-state'
 import { tail } from '@dowhileluke/fns'
 import { toSelectedCardIds } from '../functions/to-selected-card-ids'
@@ -12,18 +12,13 @@ import { setPersistedState, getPersistedState } from '../functions/persist'
 const initialState: BaseAppState = {
 	history: [],
 	selection: null,
-	gameKey: 'seatowers',
+	gameKey: 'easthaven',
 	...getPersistedState(),
 	isExporting: false,
 }
 
 function test(gameKey: GameKey) {
-	const result: GameDef = {
-		...GAME_CATALOG[gameKey],
-		suits: 4,
-	}
-
-	return result
+	return toFullDef(GAME_CATALOG[gameKey], gameKey)
 }
 
 function isSelfTargeting(source: Position, target: Position) {
@@ -72,35 +67,43 @@ export function useAppInternalState() {
 				if (to && isSelfTargeting(prev.selection, to)) return NEVERMIND
 
 				const GAME_STATE = tail(prev.history)
-				const { isValidMove, guessMove, finalizeState } = toRules(test(prev.gameKey))
+				const { isValidMove, guessMove, finalizeState, advanceState } = toRules(test(prev.gameKey))
 				const selectedCardIds = toSelectedCardIds(GAME_STATE, prev.selection)
 
 				if (selectedCardIds.length === 0) return NEVERMIND
 
-				let target: Position | null = to ?? null
-				let invert = false
+				let nextGameState: GameState | null = null
 
-				if (to) {
-					const validity = isValidMove(GAME_STATE, selectedCardIds, to)
-
-					if (!validity) return NEVERMIND
-
-					invert = validity === 'invert'
+				if (!to && prev.selection.zone === 'foundation') {
+					nextGameState = advanceState(GAME_STATE)
 				} else {
-					const guess = guessMove(GAME_STATE, selectedCardIds, prev.selection)
-
-					target = guess
-					invert = Boolean(guess?.invert)
+					let target: Position | null = to ?? null
+					let invert = false
+	
+					if (to) {
+						const validity = isValidMove(GAME_STATE, selectedCardIds, to)
+	
+						if (!validity) return NEVERMIND
+	
+						invert = validity === 'invert'
+					} else {
+						const guess = guessMove(GAME_STATE, selectedCardIds, prev.selection)
+	
+						target = guess
+						invert = Boolean(guess?.invert)
+					}
+	
+					if (!target) return NEVERMIND
+	
+					nextGameState = finalizeState(moveCardIds(
+						GAME_STATE,
+						invert ? selectedCardIds.slice().reverse() : selectedCardIds,
+						prev.selection,
+						target,
+					))
 				}
 
-				if (!target) return NEVERMIND
-
-				const nextGameState = finalizeState(moveCardIds(
-					GAME_STATE,
-					invert ? selectedCardIds.slice().reverse() : selectedCardIds,
-					prev.selection,
-					target,
-				))
+				if (!nextGameState) return NEVERMIND
 
 				return {
 					...prev,
@@ -131,6 +134,22 @@ export function useAppInternalState() {
 					...prev,
 					history: prev.history.concat(finalizeState(nextGameState)),
 					selection: null,
+				}
+			})
+		},
+		fastForward() {
+			setState(prev => {
+				if (prev.selection) return prev
+
+				const GAME_STATE = tail(prev.history)
+				const { advanceState } = toRules(test(prev.gameKey))
+				const nextState = advanceState(GAME_STATE)
+
+				if (!nextState) return prev
+
+				return {
+					...prev,
+					history: prev.history.concat(nextState),
 				}
 			})
 		},

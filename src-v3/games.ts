@@ -1,4 +1,4 @@
-export type GameDef = {
+type GameDef = {
 	name: string;
 	winRate?: number;
 	tableauGroups?: 1 | 2;
@@ -247,7 +247,7 @@ const seatowers: GameDef = {
 	emptyRestriction: 'kings',
 }
 
-export const GAME_CATALOG = {
+const GAME_CATALOG = {
 	bakers,
 	beleaguered,
 	canister,
@@ -271,4 +271,4 @@ export const GAME_CATALOG = {
 	yukon,
 }
 
-export type GameKey = keyof typeof GAME_CATALOG
+type GameKey = keyof typeof GAME_CATALOG

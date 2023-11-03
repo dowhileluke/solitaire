@@ -23,15 +23,16 @@ export function Zones() {
 	
 	if (history.length === 0) return null
 	
-	const { foundationGroups = 1, tableauGroups = 1, wasteRate = 0 } = config
+	const { isTowers, layoutMode, wasteRate } = config
+	const isHorizontal = layoutMode === 'horizontal'
 	const hasWasteland = wasteRate > 0 || history[0].stock.length > 0
 
 	return (
-		<section className={concat(zonesClass, foundationGroups < 2 && responsive.zones)}>
+		<section className={concat(zonesClass, !isTowers && responsive.zones)}>
 			{hasWasteland && (<Wasteland />)}
-			{foundationGroups > 1 && (<Foundations groupIndex={0} />)}
+			{isTowers && (<Foundations groupIndex={0} />)}
 			<Cells />
-			{tableauGroups === 1 && (<Foundations groupIndex={foundationGroups - 1} />)}
+			{isHorizontal && (<Foundations groupIndex={isTowers ? 1 : 0} />)}
 		</section>
 	)
 }

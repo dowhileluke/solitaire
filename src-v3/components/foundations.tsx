@@ -24,18 +24,18 @@ function mockCardIds(id: CardId | null) {
 }
 
 type FoundationsProps = {
-	groupIndex: number;
+	groupIndex: 0 | 1;
 	vertical?: boolean;
 }
 
 const NULL_ARRAY = generateArray<CardId | null>(8, () => null)
 
 export function Foundations({ groupIndex, vertical }: FoundationsProps) {
-	const [{ history, config }] = useAppState()
+	const [{ history, config }, { fastForward }] = useAppState()
 	const foundationCount = 4 * config.decks
 	const { foundations } = tail(history)
-	const { foundationGroups = 1, goal } = config
-	const portionSize = (foundationCount / foundationGroups)
+	const { goal, isTowers } = config
+	const portionSize = (foundationCount / (isTowers ? 2 : 1))
 	const portionIndex = portionSize * groupIndex
 	const splitPortions = split(foundations.concat(NULL_ARRAY).slice(0, foundationCount), portionSize)
 	const portion = splitPortions[groupIndex]
@@ -44,7 +44,7 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 	return (
 		<PileGroup vertical={vertical} spaced={vertical} className={concat(
 			classes.found,
-			foundationGroups === 1 && !vertical && responsive.grid,
+			!isTowers && !vertical && responsive.grid,
 		)}>
 			{portion.map((id, i) => isBuilding || id !== null ? (
 				<Pile
@@ -55,6 +55,7 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 					maxDepth={1}
 					isDropOnly={!config.allowRecant}
 					angle={vertical ? 'E' : 'S'}
+					onClick={fastForward}
 				/>
 			) : (
 				<ul key={i} className={fauxPileClass}>

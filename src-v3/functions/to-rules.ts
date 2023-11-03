@@ -1,14 +1,20 @@
-import { split, tail } from '@dowhileluke/fns'
+import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
-import { GameDef } from '../games'
+import { GameDef } from '../games2'
 import { Card, CardId, GameState, GuessedPosition, Pile, PileCard, Position, Rules } from '../types'
-import { toPile, extendPile } from './pile'
+import { toPile, extendPile, truncatePile } from './pile'
 
 function tailCard(cardIds: CardId[]) {
 	return CARD_DATA[tail(cardIds)]
 }
 
-export function toRules(def: GameDef) {
+function toSingleCard(id: number | null) {
+	if (id === null) return null
+
+	return CARD_DATA[id]
+}
+
+export function toRules(def: Required<GameDef>) {
 	function isSequentialDesc(low: Card, high: Card) {
 		return low.rank + 1 === high.rank
 	}
@@ -75,17 +81,25 @@ export function toRules(def: GameDef) {
 	}
 
 	function finalizeState(state: GameState) {
+		const needsSequenceInside = def.goal === 'sequence-in'
+		const needsSequence = needsSequenceInside || def.goal === 'sequence-out'
 		const foundations = state.foundations.slice()
 		const tableau: Pile[] = []
 		let { waste } = state
 		let isModified = false
+		let isFailed = false
 
 		for (let { cardIds, down } of state.tableau) {
-			if (def.goal === 'sequence') {
+			if (needsSequence && !isFailed) {
 				while (hasTailSequence(cardIds.slice(down))) {
 					foundations.push(tail(cardIds))
 					cardIds = cardIds.slice(0, -13)
 					isModified = true
+				}
+
+				if (needsSequenceInside && cardIds.length > 0) {
+					isFailed = true
+					isModified = false
 				}
 			}
 
@@ -103,6 +117,7 @@ export function toRules(def: GameDef) {
 		}
 
 		if (!isModified) return state
+		if (isFailed) return { ...state, waste, }
 
 		return {
 			...state,
@@ -170,7 +185,7 @@ export function toRules(def: GameDef) {
 		}
 
 		if (to.zone === 'foundation') {
-			if (def.goal === 'sequence') return false
+			if (def.goal.startsWith('sequence')) return false
 			if (!isPackedSuit(cards)) return false
 
 			const targetId = state.foundations[to.x]
@@ -199,18 +214,31 @@ export function toRules(def: GameDef) {
 		return false
 	}
 
-	function getSafeRank(state: GameState) {
+	function getSafeRank(foundationCards: Array<Card | null>) {
+		if (def.buildRestriction === 'suit' || def.suits === 1) return 999
+
 		let lowest = 999
 
-		for (const id of state.foundations) {
-			if (id === null) return 1
-
-			const { rank } = CARD_DATA[id]
-
-			if (rank < lowest) lowest = rank
+		for (const card of foundationCards) {
+			if (card === null) return 1
+			if (card.rank < lowest) lowest = card.rank
 		}
 
 		return lowest + 2
+	}
+
+	function getFoundationIndexes(state: GameState, suitIndex: number) {
+		const n = state.foundations.length
+
+		if (!def.isTowers || suitIndex === 0) return generateArray(n)
+
+		// put suitIndex first
+		return generateArray(n, index => {
+			if (index === 0) return suitIndex
+			if (index < suitIndex) return index - 1
+
+			return index
+		})
 	}
 
 	function guessMove(state: GameState, movingCardIds: CardId[], from: Position) {
@@ -218,10 +246,11 @@ export function toRules(def: GameDef) {
 		let eligibleFoundation: GuessedPosition | null = null
 
 		if (from.zone !== 'foundation') {
-			const safeRank = def.buildRestriction === 'suit' || def.suits === 1 ? 999 : getSafeRank(state)
+			const safeRank = getSafeRank(state.foundations.map(toSingleCard))
+			const foundIndexes = getFoundationIndexes(state, highestCard.suitIndex)
 
-			for (let x = 0; x < state.foundations.length && eligibleFoundation === null; x++) {
-				const guess: GuessedPosition = { zone: 'foundation', x }
+			for (let i = 0; i < foundIndexes.length && eligibleFoundation === null; i++) {
+				const guess: GuessedPosition = { zone: 'foundation', x: foundIndexes[i], }
 
 				if (isValidMove(state, movingCardIds, guess)) {
 					if (highestCard.rank <= safeRank) return guess
@@ -344,6 +373,99 @@ export function toRules(def: GameDef) {
 		return result
 	}
 
+	function findFoundationIndex(foundationCards: Array<Card | null>, { rank, suitIndex }: Card) {
+		if (rank === 0) {
+			if (def.isTowers && foundationCards[suitIndex] === null) return suitIndex
+
+			return foundationCards.findIndex(f => f === null)
+		}
+
+		return foundationCards.findIndex(f => {
+			if (f === null) return false
+
+			return f.suitIndex === suitIndex && f.rank + 1 === rank
+		})
+	}
+
+	function advanceState(state: GameState) {
+		const tableauCards = state.tableau.map(pile => pile.cardIds.map(id => CARD_DATA[id]))
+		const foundationCards = state.foundations.map(toSingleCard)
+		const cellCards = state.cells.map(toSingleCard)
+		let wasteCards = state.waste?.cardIds.map(id => CARD_DATA[id]) ?? null
+		let isChanged = false
+		let isChanging = false
+
+		do {
+			isChanged = isChanging
+			isChanging = false
+
+			const safeRank = getSafeRank(foundationCards)
+
+			for (let x = 0; x < tableauCards.length; x++) {
+				const pileCards = tableauCards[x]
+
+				if (pileCards.length === 0) continue
+
+				const availableCard = tail(pileCards)
+
+				if (availableCard.rank > safeRank) continue
+
+				const foundIndex = findFoundationIndex(foundationCards, availableCard)
+
+				if (foundIndex < 0) continue
+
+				tableauCards[x] = tableauCards[x].slice(0, -1)
+				foundationCards[foundIndex] = availableCard
+				isChanging = true
+			}
+
+			if (!isChanging) {
+				for (let x = 0; x < cellCards.length; x++) {
+					const availableCard = cellCards[x]
+
+					if (availableCard === null) continue
+					if (availableCard.rank > safeRank) continue
+
+					const foundIndex = findFoundationIndex(foundationCards, availableCard)
+
+					if (foundIndex < 0) continue
+
+					cellCards[x] = null
+					foundationCards[foundIndex] = availableCard
+					isChanging = true
+				}
+			}
+
+			if (!isChanging && wasteCards) {
+				for (let x = 0; x < wasteCards.length; x++) {
+					const availableCard = wasteCards[x]
+
+					if (availableCard.rank > safeRank) continue
+
+					const foundIndex = findFoundationIndex(foundationCards, availableCard)
+
+					if (foundIndex < 0) continue
+
+					wasteCards = wasteCards.slice(0, -1)
+					foundationCards[foundIndex] = availableCard
+					isChanging = true
+				}
+			}
+		} while (isChanging)
+
+		if (!isChanged) return null
+
+		const result: GameState = {
+			...state,
+			foundations: foundationCards.map(f => f?.id ?? null),
+			tableau: state.tableau.map((pile, i) => truncatePile(pile, tableauCards[i].length)),
+			waste: state.waste && wasteCards ? truncatePile(state.waste, wasteCards.length) : null,
+			cells: cellCards.map(c => c?.id ?? null)
+		}
+
+		return finalizeState(result)
+	}
+
 	const result: Rules = {
 		isConnected,
 		toPileCards,
@@ -351,6 +473,7 @@ export function toRules(def: GameDef) {
 		isValidMove,
 		guessMove,
 		dealStock,
+		advanceState,
 	}
 
 	return result
