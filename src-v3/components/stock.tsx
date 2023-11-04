@@ -17,14 +17,13 @@ export function Stock() {
 	if (history[0].stock.length === 0) return null
 
 	const { stock, tableau, pass } = tail(history)
-	const dealMax = config.wasteRate ? (config.dealLimit ?? 0) : divideUp(history[0].stock.length, tableau.length)
-	const dealCurr = config.wasteRate ? (stock.length ? pass - 1 : pass) : dealMax - divideUp(stock.length, tableau.length)
-	
-	const canRepeat = config.wasteRate && (!config.dealLimit || pass < config.dealLimit)
+	const dealMax = config.wasteRate > 0 ? (config.dealLimit ?? 0) : divideUp(history[0].stock.length, tableau.length)
+	const dealCurr = config.wasteRate > 0 ? (stock.length ? pass - 1 : pass) : dealMax - divideUp(stock.length, tableau.length)
+	const canRepeat = config.wasteRate > 0 && (!config.dealLimit || pass < config.dealLimit)
 
 	return (
-		<PileGroup onClick={actions.deal}>
-			<ul className={concat('overflow-hidden', classes.stock, stock.length === 0 && 'fade')}>
+		<PileGroup onClick={actions.deal} className={concat(stock.length === 0 && 'fade')}>
+			<ul className={concat('overflow-hidden', classes.stock)}>
 				{stock.length === 0 ? (
 					<Card isPlaceholder details={null}>
 						{canRepeat ? <Recycle /> : <X />}

@@ -71,6 +71,7 @@ const klondike: GameDef = {
 
 	decks: 1,
 	wasteRate: 1,
+	dealLimit: 1,
 
 	piles: 7,
 	pileHeight: -1,
@@ -115,7 +116,7 @@ const spider: GameDef = {
 	goal: 'sequence-out',
 
 	decks: 2,
-	wasteRate: 0,
+	wasteRate: -1,
 	dealLimit: 5,
 
 	piles: 10,
@@ -207,6 +208,7 @@ const yukon: GameDef = {
 	family: 'Yukon',
 
 	wasteRate: 0,
+	dealLimit: 0,
 
 	overHeight: 4,
 
@@ -221,13 +223,13 @@ const russian: GameDef = {
 }
 
 const scorpion: GameDef = {
-	...yukon,
+	...russian,
 	name: 'Scorpion',
 	goal: 'sequence-out',
 
 	upPiles: 3,
-	pileHeight: 3,
-	overHeight: 4,
+	pileHeight: 4,
+	overHeight: 3,
 }
 
 const wasp: GameDef = {
@@ -239,7 +241,7 @@ const wasp: GameDef = {
 
 const beleaguered: GameDef = {
 	...freecell,
-	name: 'Beleaguered',
+	name: 'Beleaguered Castle',
 	family: 'Castle',
 	goal: 'foundation@2',
 	layoutMode: 'vertical',

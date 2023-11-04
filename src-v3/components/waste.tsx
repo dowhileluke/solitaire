@@ -9,16 +9,16 @@ export function Waste() {
 	const [{ history, config }] = useAppState()
 	const { waste } = tail(history)
 
-	if (!waste || (waste.cardIds.length === 0 && !config.wasteRate)) return null
+	if (!waste || (waste.cardIds.length === 0 && config.wasteRate < 1)) return null
 
-	const size = { '--size': config.wasteRate || 1 } as CSSProperties
+	const size = { '--size': Math.max(config.wasteRate, 1) } as CSSProperties
 
 	return (
 		<PileGroup style={size} className={classes.waste}>
 			<Pile
-				angle='E'
+				angle={config.wasteRate > 1 ? 'E' : 'S'}
 				toPos={y => ({ zone: 'waste', y })}
-				maxDepth={config.wasteRate ? waste.cardIds.length - waste.down : 1}
+				maxDepth={Math.max(waste.cardIds.length - waste.down, 1)}
 				placeholderClass={classes.void}
 				isDragOnly
 				{...waste}

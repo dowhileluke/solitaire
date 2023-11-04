@@ -1,20 +1,30 @@
 import { useEffect, useMemo, useState } from 'react'
-import { AppActions, AppState, BaseAppState, GameState, Position } from '../types'
-import { useForever } from './use-forever'
-import { toRules } from '../functions/to-rules'
-import { GAME_CATALOG, GameKey, toFullDef } from '../games2'
-import { toInitialState } from '../functions/to-initial-state'
 import { tail } from '@dowhileluke/fns'
-import { toSelectedCardIds } from '../functions/to-selected-card-ids'
+import { GAME_CATALOG, GameKey, toFullDef } from '../games2'
+import { AppActions, AppState, BaseAppState, GameState, Position } from '../types'
 import { moveCardIds } from '../functions/move-card-ids'
 import { setPersistedState, getPersistedState } from '../functions/persist'
+import { toInitialState } from '../functions/to-initial-state'
+import { toRules } from '../functions/to-rules'
+import { toSelectedCardIds } from '../functions/to-selected-card-ids'
+import { useForever } from './use-forever'
 
-const initialState: BaseAppState = {
-	history: [],
-	selection: null,
-	gameKey: 'easthaven',
-	...getPersistedState(),
-	isExporting: false,
+function getInitialState() {
+	const {
+		history = [],
+		gameKey = 'klondike',
+	} = getPersistedState()
+	
+	const result: BaseAppState = {
+		history,
+		selection: null,
+		gameKey,
+		isExporting: false,
+		isMenuOpen: false,
+		menuKey: gameKey,
+	}
+
+	return result
 }
 
 function test(gameKey: GameKey) {
@@ -34,9 +44,9 @@ function isSelfTargeting(source: Position, target: Position) {
 }
 
 export function useAppInternalState() {
-	const [state, setState] = useState(initialState)
-	const { history } = state
-	const config = useMemo(() => test(state.gameKey), [state.gameKey])
+	const [state, setState] = useState(getInitialState)
+	const { history, gameKey } = state
+	const config = useMemo(() => test(gameKey), [gameKey])
 	const rules = useMemo(() => toRules(config), [config])
 	const appState: AppState = {
 		...state,
@@ -45,14 +55,16 @@ export function useAppInternalState() {
 	}
 
 	useEffect(() => {
-		setPersistedState({ history })
-	}, [history])
+		setPersistedState({ history, gameKey })
+	}, [history, gameKey])
 
 	const actions = useForever<AppActions>({
 		launchGame() {
 			setState(prev => ({
 				...prev,
-				history: [toInitialState(test(prev.gameKey))],
+				isMenuOpen: false,
+				gameKey: prev.menuKey,
+				history: [toInitialState(test(prev.menuKey))],
 			}))
 		},
 		setSelection(selection) {
@@ -76,7 +88,9 @@ export function useAppInternalState() {
 
 				if (!to && prev.selection.zone === 'foundation') {
 					nextGameState = advanceState(GAME_STATE)
-				} else {
+				}
+				
+				if (nextGameState === null) {
 					let target: Position | null = to ?? null
 					let invert = false
 	
@@ -155,6 +169,12 @@ export function useAppInternalState() {
 		},
 		toggleExport() {
 			setState(prev => ({ ...prev, isExporting: !prev.isExporting }))
+		},
+		toggleMenu() {
+			setState(prev => ({ ...prev, isMenuOpen: !prev.isMenuOpen, }))
+		},
+		setMenuKey(menuKey) {
+			setState(prev => ({ ...prev, menuKey, }))
 		},
 	})
 

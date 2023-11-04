@@ -41,6 +41,10 @@
 	z-index: 1;
 }
 
+.available {
+	cursor: pointer;
+}
+
 .horizontal .card {
 	width: var(--card-width);
 	margin-bottom: 0;

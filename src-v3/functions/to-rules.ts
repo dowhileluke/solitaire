@@ -324,10 +324,10 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function dealStock(state: GameState) {
-		const { dealLimit = 0, wasteRate = 0 } = def
+		const { dealLimit, wasteRate } = def
 		const isEmpty = state.stock.length === 0
 
-		if (wasteRate) {
+		if (wasteRate > 0) {
 			if (!state.waste) return null
 
 			if (isEmpty) {
@@ -358,7 +358,7 @@ export function toRules(def: Required<GameDef>) {
 		}
 
 		if (isEmpty) return null
-		if (def.emptyRestriction === 'none' && !isWideDealAllowed(state)) return null
+		if (wasteRate < 0 && !isWideDealAllowed(state)) return null
 
 		const [flippedIds, stock] = split(state.stock, state.tableau.length)
 		const tableau = state.tableau.map(
@@ -436,20 +436,18 @@ export function toRules(def: Required<GameDef>) {
 				}
 			}
 
-			if (!isChanging && wasteCards) {
-				for (let x = 0; x < wasteCards.length; x++) {
-					const availableCard = wasteCards[x]
+			if (!isChanging && wasteCards && wasteCards.length > 0) {
+				const availableCard = tail(wasteCards)
 
-					if (availableCard.rank > safeRank) continue
+				if (availableCard.rank > safeRank) continue
 
-					const foundIndex = findFoundationIndex(foundationCards, availableCard)
+				const foundIndex = findFoundationIndex(foundationCards, availableCard)
 
-					if (foundIndex < 0) continue
+				if (foundIndex < 0) continue
 
-					wasteCards = wasteCards.slice(0, -1)
-					foundationCards[foundIndex] = availableCard
-					isChanging = true
-				}
+				wasteCards = wasteCards.slice(0, -1)
+				foundationCards[foundIndex] = availableCard
+				isChanging = true
 			}
 		} while (isChanging)
 

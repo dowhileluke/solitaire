@@ -45,7 +45,7 @@
 	/* two-column layout */
 	main.layout2 {
 		grid-template-rows: 1fr;
-		grid-template-columns: auto auto;
+		grid-template-columns: auto 1fr;
 	}
 
 	main.layout3 {

@@ -26,7 +26,7 @@ function toTableau(
 	cardIds: CardId[],
 	{ wasteRate, dealLimit, piles, pileHeight, upPiles, overHeight, emptyPiles }: Required<GameDef>
 ) {
-	const isFixedStock = wasteRate === 0 && 0 < dealLimit && dealLimit < 999
+	const isFixedStock = wasteRate < 1 && 0 < dealLimit && dealLimit < 999
 	const [deck, stockCards] = setAside(cardIds, isFixedStock ? piles * dealLimit : 0)
 
 	const pileCardIds = generateArray<CardId[]>(piles, () => [])
@@ -56,8 +56,7 @@ function toTableau(
 
 	const pileDown = upPiles === true
 		? generateArray(piles, () => 0)
-		: pileCardIds.map((ids, index) => index < upPiles ? 0 : ids.length - 1).reverse()
-
+		: pileCardIds.map((ids, index) => pileCardIds.length - index - 1 < upPiles ? 0 : ids.length - 1)
 
 	if (overHeight) {
 		for (let colIndex = 0; colIndex < piles; colIndex += 1) {
