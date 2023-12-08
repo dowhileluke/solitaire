@@ -10,7 +10,7 @@ const layoutClass = `full-height overflow-hidden ${classes.layout}`
 
 export function Layout() {
 	const [state] = useAppState()
-	const { isTowers, key, buildRestriction, groupRestriction } = state.config
+	const { isTowers, buildRestriction, groupRestriction } = state.config
 	const isTwoColored = buildRestriction === 'alt-color' || groupRestriction === 'alt-color'
 
 	return (
