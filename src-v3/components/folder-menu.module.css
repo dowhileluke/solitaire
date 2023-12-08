@@ -2,6 +2,10 @@
 	overflow: auto;
 }
 
+.menu, .menu * {
+	touch-action: pan-y;
+}
+
 .label {
 	padding: var(--ui-gap);
 	display: flex;

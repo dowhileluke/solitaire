@@ -46,7 +46,6 @@ body {
 	margin: 0;
 	color: var(--black);
 	background-color: linen;
-	-webkit-overflow-scrolling: touch;
 
 	--accent: var(--red);
 	--card-face: white;

@@ -1,15 +1,31 @@
+.fixed {
+	position: fixed;
+	inset: 0;
+	z-index: 1;
+}
+
 .full {
 	position: fixed;
 	z-index: 1;
-	top: 0;
-	left: 0;
+	inset: 0;
 	width: 100%;
 	box-sizing: border-box;
-	padding: 1em;
+	padding: 1rem;
 }
 
 .blur {
 	backdrop-filter: blur(2px);
+}
+
+.gutter {
+	box-sizing: border-box;
+	padding: 1rem;
+}
+
+@supports (padding: max(0px)) {
+	.gutter {
+		padding-bottom: max(1rem, env(safe-area-inset-bottom));
+	}
 }
 
 .fade {

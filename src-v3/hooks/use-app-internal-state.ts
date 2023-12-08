@@ -53,10 +53,12 @@ export function useAppInternalState() {
 	const { history, gameKey, gamePrefs, prefs } = state
 	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
+	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
 	const appState: AppState = {
 		...state,
 		config,
 		rules,
+		layoutMode,
 	}
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import { GameDef, GameKey } from './games2'
+import { GameDef, GameKey, LayoutMode } from './games2'
 
 export type CardId = number
 
@@ -67,6 +67,7 @@ export type BaseAppState = {
 export type AppState = BaseAppState & {
 	config: Required<GameDef>;
 	rules: Rules;
+	layoutMode: LayoutMode;
 }
 
 export type AppActions = {
@@ -82,5 +83,3 @@ export type AppActions = {
 	setMenuKey: (key: GameKey | null) => void;
 	setGamePref: <K extends keyof GameDef>(gameKey: GameKey, prefKey: K, prefValue: GameDef[K]) => void;
 }
-
-export type LayoutMode = 'generic' | 'castle' | 'towers'

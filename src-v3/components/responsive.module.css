@@ -22,6 +22,7 @@
 	.ctrl {
 		flex-direction: column;
 		justify-content: start;
+		font-size: 125%;
 	}
 
 	.ctrl > :first-child {

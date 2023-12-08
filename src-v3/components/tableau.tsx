@@ -6,8 +6,7 @@ import classes from './tableau.module.css'
 import { Foundations } from './foundations'
 
 export function Tableau() {
-	const [{ config, history }] = useAppState()
-	const { layoutMode } = config
+	const [{ config, history, layoutMode }] = useAppState()
 	const emptyNode = config.emptyRestriction === 'kings' ? 'K' : null
 	const { tableau } = tail(history)
 

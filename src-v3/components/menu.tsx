@@ -7,11 +7,13 @@ import { Modal } from './modal'
 import classes from './menu.module.css'
 import { Export } from './export'
 import { ChangeEvent } from 'react'
+import { GAME_CATALOG, LayoutMode } from '../games2'
 
 const footClass = `flex-center ${classes.foot}`
 
 export function Menu() {
 	const [state, actions] = useAppState()
+	const selectedGame = state.menuKey ? GAME_CATALOG[state.menuKey] : null
 
 	// return (
 	// 	<div>
@@ -27,6 +29,12 @@ export function Menu() {
 		actions.setGamePref(state.menuKey, 'suits', n)
 	}
 
+	function handleLayout(e: ChangeEvent<HTMLSelectElement>) {
+		if (!state.menuKey) return
+
+		actions.setGamePref(state.menuKey, 'layoutMode', e.target.value as LayoutMode)
+	}
+
 	return (
 		<Modal isOpen={state.isMenuOpen} onClose={() => actions.toggleMenu(false)}>
 			{state.isExporting ? (<Export />) : (<FolderMenu />)}
@@ -37,6 +45,12 @@ export function Menu() {
 						<option value="2">Two Suits</option>
 						<option value="3">Three Suits</option>
 						<option value="4">Four Suits</option>
+					</select>
+				)}
+				{state.menuKey && selectedGame && selectedGame.layoutMode === 'vertical' && (
+					<select value={state.prefs[state.menuKey]?.layoutMode || 'vertical'} onChange={handleLayout}>
+						<option value="vertical">Wide</option>
+						<option value="horizontal">Tall</option>
 					</select>
 				)}
 			</section>

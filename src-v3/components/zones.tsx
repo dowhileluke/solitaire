@@ -19,11 +19,11 @@ function Wasteland() {
 }
 
 export function Zones() {
-	const [{ config, history }] = useAppState()
+	const [{ config, history, layoutMode }] = useAppState()
 	
 	if (history.length === 0) return null
 	
-	const { isTowers, layoutMode, wasteRate } = config
+	const { isTowers, wasteRate } = config
 	const isHorizontal = layoutMode === 'horizontal'
 	const hasWasteland = wasteRate > 0 || history[0].stock.length > 0
 

@@ -10,7 +10,7 @@ const layoutClass = `full-height overflow-hidden ${classes.layout}`
 
 export function Layout() {
 	const [state] = useAppState()
-	const { isTowers, layoutMode, buildRestriction, groupRestriction } = state.config
+	const { isTowers, key, buildRestriction, groupRestriction } = state.config
 	const isTwoColored = buildRestriction === 'alt-color' || groupRestriction === 'alt-color'
 
 	return (
@@ -19,7 +19,7 @@ export function Layout() {
 			layoutClass,
 			responsive.layout,
 			!isTowers && responsive.layout2,
-			layoutMode === 'vertical' && responsive.layout3,
+			state.layoutMode === 'vertical' && responsive.layout3,
 			state.isMenuOpen && 'fade',
 		)}>
 			<DndArea>

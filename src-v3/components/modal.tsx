@@ -9,37 +9,40 @@ export type ModalProps = {
 	children?: ReactNode;
 }
 
-const fullscreen = `viewport-height ${classes.full}`
+const fullscreen = `viewport-height ${classes.fixed}`
+const backdropClass = `${fullscreen} ${classes.blur}`
+const gutterClass = `full-height flex-center ${classes.gutter}`
 const panelClass = `overflow-hidden ${classes.panel}`
 
 export function Modal({ isOpen, onClose, onSubmit, children }: ModalProps) {
-
 	return (
 		<Transition
 			as={Fragment}
 			show={isOpen}
 			appear
 		>
-			<Dialog onClose={onClose} className={`${fullscreen} overflow-hidden flex-center`}>
-				<div className={`${fullscreen} ${classes.blur}`} />
-
-				<Transition.Child
-					as={Fragment}
-					enter={`${classes.fade} ${classes.scale}`}
-					enterFrom={classes.start}
-					enterTo={classes.finish}
-					leave={`${classes.fade} ${classes.scale}`}
-					leaveFrom={classes.finish}
-					leaveTo={classes.start}
-				>
-					<Dialog.Panel
-						as={onSubmit ? 'form' : 'div'}
-						onSubmit={onSubmit}
-						className={panelClass}
-					>
-						{children}
-					</Dialog.Panel>
-				</Transition.Child>
+			<Dialog onClose={onClose} className={fullscreen}>
+				<div className={backdropClass}>
+					<div className={gutterClass}>
+						<Transition.Child
+							as={Fragment}
+							enter={`${classes.fade} ${classes.scale}`}
+							enterFrom={classes.start}
+							enterTo={classes.finish}
+							leave={`${classes.fade} ${classes.scale}`}
+							leaveFrom={classes.finish}
+							leaveTo={classes.start}
+						>
+							<Dialog.Panel
+								as={onSubmit ? 'form' : 'div'}
+								onSubmit={onSubmit}
+								className={panelClass}
+							>
+								{children}
+							</Dialog.Panel>
+						</Transition.Child>
+					</div>
+				</div>
 			</Dialog>
 		</Transition>
 	)
