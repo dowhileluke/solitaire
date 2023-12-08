@@ -1,6 +1,7 @@
 import { AppStateProvider } from './app-state-provider'
 import { Controls } from './controls'
 import { Layout } from './layout'
+import { Menu } from './menu'
 import responsive from './responsive.module.css'
 
 const appClass = `viewport-height overflow-hidden ${responsive.app}`
@@ -12,6 +13,7 @@ export function App() {
 				<Controls />
 				<Layout />
 			</div>
+			<Menu />
 		</AppStateProvider>
 	)
 }

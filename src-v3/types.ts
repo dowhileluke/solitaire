@@ -1,4 +1,4 @@
-import { GameDef, GameKey } from "./games2";
+import { GameDef, GameKey } from './games2'
 
 export type CardId = number
 
@@ -57,9 +57,11 @@ export type BaseAppState = {
 	history: GameState[];
 	selection: Position | null;
 	gameKey: GameKey;
+	gamePrefs: Partial<GameDef>;
 	isExporting: boolean;
 	isMenuOpen: boolean;
-	menuKey: GameKey;
+	menuKey: GameKey | null;
+	prefs: Partial<Record<GameKey, Partial<GameDef>>>;
 }
 
 export type AppState = BaseAppState & {
@@ -72,11 +74,13 @@ export type AppActions = {
 	setSelection: (pos: Position | null) => void;
 	moveCards: (pos?: Position) => void;
 	undo: () => void;
+	undoAll: () => void;
 	deal: () => void;
 	fastForward: () => void;
 	toggleExport: () => void;
-	toggleMenu: () => void;
-	setMenuKey: (key: GameKey) => void;
+	toggleMenu: (isMenuOpen: boolean) => void;
+	setMenuKey: (key: GameKey | null) => void;
+	setGamePref: <K extends keyof GameDef>(gameKey: GameKey, prefKey: K, prefValue: GameDef[K]) => void;
 }
 
 export type LayoutMode = 'generic' | 'castle' | 'towers'

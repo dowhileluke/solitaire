@@ -1,9 +1,21 @@
 import { categorize } from '@dowhileluke/fns'
 
-export const GAME_FAMILIES = ['Klondike', 'Spider', 'FreeCell', 'Yukon', 'Castle', 'Forty'] as const
+export type GameFamily = 'Klondike' | 'Spider' | 'FreeCell' | 'Yukon' | 'Castle' | 'Forty'
+export type FamilyDef = {
+	key: GameFamily;
+	desc: string;
+}
 
+export const GAME_FAMILIES: FamilyDef[] = [
+	{ key: 'Klondike', desc: 'The ' },
+	{ key: 'Spider', desc: 'Build sequences by suit to remove them from the tableau' },
+	{ key: 'FreeCell', desc: 'Unravel ' },
+	{ key: 'Yukon', desc: 'Move any card within the tableau' },
+	{ key: 'Castle', desc: 'Unravel tableaus' },
+	{ key: 'Forty', desc: '' },
+]
+	// 'Klondike', 'Spider', 'FreeCell', 'Yukon', 'Castle', 'Forty']
 export type GameKey = keyof typeof GAME_CATALOG
-export type GameFamily = typeof GAME_FAMILIES[number]
 export type GameGoal = 'foundation' | 'foundation@2' | 'sequence-in' | 'sequence-out'
 export type LayoutMode = 'horizontal' | 'vertical'
 export type GameDef = {
@@ -40,7 +52,6 @@ export type GameDef = {
 
 export function toFullDef(def: GameDef, key: GameKey) {
 	const result: Required<GameDef> = {
-		key,
 		layoutMode: 'horizontal',
 		isTowers: false,
 		winRate: 0,
@@ -59,6 +70,7 @@ export function toFullDef(def: GameDef, key: GameKey) {
 		allowRecant: false,
 
 		...def,
+		key,
 	}
 
 	return result
@@ -84,7 +96,7 @@ const klondike: GameDef = {
 
 const klondike2: GameDef = {
 	...klondike,
-	name: 'Klondike (2 decks)',
+	name: 'Double Klondike',
 	decks: 2,
 	piles: 9,
 }
@@ -105,7 +117,7 @@ const easthaven: GameDef = {
 
 const easthaven2: GameDef = {
 	...easthaven,
-	name: 'Easthaven (2 decks)',
+	name: 'Double Easthaven',
 	decks: 2,
 	piles: 8,
 }
@@ -239,6 +251,16 @@ const wasp: GameDef = {
 	emptyRestriction: 'none',
 }
 
+const yukon2: GameDef = {
+	...yukon,
+	name: 'Double Yukon',
+
+	decks: 2,
+
+	piles: 10,
+	overHeight: 5,
+}
+
 const beleaguered: GameDef = {
 	...freecell,
 	name: 'Beleaguered Castle',
@@ -261,6 +283,32 @@ const fortress: GameDef = {
 	piles: 10,
 	cells: 0,
 
+	buildDirection: 'either',
+}
+
+const alleys: GameDef = {
+	...beleaguered,
+	name: 'Streets & Alleys',
+	goal: 'foundation',
+	winRate: 51,
+}
+
+const stronghold: GameDef = {
+	...alleys,
+	name: 'Stronghold',
+	winRate: 97,
+	layoutMode: 'horizontal',
+
+	cells: 1,
+}
+
+const canister: GameDef = {
+	...forecell,
+	name: 'Canister (sans Merci)',
+	family: 'Castle',
+	winRate: 0,
+
+	cells: 0,
 	buildDirection: 'either',
 }
 
@@ -293,13 +341,22 @@ const eight: GameDef = {
 	pileHeight: 5,
 }
 
+const alibaba: GameDef = {
+	...thieves,
+	name: 'Ali Baba',
+	goal: 'foundation@2',
+
+	decks: 1,
+	groupRestriction: 'suit',
+}
+
 export const GAME_CATALOG = {
 	klondike, westcliff, easthaven, klondike2, easthaven2,
 	spider, spiderette, will, simple,
 	freecell, bakers, seahaven, forecell,
-	yukon, russian, scorpion, wasp,
-	beleaguered, fortress,
-	thieves, eight,
+	yukon, russian, scorpion, wasp, yukon2,
+	beleaguered, fortress, alleys, stronghold, canister,
+	thieves, eight, alibaba,
 }
 export const GAME_LIST = (Object.keys(GAME_CATALOG) as Array<GameKey>).map(k => toFullDef(GAME_CATALOG[k], k))
-export const GAMES_BY_FAMILY = categorize(GAME_LIST, g => g.key)
+export const GAMES_BY_FAMILY = categorize(GAME_LIST, g => g.family)

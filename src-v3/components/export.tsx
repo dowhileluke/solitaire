@@ -1,9 +1,10 @@
 import { truthy } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { useAppState } from '../hooks/use-app-state'
+import { Button } from './interactive'
 
 export function Export() {
-	const [{ history }] = useAppState()
+	const [{ history }, { toggleExport }] = useAppState()
 
 	if (history.length === 0) return null
 
@@ -15,6 +16,11 @@ export function Export() {
 	]).join('\n').toUpperCase()
 
 	return (
-		<textarea value={text} />
+		<>
+			<textarea value={text} />
+			<Button onClick={toggleExport}>
+				Cancel
+			</Button>
+		</>
 	)
 }

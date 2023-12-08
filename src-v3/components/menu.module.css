@@ -1,0 +1,5 @@
+.foot {
+	flex-shrink: 0;
+	gap: var(--ui-gap);
+	padding: var(--ui-gap);
+}

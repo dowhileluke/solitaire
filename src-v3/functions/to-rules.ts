@@ -232,10 +232,11 @@ export function toRules(def: Required<GameDef>) {
 
 		if (!def.isTowers || suitIndex === 0) return generateArray(n)
 
-		// put suitIndex first
+		// look for an opening @ suitIndex first
+		// e.g. for suitIndex=2, return [2, 0, 1, 3]
 		return generateArray(n, index => {
 			if (index === 0) return suitIndex
-			if (index < suitIndex) return index - 1
+			if (index <= suitIndex) return index - 1
 
 			return index
 		})

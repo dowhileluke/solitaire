@@ -22,7 +22,7 @@ export function Stock() {
 	const canRepeat = config.wasteRate > 0 && (!config.dealLimit || pass < config.dealLimit)
 
 	return (
-		<PileGroup onClick={actions.deal} className={concat(stock.length === 0 && 'fade')}>
+		<PileGroup onClick={actions.deal} className={concat(!canRepeat && stock.length === 0 && 'fade')}>
 			<ul className={concat('overflow-hidden', classes.stock)}>
 				{stock.length === 0 ? (
 					<Card isPlaceholder details={null}>

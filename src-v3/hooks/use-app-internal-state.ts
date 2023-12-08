@@ -1,34 +1,39 @@
 import { useEffect, useMemo, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
-import { GAME_CATALOG, GameKey, toFullDef } from '../games2'
-import { AppActions, AppState, BaseAppState, GameState, Position } from '../types'
+import { GAME_CATALOG, GameDef, GameKey, toFullDef } from '../games2'
 import { moveCardIds } from '../functions/move-card-ids'
 import { setPersistedState, getPersistedState } from '../functions/persist'
 import { toInitialState } from '../functions/to-initial-state'
 import { toRules } from '../functions/to-rules'
 import { toSelectedCardIds } from '../functions/to-selected-card-ids'
+import { AppActions, AppState, BaseAppState, GameState, Position } from '../types'
 import { useForever } from './use-forever'
 
 function getInitialState() {
-	const {
-		history = [],
-		gameKey = 'klondike',
-	} = getPersistedState()
-	
+	const state = getPersistedState()
+	const { history = [], gameKey = 'klondike', gamePrefs = {}, prefs = {}, } = state
 	const result: BaseAppState = {
 		history,
 		selection: null,
 		gameKey,
+		gamePrefs,
 		isExporting: false,
 		isMenuOpen: false,
 		menuKey: gameKey,
+		prefs,
 	}
 
 	return result
 }
 
-function test(gameKey: GameKey) {
-	return toFullDef(GAME_CATALOG[gameKey], gameKey)
+type ConfigProps = Pick<BaseAppState, 'gameKey' | 'gamePrefs'>
+
+function getConfig({ gameKey, gamePrefs }: ConfigProps) {
+	return toFullDef({ ...GAME_CATALOG[gameKey], ...gamePrefs }, gameKey)
+}
+
+function getRules(props: ConfigProps) {
+	return toRules(getConfig(props))
 }
 
 function isSelfTargeting(source: Position, target: Position) {
@@ -45,8 +50,8 @@ function isSelfTargeting(source: Position, target: Position) {
 
 export function useAppInternalState() {
 	const [state, setState] = useState(getInitialState)
-	const { history, gameKey } = state
-	const config = useMemo(() => test(gameKey), [gameKey])
+	const { history, gameKey, gamePrefs, prefs } = state
+	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
 	const appState: AppState = {
 		...state,
@@ -55,17 +60,25 @@ export function useAppInternalState() {
 	}
 
 	useEffect(() => {
-		setPersistedState({ history, gameKey })
-	}, [history, gameKey])
+		setPersistedState({ history, gameKey, gamePrefs, prefs })
+	}, [history, gameKey, gamePrefs, prefs])
 
 	const actions = useForever<AppActions>({
 		launchGame() {
-			setState(prev => ({
-				...prev,
-				isMenuOpen: false,
-				gameKey: prev.menuKey,
-				history: [toInitialState(test(prev.menuKey))],
-			}))
+			setState(prev => {
+				if (!prev.menuKey) return prev
+
+				const gameKey = prev.menuKey
+				const gamePrefs = prev.prefs[gameKey] ?? {}
+
+				return {
+					...prev,
+					gameKey,
+					gamePrefs,
+					isMenuOpen: false,
+					history: [toInitialState(getConfig({ gameKey, gamePrefs }))],
+				}
+			})
 		},
 		setSelection(selection) {
 			setState(prev => ({ ...prev, selection, }))
@@ -79,7 +92,7 @@ export function useAppInternalState() {
 				if (to && isSelfTargeting(prev.selection, to)) return NEVERMIND
 
 				const GAME_STATE = tail(prev.history)
-				const { isValidMove, guessMove, finalizeState, advanceState } = toRules(test(prev.gameKey))
+				const { isValidMove, guessMove, finalizeState, advanceState } = getRules(prev)
 				const selectedCardIds = toSelectedCardIds(GAME_STATE, prev.selection)
 
 				if (selectedCardIds.length === 0) return NEVERMIND
@@ -137,9 +150,17 @@ export function useAppInternalState() {
 				}
 			})
 		},
+		undoAll() {
+			setState(prev => ({
+				...prev,
+				history: prev.history.slice(0, 1),
+				selection: null,
+				isMenuOpen: false,
+			}))
+		},
 		deal() {
 			setState(prev => {
-				const { dealStock, finalizeState } = toRules(test(prev.gameKey))
+				const { dealStock, finalizeState } = getRules(prev)
 				const nextGameState = dealStock(tail(prev.history))
 
 				if (!nextGameState) return prev
@@ -156,7 +177,7 @@ export function useAppInternalState() {
 				if (prev.selection) return prev
 
 				const GAME_STATE = tail(prev.history)
-				const { advanceState } = toRules(test(prev.gameKey))
+				const { advanceState } = getRules(prev)
 				const nextState = advanceState(GAME_STATE)
 
 				if (!nextState) return prev
@@ -170,11 +191,27 @@ export function useAppInternalState() {
 		toggleExport() {
 			setState(prev => ({ ...prev, isExporting: !prev.isExporting }))
 		},
-		toggleMenu() {
-			setState(prev => ({ ...prev, isMenuOpen: !prev.isMenuOpen, }))
+		toggleMenu(isMenuOpen: boolean) {
+			setState(prev => ({ ...prev, isMenuOpen, menuKey: prev.gameKey, }))
 		},
 		setMenuKey(menuKey) {
 			setState(prev => ({ ...prev, menuKey, }))
+		},
+		setGamePref(gameKey, prefKey, prefValue) {
+			setState(prev => {
+				const { [gameKey]: prefsForKey = {}, ...otherPrefs } = prev.prefs
+
+				prefsForKey[prefKey] = prefValue
+
+				const standardConfig = getConfig({ gameKey, gamePrefs: {} })
+				const prefKeys = Object.keys(prefsForKey) as Array<keyof GameDef>
+				const isStandard = prefKeys.every(k => prefsForKey[k] === standardConfig[k])
+
+				return {
+					...prev,
+					prefs: isStandard ? otherPrefs : { ...otherPrefs, [gameKey]: prefsForKey, }
+				}
+			})
 		},
 	})
 

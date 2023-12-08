@@ -63,4 +63,8 @@
 		grid-template-columns: repeat(4, auto);
 		align-items: start;
 	}
+
+	section.grid:first-child:last-child {
+		flex-grow: 0;
+	}
 }

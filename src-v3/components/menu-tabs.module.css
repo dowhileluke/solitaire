@@ -1,0 +1,30 @@
+.list {
+	display: flex;
+}
+
+.tab {
+	appearance: none;
+	font-size: inherit;
+	line-height: inherit;
+	background: none;
+
+	display: block;
+	padding: var(--ui-gap);
+	border: 1px solid var(--black);
+	border-top-width: 0;
+	border-right-width: 0;
+}
+
+.tab:first-child {
+	border-left-width: 0;
+}
+/* 
+.tab:last-child {
+	border-right: none;
+	margin-right: 0;
+} */
+
+.tab[data-headlessui-state~=selected] {
+	-flex-grow: 1;
+	border-bottom-color: transparent;
+}

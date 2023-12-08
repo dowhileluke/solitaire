@@ -29,5 +29,5 @@
 
 .accent {
 	background-color: var(--accent);
-	color: var(--white);
+	color: white;
 }

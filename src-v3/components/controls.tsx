@@ -12,13 +12,13 @@ export function Controls() {
 
 	return (
 		<nav className={ctrlClass}>
-			<Button thin onClick={actions.toggleMenu}>
+			<Button thin onClick={() => actions.toggleMenu(true)} disabled={state.isMenuOpen}>
 				<List />
 				<span className={responsive.hide}>
-					{GAME_CATALOG[state.gameKey].name}
+					{GAME_CATALOG[state.config.key].name}
 				</span>
 			</Button>
-			<Button thin onClick={actions.undo}>
+			<Button thin onClick={actions.undo} disabled={state.isMenuOpen || state.history.length < 2}>
 				<ArrowCounterClockwise />
 				<span className={responsive.hide}>Undo</span>
 			</Button>
