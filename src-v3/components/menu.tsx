@@ -8,6 +8,7 @@ import classes from './menu.module.css'
 import { Export } from './export'
 import { ChangeEvent } from 'react'
 import { GAME_CATALOG, LayoutMode } from '../games2'
+import { MenuTabs } from './menu-tabs'
 
 const footClass = `flex-center ${classes.foot}`
 
@@ -37,7 +38,8 @@ export function Menu() {
 
 	return (
 		<Modal isOpen={state.isMenuOpen} onClose={() => actions.toggleMenu(false)}>
-			{state.isExporting ? (<Export />) : (<FolderMenu />)}
+			{/* <MenuTabs /> */}
+			{state.isExporting ? (<Export />) : (<MenuTabs />)}
 			<section className="flex-center">
 				{state.menuKey && (
 					<select value={state.prefs[state.menuKey]?.suits ?? 4} onChange={handleSuits}>

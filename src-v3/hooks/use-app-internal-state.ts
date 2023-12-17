@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
-import { GAME_CATALOG, GameDef, GameKey, toFullDef } from '../games2'
+import { GAME_CATALOG, GameDef, toFullDef } from '../games2'
 import { moveCardIds } from '../functions/move-card-ids'
 import { setPersistedState, getPersistedState } from '../functions/persist'
 import { toInitialState } from '../functions/to-initial-state'
@@ -29,7 +29,10 @@ function getInitialState() {
 type ConfigProps = Pick<BaseAppState, 'gameKey' | 'gamePrefs'>
 
 function getConfig({ gameKey, gamePrefs }: ConfigProps) {
-	return toFullDef({ ...GAME_CATALOG[gameKey], ...gamePrefs }, gameKey)
+	// ignore layoutMode
+	const { layoutMode, ...rest } = gamePrefs
+
+	return toFullDef({ ...GAME_CATALOG[gameKey], ...rest, }, gameKey)
 }
 
 function getRules(props: ConfigProps) {

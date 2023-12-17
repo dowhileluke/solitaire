@@ -1,5 +1,5 @@
 import { generateArray, split, tail } from '@dowhileluke/fns'
-import { CARD_DATA } from '../data'
+import { CARD_DATA, isRedIndex } from '../data'
 import { GameDef } from '../games2'
 import { Card, CardId, GameState, GuessedPosition, Pile, PileCard, Position, Rules } from '../types'
 import { toPile, extendPile, truncatePile } from './pile'
@@ -14,7 +14,17 @@ function toSingleCard(id: number | null) {
 	return CARD_DATA[id]
 }
 
+/** suitCount, copiesOfSuit */
+const copiesBySuitCount: Record<number, number[]> = {
+	1: [4, 0, 0, 0],
+	2: [2, 2, 0, 0],
+	3: [2, 1, 1, 0],
+	4: [1, 1, 1, 1],
+}
+
 export function toRules(def: Required<GameDef>) {
+	const isTwoColored = def.buildRestriction === 'alt-color' && def.suits > 1
+
 	function isSequentialDesc(low: Card, high: Card) {
 		return low.rank + 1 === high.rank
 	}
@@ -104,7 +114,7 @@ export function toRules(def: Required<GameDef>) {
 			}
 
 			if (down > 0 && down >= cardIds.length) {
-				tableau.push({ cardIds, down: cardIds.length - 1 })
+				tableau.push({ cardIds, down: Math.max(cardIds.length - 1, 0), })
 				isModified = true
 			} else {
 				tableau.push({ cardIds, down })
@@ -112,7 +122,7 @@ export function toRules(def: Required<GameDef>) {
 		}
 
 		if (waste && waste.down > 0 && waste.down >= waste.cardIds.length) {
-			waste = toPile(waste.cardIds, waste.cardIds.length - 1)
+			waste = toPile(waste.cardIds, Math.max(waste.cardIds.length - 1, 1))
 			isModified = true
 		}
 
@@ -214,17 +224,65 @@ export function toRules(def: Required<GameDef>) {
 		return false
 	}
 
-	function getSafeRank(foundationCards: Array<Card | null>) {
-		if (def.buildRestriction === 'suit' || def.suits === 1) return 999
+	function getSafeRank(foundationCards: Array<Card | null>, suitIndex: number) {
+		if (def.suits === 1) return 999
 
+		const safeDelta = def.groupRestriction === 'none' || def.buildDirection === 'either' ? 1 : 2
 		let lowest = 999
 
-		for (const card of foundationCards) {
-			if (card === null) return 1
-			if (card.rank < lowest) lowest = card.rank
+		if (def.buildRestriction === 'suit') {
+			const copiesOfSuit = copiesBySuitCount[def.suits][suitIndex] * def.decks
+			let seen = 0
+
+			if (copiesOfSuit === 1) return 999
+
+			for (const card of foundationCards) {
+				if (!card) continue
+
+				if (card.suitIndex === suitIndex) {
+					seen += 1
+
+					if (card.rank < lowest) lowest = card.rank
+				}
+			}
+
+			if (seen < copiesOfSuit) lowest = -1
+		} else {
+			const copiesOfColor = def.decks * 2
+			let lowestRed = 999
+			let lowestBlack = 999
+			let seenRed = 0
+			let seenBlack = 0
+
+			for (const card of foundationCards) {
+				if (!card) continue
+
+				if (card.isRed) {
+					seenRed += 1
+
+					if (card.rank < lowestRed) lowestRed = card.rank
+				} else {
+					seenBlack += 1
+
+					if (card.rank < lowestBlack) lowestBlack = card.rank
+				}
+			}
+
+			if (seenRed < copiesOfColor) lowestRed = -1
+			if (seenBlack < copiesOfColor) lowestBlack = -1
+
+			if (isTwoColored) {
+				const isRed = isRedIndex(suitIndex)
+				const lowestOfColor = isRed ? lowestRed : lowestBlack
+				const lowestOfAlt = isRed ? lowestBlack : lowestRed
+
+				lowest = Math.min(lowestOfColor + 1, lowestOfAlt)
+			} else {
+				lowest = Math.min(lowestRed, lowestBlack)
+			}
 		}
 
-		return lowest + 2
+		return lowest + safeDelta
 	}
 
 	function getFoundationIndexes(state: GameState, suitIndex: number) {
@@ -247,7 +305,7 @@ export function toRules(def: Required<GameDef>) {
 		let eligibleFoundation: GuessedPosition | null = null
 
 		if (from.zone !== 'foundation') {
-			const safeRank = getSafeRank(state.foundations.map(toSingleCard))
+			const safeRank = getSafeRank(state.foundations.map(toSingleCard), highestCard.suitIndex)
 			const foundIndexes = getFoundationIndexes(state, highestCard.suitIndex)
 
 			for (let i = 0; i < foundIndexes.length && eligibleFoundation === null; i++) {
@@ -389,43 +447,44 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function advanceState(state: GameState) {
+		const suitIndexes = generateArray(def.suits)
 		const tableauCards = state.tableau.map(pile => pile.cardIds.map(id => CARD_DATA[id]))
 		const foundationCards = state.foundations.map(toSingleCard)
 		const cellCards = state.cells.map(toSingleCard)
 		let wasteCards = state.waste?.cardIds.map(id => CARD_DATA[id]) ?? null
-		let isChanged = false
+		let isModified = false
 		let isChanging = false
 
 		do {
-			isChanged = isChanging
+			isModified = isChanging
 			isChanging = false
 
-			const safeRank = getSafeRank(foundationCards)
+			for (const i of suitIndexes) {
+				const safeRank = getSafeRank(foundationCards, i)
 
-			for (let x = 0; x < tableauCards.length; x++) {
-				const pileCards = tableauCards[x]
+				for (let x = 0; x < tableauCards.length; x++) {
+					const pileCards = tableauCards[x]
 
-				if (pileCards.length === 0) continue
+					if (pileCards.length === 0) continue
 
-				const availableCard = tail(pileCards)
+					const availableCard = tail(pileCards)
 
-				if (availableCard.rank > safeRank) continue
+					if (availableCard.suitIndex !== i || availableCard.rank > safeRank) continue
 
-				const foundIndex = findFoundationIndex(foundationCards, availableCard)
+					const foundIndex = findFoundationIndex(foundationCards, availableCard)
 
-				if (foundIndex < 0) continue
+					if (foundIndex < 0) continue
 
-				tableauCards[x] = tableauCards[x].slice(0, -1)
-				foundationCards[foundIndex] = availableCard
-				isChanging = true
-			}
+					tableauCards[x] = tableauCards[x].slice(0, -1)
+					foundationCards[foundIndex] = availableCard
+					isChanging = true
+				}
 
-			if (!isChanging) {
 				for (let x = 0; x < cellCards.length; x++) {
 					const availableCard = cellCards[x]
 
 					if (availableCard === null) continue
-					if (availableCard.rank > safeRank) continue
+					if (availableCard.suitIndex !== i || availableCard.rank > safeRank) continue
 
 					const foundIndex = findFoundationIndex(foundationCards, availableCard)
 
@@ -435,24 +494,24 @@ export function toRules(def: Required<GameDef>) {
 					foundationCards[foundIndex] = availableCard
 					isChanging = true
 				}
-			}
 
-			if (!isChanging && wasteCards && wasteCards.length > 0) {
-				const availableCard = tail(wasteCards)
+				if (wasteCards && wasteCards.length > 0) {
+					const availableCard = tail(wasteCards)
 
-				if (availableCard.rank > safeRank) continue
+					if (availableCard.suitIndex !== i || availableCard.rank > safeRank) continue
 
-				const foundIndex = findFoundationIndex(foundationCards, availableCard)
+					const foundIndex = findFoundationIndex(foundationCards, availableCard)
 
-				if (foundIndex < 0) continue
+					if (foundIndex < 0) continue
 
-				wasteCards = wasteCards.slice(0, -1)
-				foundationCards[foundIndex] = availableCard
-				isChanging = true
+					wasteCards = wasteCards.slice(0, -1)
+					foundationCards[foundIndex] = availableCard
+					isChanging = true
+				}
 			}
 		} while (isChanging)
 
-		if (!isChanged) return null
+		if (!isModified) return null
 
 		const result: GameState = {
 			...state,

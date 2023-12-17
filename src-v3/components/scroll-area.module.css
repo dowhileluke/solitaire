@@ -1,0 +1,27 @@
+.area {
+	position: relative;
+	overflow: auto;
+	padding: var(--ui-gap) 0;
+	flex-grow: 1;
+}
+
+.area, .area * {
+	touch-action: pan-y;
+}
+
+.area::before, .area::after {
+	content: '';
+	position: absolute;
+	height: var(--ui-gap);
+	width: 100%;
+}
+
+.area::before {
+	top: 0;
+	background-image: linear-gradient(to bottom, red, transparent);
+}
+
+.area::after {
+	bottom: 0;
+	background-image: linear-gradient(to top, red, transparent);
+}

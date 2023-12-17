@@ -57,7 +57,7 @@
 	max-width: 480px;
 
 	display: grid;
-	grid-template-rows: 1fr auto;
+	grid-template-rows: auto 1fr auto;
 	/* gap: var(--ui-gap); */
 
 	/* flex-grow: 1; */
