@@ -122,7 +122,7 @@ export function toRules(def: Required<GameDef>) {
 		}
 
 		if (waste && waste.down > 0 && waste.down >= waste.cardIds.length) {
-			waste = toPile(waste.cardIds, Math.max(waste.cardIds.length - 1, 1))
+			waste = toPile(waste.cardIds, Math.max(waste.cardIds.length - 1, 0))
 			isModified = true
 		}
 
