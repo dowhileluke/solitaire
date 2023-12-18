@@ -11,7 +11,7 @@ import { useForever } from './use-forever'
 
 function getInitialState() {
 	const state = getPersistedState()
-	const { history = [], gameKey = 'klondike', gamePrefs = {}, prefs = {}, } = state
+	const { history = [], gameKey = 'klondike', gamePrefs = {}, prefs = {}, isMenuFiltered = false, } = state
 	const result: BaseAppState = {
 		history,
 		selection: null,
@@ -19,6 +19,7 @@ function getInitialState() {
 		gamePrefs,
 		isExporting: false,
 		isMenuOpen: false,
+		isMenuFiltered,
 		menuKey: gameKey,
 		prefs,
 	}
@@ -71,8 +72,6 @@ export function useAppInternalState() {
 	const actions = useForever<AppActions>({
 		launchGame() {
 			setState(prev => {
-				if (!prev.menuKey) return prev
-
 				const gameKey = prev.menuKey
 				const gamePrefs = prev.prefs[gameKey] ?? {}
 
@@ -198,6 +197,15 @@ export function useAppInternalState() {
 		},
 		toggleMenu(isMenuOpen: boolean) {
 			setState(prev => ({ ...prev, isMenuOpen, menuKey: prev.gameKey, }))
+		},
+		toggleFilter() {
+			setState(prev => {
+				const isMenuFiltered = !prev.isMenuFiltered
+				const isKeyVisible = prev.prefs[prev.menuKey]?.isFavorite || prev.menuKey === prev.gameKey
+				const menuKey = isKeyVisible || !isMenuFiltered ? prev.menuKey : prev.gameKey
+
+				return { ...prev, isMenuFiltered, menuKey, }
+			})
 		},
 		setMenuKey(menuKey) {
 			setState(prev => ({ ...prev, menuKey, }))

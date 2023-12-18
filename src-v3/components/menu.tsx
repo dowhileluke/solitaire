@@ -23,16 +23,12 @@ export function Menu() {
 	// )
 
 	function handleSuits(e: ChangeEvent<HTMLSelectElement>) {
-		if (!state.menuKey) return
-
 		const n = Number(e.target.value) as 1 | 2 | 3 | 4
 
 		actions.setGamePref(state.menuKey, 'suits', n)
 	}
 
 	function handleLayout(e: ChangeEvent<HTMLSelectElement>) {
-		if (!state.menuKey) return
-
 		actions.setGamePref(state.menuKey, 'layoutMode', e.target.value as LayoutMode)
 	}
 
@@ -63,7 +59,7 @@ export function Menu() {
 				<Button accented onClick={actions.toggleExport}>
 					<ExportIcon /> Export
 				</Button>
-				<Button accented onClick={actions.launchGame} disabled={state.menuKey === null}>
+				<Button accented onClick={actions.launchGame}>
 					New Game <Play />
 				</Button>
 			</footer>

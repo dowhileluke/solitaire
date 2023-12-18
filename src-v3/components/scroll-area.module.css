@@ -1,8 +1,7 @@
 .area {
 	position: relative;
-	overflow: auto;
-	padding: var(--ui-gap) 0;
-	flex-grow: 1;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
 .area, .area * {
@@ -12,16 +11,24 @@
 .area::before, .area::after {
 	content: '';
 	position: absolute;
+	left: 0;
 	height: var(--ui-gap);
 	width: 100%;
 }
 
 .area::before {
 	top: 0;
-	background-image: linear-gradient(to bottom, red, transparent);
+	background-image: linear-gradient(to bottom, white, transparent);
 }
 
 .area::after {
 	bottom: 0;
-	background-image: linear-gradient(to top, red, transparent);
+	background-image: linear-gradient(to top, white, transparent);
+}
+
+.area > div {
+	box-sizing: border-box;
+	padding: var(--ui-gap) 0;
+	height: 100%;
+	overflow: auto;
 }

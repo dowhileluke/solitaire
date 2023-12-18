@@ -4,18 +4,30 @@ import { GameFamily, GAME_FAMILIES, GAME_CATALOG, GAMES_BY_FAMILY } from '../gam
 import { useAppState } from '../hooks/use-app-state'
 import { concat } from '../functions/concat'
 import classes from './folder-menu.module.css'
+import { ScrollArea } from './scroll-area'
 
+type FolderFamily = GameFamily | 'Starred'
 type FolderProps = {
-	family: GameFamily;
+	family: FolderFamily;
+}
+
+function getGameList(family: FolderFamily) {
+	if (family === 'Starred') return []
+
+	return GAMES_BY_FAMILY[family] ?? []
 }
 
 function GameFolder({ family }: FolderProps) {
 	const [state, actions] = useAppState()
+	const itemRef = useRef<HTMLLIElement>(null)
 	// const listRef = useRef<HTMLUListElement>(null)
 	// const selectedGame = state.menuKey ? GAME_CATALOG[state.menuKey] : null
 	// const isExpanded = selectedGame?.family === family
 	// const FolderIcon = isExpanded ? FolderOpen : FolderSimple
-	const folderGames = GAMES_BY_FAMILY[family] ?? []
+	const gameList = getGameList(family)
+	const filteredList = state.isMenuFiltered
+		? gameList.filter(x => state.prefs[x.key]?.isFavorite || state.gameKey === x.key)
+		: gameList
 
 	// function handleFolderClick() {
 	// 	if (isExpanded || folderGames.length === 0) {
@@ -25,45 +37,66 @@ function GameFolder({ family }: FolderProps) {
 	// 	}
 	// }
 
+	useEffect(() => {
+		if (itemRef.current) {
+			itemRef.current.scrollIntoView({ block: 'center' })
+		}
+	}, [state.isMenuFiltered])
+
 	return (
 		<>
-			<h6 className={concat(classes.heading)} >
-				<div className={classes.line} />
-				{family}
-			</h6>
-			<ul>
-				{folderGames.map(def => {
-					const isSelected = def.key === state.menuKey
+			{(family === 'Starred' || !state.isMenuFiltered) && (
+				<h6 className={concat(classes.heading)} >
+					<div className={classes.line} />
+					{family}
+				</h6>
+			)}
+			{filteredList.length > 0 && (
+				<ul>
+					{filteredList.map(def => {
+						const isSelected = def.key === state.menuKey
+						const isFavorite = state.prefs[def.key]?.isFavorite ?? false
 
-					return (
-						<li
-							key={def.key}
-							className={concat(classes.item, isSelected && classes.selected)}
-							onClick={() => actions.setMenuKey(def.key)}
-						>
-							<Star />
-							<div>
-								{isSelected ? (
-									<>
-										<div>{def.name}</div>
-										<div className={classes.note}>{def.shortRules}</div>
-									</>
-								) : def.name}
-							</div>
-						</li>
-					)
-				})}
-			</ul>
+						return (
+							<li
+								key={def.key}
+								ref={isSelected ? itemRef : null}
+								className={concat(classes.item, isSelected && classes.selected)}
+							>
+								<button
+									className={classes.star}
+									onClick={() => actions.setGamePref(def.key, 'isFavorite', !isFavorite)}
+								>
+									<Star weight={isFavorite ? 'fill' : 'regular'} />
+								</button>
+								<div className={classes.label} onClick={() => actions.setMenuKey(def.key)}>
+									{isSelected ? (
+										<>
+											<div>{def.name}</div>
+											<div className={classes.note}>{def.shortRules}</div>
+										</>
+									) : def.name}
+								</div>
+							</li>
+						)
+					})}
+				</ul>
+			)}
 		</>
 	)
 }
 
 export function FolderMenu() {
+	const [state] = useAppState()
+
 	return (
-		<div>
+		<ScrollArea>
+			{state.isMenuFiltered && (
+				<GameFolder family="Starred" />
+			)}
 			{GAME_FAMILIES.map(f => (
 				<GameFolder key={f} family={f} />
 			))}
-		</div>
+		</ScrollArea>
 	)
 }

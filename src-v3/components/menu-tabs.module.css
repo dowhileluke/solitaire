@@ -42,37 +42,10 @@
 }
 
 .panels {
-	position: relative;
 	box-sizing: border-box;
 	padding: 0 var(--ui-gap);
 	overflow: hidden;
 }
-
-.panels, .panels * {
-	touch-action: pan-y;
-}
-
-.panels::before, .panels::after {
-	content: '';
-	position: absolute;
-	left: 0;
-	height: var(--ui-gap);
-	width: 100%;
-}
-
-.panels::before {
-	top: 0;
-	background-image: linear-gradient(to bottom, white, transparent);
-}
-
-.panels::after {
-	bottom: 0;
-	background-image: linear-gradient(to top, white, transparent);
-}
-
 .panels > div {
-	box-sizing: border-box;
-	padding: var(--ui-gap) 0;
-	height: 100%;
-	overflow: auto;
+	overflow: hidden;
 }

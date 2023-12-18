@@ -60,7 +60,8 @@ export type BaseAppState = {
 	gamePrefs: Partial<GameDef>;
 	isExporting: boolean;
 	isMenuOpen: boolean;
-	menuKey: GameKey | null;
+	isMenuFiltered: boolean;
+	menuKey: GameKey;
 	prefs: Partial<Record<GameKey, Partial<GameDef>>>;
 }
 
@@ -80,6 +81,7 @@ export type AppActions = {
 	fastForward: () => void;
 	toggleExport: () => void;
 	toggleMenu: (isMenuOpen: boolean) => void;
-	setMenuKey: (key: GameKey | null) => void;
+	toggleFilter: () => void;
+	setMenuKey: (menuKey: GameKey) => void;
 	setGamePref: <K extends keyof GameDef>(gameKey: GameKey, prefKey: K, prefValue: GameDef[K]) => void;
 }

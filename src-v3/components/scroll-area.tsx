@@ -1,10 +1,14 @@
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, forwardRef } from 'react'
 import classes from './scroll-area.module.css'
 
-export function ScrollArea({ children }: PropsWithChildren) {
+const areaClass = `full-height overflow-hidden ${classes.area}`
+
+export const ScrollArea = forwardRef<HTMLDivElement, PropsWithChildren>(({ children }, fwdRef) => {
 	return (
-		<div className={classes.area}>
-			{children}
+		<div className={areaClass}>
+			<div ref={fwdRef}>
+				{children}
+			</div>
 		</div>
 	)
-}
+})

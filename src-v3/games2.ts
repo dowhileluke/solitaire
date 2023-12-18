@@ -26,6 +26,7 @@ export type GameDef = {
 	layoutMode?: LayoutMode;
 	isTowers?: boolean;
 	solveRate?: number;
+	isFavorite?: boolean;
 
 	// deck & stock
 	decks?: 1 | 2;
@@ -55,6 +56,7 @@ export function toFullDef(def: GameDef, key: GameKey) {
 		layoutMode: 'horizontal',
 		isTowers: false,
 		solveRate: 0,
+		isFavorite: false,
 
 		decks: 1,
 		suits: 4,
@@ -207,7 +209,7 @@ const bakers: GameDef = {
 const seahaven: GameDef = {
 	...bakers,
 	name: 'Seahaven Towers',
-	shortRules: "Baker's Game with some clever tuning",
+	shortRules: "Baker's Game cleverly reimagined",
 	isTowers: true,
 	solveRate: 89,
 

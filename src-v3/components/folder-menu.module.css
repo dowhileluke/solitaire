@@ -26,6 +26,11 @@
 	border-radius: 0.25em;
 }
 
+.label {
+	flex-grow: 1;
+	cursor: pointer;
+}
+
 .line {
 	flex-grow: 1;
 	border-bottom: 1px solid currentColor;
@@ -38,4 +43,15 @@
 
 .note {
 	font-size: 75%;
+}
+
+.star {
+	appearance: none;
+	font-size: inherit;
+	line-height: inherit;
+	background: none;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	padding: 0;
 }
