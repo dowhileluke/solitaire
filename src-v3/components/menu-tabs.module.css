@@ -28,7 +28,6 @@
 } */
 
 .tab[data-headlessui-state~=selected] {
-	-flex-grow: 1;
 	border-bottom-color: transparent;
 	color: var(--black);
 }
@@ -43,7 +42,7 @@
 
 .panels {
 	box-sizing: border-box;
-	padding: 0 var(--ui-gap);
+	padding: 0;
 	overflow: hidden;
 }
 .panels > div {

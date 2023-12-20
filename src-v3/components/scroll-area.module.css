@@ -28,7 +28,7 @@
 
 .area > div {
 	box-sizing: border-box;
-	padding: var(--ui-gap) 0;
+	padding: var(--ui-gap);
 	height: 100%;
 	overflow: auto;
 }
