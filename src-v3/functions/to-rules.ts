@@ -391,6 +391,7 @@ export function toRules(def: Required<GameDef>) {
 
 			if (isEmpty) {
 				if (dealLimit && state.pass >= dealLimit) return null
+				if (state.stock.length === 0 && state.waste.down === 0) return null
 
 				const [flippedIds, stock] = split(state.waste.cardIds, wasteRate)
 				const result: GameState = {

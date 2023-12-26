@@ -16,10 +16,12 @@ export function Stock() {
 	// no stock from the start
 	if (history[0].stock.length === 0) return null
 
-	const { stock, tableau, pass } = tail(history)
+	const { stock, tableau, pass, waste } = tail(history)
 	const dealMax = config.wasteRate > 0 ? (config.dealLimit ?? 0) : divideUp(history[0].stock.length, tableau.length)
 	const dealCurr = config.wasteRate > 0 ? (stock.length ? pass - 1 : pass) : dealMax - divideUp(stock.length, tableau.length)
-	const canRepeat = config.wasteRate > 0 && (!config.dealLimit || pass < config.dealLimit)
+	const canRepeat = config.wasteRate > 0 && waste && (!config.dealLimit || pass < config.dealLimit) && (
+		stock.length > 0 || waste.down > 0 || waste.cardIds.length > config.wasteRate
+	)
 
 	return (
 		<PileGroup onClick={actions.deal} className={concat(!canRepeat && stock.length === 0 && 'fade')}>
