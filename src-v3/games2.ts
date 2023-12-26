@@ -85,8 +85,7 @@ const klondike: GameDef = {
 	goal: 'foundation',
 
 	decks: 1,
-	wasteRate: 1,
-	dealLimit: 1,
+	wasteRate: 3,
 
 	piles: 7,
 	pileHeight: -1,

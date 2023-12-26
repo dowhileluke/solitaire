@@ -11,7 +11,10 @@ export function Waste() {
 
 	if (!waste || (waste.cardIds.length === 0 && config.wasteRate < 1)) return null
 
-	const size = { '--size': Math.max(config.wasteRate, 1) } as CSSProperties
+	const size = {
+		'--size': (config.wasteRate + 1) / 2,
+		justifyContent: 'start',
+	} as CSSProperties
 
 	return (
 		<PileGroup style={size} className={classes.waste}>

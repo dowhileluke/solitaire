@@ -40,7 +40,9 @@ export function DndArea({ children }: PropsWithChildren) {
 		actions.moveCards(to)
 	}
 
-	const isVertical = state.layoutMode === 'vertical'
+	const isVertical = state.layoutMode === 'vertical' || (
+		state.config.wasteRate > 1 && state.selection?.zone === 'waste'
+	)
 	const isPastHalf = isVertical && state.selection && state.selection.zone === 'tableau'
 		&& state.selection.x >= state.history[0].tableau.length / 2
 	const wrapperClass = concat(
