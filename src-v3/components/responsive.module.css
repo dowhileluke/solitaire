@@ -1,6 +1,7 @@
 .app {
 	display: grid;
 	grid-template-rows: auto 1fr;
+	grid-template-areas: "ctrl" "main";
 }
 
 .ctrl {
@@ -17,6 +18,7 @@
 	.app {
 		grid-template-rows: 1fr;
 		grid-template-columns: auto 1fr;
+		grid-template-areas: "ctrl main";
 	}
 
 	.ctrl {

@@ -23,3 +23,7 @@
 .fade {
 	opacity: var(--fade);
 }
+
+.blur {
+	backdrop-filter: blur(2px);
+}

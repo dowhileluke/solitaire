@@ -20,7 +20,7 @@ export function Layout() {
 			responsive.layout,
 			!isTowers && responsive.layout2,
 			state.layoutMode === 'vertical' && responsive.layout3,
-			state.isMenuOpen && 'fade',
+			(state.isMenuOpen || state.isComplete) && 'fade',
 		)}>
 			<DndArea>
 					<Zones />

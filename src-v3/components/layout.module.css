@@ -1,5 +1,6 @@
 /* initial mode */
 .layout {
+	grid-area: main;
 	display: grid;
 	grid-template-rows: auto 1fr;
 	justify-content: center;

@@ -1,4 +1,5 @@
 import { AppStateProvider } from './app-state-provider'
+import { Completion } from './completion'
 import { Controls } from './controls'
 import { Layout } from './layout'
 import { Menu } from './menu'
@@ -12,6 +13,7 @@ export function App() {
 			<div className={appClass}>
 				<Controls />
 				<Layout />
+				<Completion />
 			</div>
 			<Menu />
 		</AppStateProvider>

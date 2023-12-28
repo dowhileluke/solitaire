@@ -13,10 +13,6 @@
 	padding: 1rem;
 }
 
-.blur {
-	backdrop-filter: blur(2px);
-}
-
 .gutter {
 	box-sizing: border-box;
 	padding: 1rem;

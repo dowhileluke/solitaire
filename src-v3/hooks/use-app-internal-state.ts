@@ -8,6 +8,7 @@ import { toRules } from '../functions/to-rules'
 import { toSelectedCardIds } from '../functions/to-selected-card-ids'
 import { AppActions, AppState, BaseAppState, GameState, Position } from '../types'
 import { useForever } from './use-forever'
+import { isGameComplete } from '../functions/is-game-complete'
 
 function getInitialState() {
 	const state = getPersistedState()
@@ -52,17 +53,32 @@ function isSelfTargeting(source: Position, target: Position) {
 	return false
 }
 
+function getPrefs(state: BaseAppState, isRepeat = false) {
+	if (isRepeat) return state
+
+	const gameKey = state.menuKey
+	const gamePrefs = state.prefs[gameKey] ?? {}
+	const result: ConfigProps = {
+		gameKey,
+		gamePrefs,
+	}
+
+	return result
+}
+
 export function useAppInternalState() {
 	const [state, setState] = useState(getInitialState)
 	const { history, gameKey, gamePrefs, prefs } = state
 	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
 	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
+	const isComplete = history.length > 0 && isGameComplete(tail(history))
 	const appState: AppState = {
 		...state,
 		config,
 		rules,
 		layoutMode,
+		isComplete,
 	}
 
 	useEffect(() => {
@@ -70,17 +86,14 @@ export function useAppInternalState() {
 	}, [history, gameKey, gamePrefs, prefs])
 
 	const actions = useForever<AppActions>({
-		launchGame() {
+		launchGame(isRepeat) {
 			setState(prev => {
-				const gameKey = prev.menuKey
-				const gamePrefs = prev.prefs[gameKey] ?? {}
-
 				return {
 					...prev,
 					gameKey,
 					gamePrefs,
 					isMenuOpen: false,
-					history: [toInitialState(getConfig({ gameKey, gamePrefs }))],
+					history: [toInitialState(getConfig(getPrefs(prev, isRepeat)))],
 				}
 			})
 		},

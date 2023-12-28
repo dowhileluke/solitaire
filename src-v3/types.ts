@@ -69,10 +69,11 @@ export type AppState = BaseAppState & {
 	config: Required<GameDef>;
 	rules: Rules;
 	layoutMode: LayoutMode;
+	isComplete: boolean;
 }
 
 export type AppActions = {
-	launchGame: () => void;
+	launchGame: (isRepeat?: boolean) => void;
 	setSelection: (pos: Position | null) => void;
 	moveCards: (pos?: Position) => void;
 	undo: () => void;

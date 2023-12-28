@@ -10,7 +10,7 @@ export type ModalProps = {
 }
 
 const fullscreen = `viewport-height ${classes.fixed}`
-const backdropClass = `${fullscreen} ${classes.blur}`
+const backdropClass = `${fullscreen} blur`
 const gutterClass = `full-height flex-center ${classes.gutter}`
 const panelClass = `overflow-hidden ${classes.panel}`
 

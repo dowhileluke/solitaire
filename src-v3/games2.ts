@@ -108,6 +108,8 @@ const westcliff: GameDef = {
 	...klondike,
 	name: 'Westcliff',
 	shortRules: 'Klondike with a smaller starting tableau',
+	wasteRate: 1,
+	dealLimit: 1,
 	pileHeight: 3,
 }
 
