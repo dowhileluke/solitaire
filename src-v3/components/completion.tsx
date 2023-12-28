@@ -1,10 +1,10 @@
 import { useAppState } from '../hooks/use-app-state'
-import { Button } from './interactive'
-import classes from './completion.module.css'
 import { Play } from '@phosphor-icons/react'
 import { concat } from '../functions/concat'
+import { Button } from './interactive'
+import responsive from './responsive.module.css'
 
-const doneClass = `${classes.done} flex-center`
+const doneClass = `${responsive.done} flex-center`
 
 export function Completion() {
 	const [state, actions] = useAppState()
@@ -13,9 +13,9 @@ export function Completion() {
 
 	return (
 		<div className={concat(doneClass, !state.isMenuOpen && 'blur')}>
-			<h2>
+			<h1>
 				Game Complete!
-			</h2>
+			</h1>
 			<Button accented onClick={() => actions.launchGame(true)}>
 				New Game
 				<Play />

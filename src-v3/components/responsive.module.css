@@ -10,6 +10,13 @@
 	justify-content: center;
 }
 
+.done {
+	grid-area: main;
+	z-index: 1;
+	flex-direction: column;
+	padding-bottom: 3em;
+}
+
 /* .layout initial def moved to local css for seahaven */
 
 @media (min-width: 600px) and (max-height: 550px) {
@@ -69,5 +76,17 @@
 
 	section.grid:first-child:last-child {
 		flex-grow: 0;
+	}
+
+	.done {
+		padding-bottom: 0;
+		padding-right: 3em;
+	}
+
+	@supports (margin: max(0px)) {
+		.done {
+			padding-right: 2.5em;
+			margin-right: max(0px, env(safe-area-inset-right));
+		}
 	}
 }
