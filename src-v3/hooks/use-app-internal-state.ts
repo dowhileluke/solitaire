@@ -54,7 +54,15 @@ function isSelfTargeting(source: Position, target: Position) {
 }
 
 function getPrefs(state: BaseAppState, isRepeat = false) {
-	if (isRepeat) return state
+	if (isRepeat) {
+		const { gameKey, gamePrefs } = state
+		const result: ConfigProps = {
+			gameKey,
+			gamePrefs,
+		}
+
+		return result
+	}
 
 	const gameKey = state.menuKey
 	const gamePrefs = state.prefs[gameKey] ?? {}
@@ -88,12 +96,13 @@ export function useAppInternalState() {
 	const actions = useForever<AppActions>({
 		launchGame(isRepeat) {
 			setState(prev => {
+				const prefs = getPrefs(prev, isRepeat)
+
 				return {
 					...prev,
-					gameKey,
-					gamePrefs,
+					...prefs,
 					isMenuOpen: false,
-					history: [toInitialState(getConfig(getPrefs(prev, isRepeat)))],
+					history: [toInitialState(getConfig(prefs))],
 				}
 			})
 		},

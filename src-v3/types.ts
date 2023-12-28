@@ -73,7 +73,7 @@ export type AppState = BaseAppState & {
 }
 
 export type AppActions = {
-	launchGame: (isRepeat?: boolean) => void;
+	launchGame: (isRepeat: boolean) => void;
 	setSelection: (pos: Position | null) => void;
 	moveCards: (pos?: Position) => void;
 	undo: () => void;

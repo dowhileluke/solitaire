@@ -59,7 +59,7 @@ export function Menu() {
 				<Button accented onClick={actions.toggleExport}>
 					<ExportIcon /> Export
 				</Button>
-				<Button accented onClick={actions.launchGame}>
+				<Button accented onClick={() => actions.launchGame(false)}>
 					New Game <Play />
 				</Button>
 			</footer>
