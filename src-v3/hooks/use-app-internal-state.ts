@@ -76,7 +76,7 @@ function getPrefs(state: BaseAppState, isRepeat: boolean) {
 
 export function useAppInternalState() {
 	const [state, setState] = useState(getInitialState)
-	const { history, gameKey, gamePrefs, prefs } = state
+	const { history, gameKey, gamePrefs, prefs, isMenuFiltered, } = state
 	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
 	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
@@ -90,15 +90,13 @@ export function useAppInternalState() {
 	}
 
 	useEffect(() => {
-		setPersistedState({ history, gameKey, gamePrefs, prefs })
-	}, [history, gameKey, gamePrefs, prefs])
+		setPersistedState({ history, gameKey, gamePrefs, prefs, isMenuFiltered })
+	}, [history, gameKey, gamePrefs, prefs, isMenuFiltered])
 
 	const actions = useForever<AppActions>({
 		launchGame(isRepeat) {
 			setState(prev => {
 				const prefs = getPrefs(prev, isRepeat)
-
-				console.log(isRepeat, prefs)
 
 				return {
 					...prev,
