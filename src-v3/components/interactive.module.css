@@ -1,4 +1,4 @@
-.button {
+.plain {
 	appearance: none;
 	color: inherit;
 	font-size: inherit;
@@ -34,4 +34,39 @@
 
 .big {
 	font-size: 125%;
+}
+
+.mini {
+	font-size: 75%;
+	padding: 0.25em;
+	border-radius: 9999px;
+}
+
+.picker {
+	width: fit-content;
+	background-color: var(--accent);
+	border-radius: 9999px;
+	padding: 0.25em;
+	gap: var(--ui-gap);
+}
+
+.labeled {
+	width: fit-content;
+	flex-direction: column;
+}
+
+.labeled > :first-child {
+	font-size: 75%;
+	text-align: center;
+	margin-bottom: 0.25em;
+}
+
+.select {
+	border: none;
+	text-align: center;
+	cursor: pointer;
+}
+
+.hidden {
+	visibility: hidden;
 }
