@@ -6,10 +6,11 @@ import responsive from './responsive.module.css'
 type ButtonProps = ComponentPropsWithoutRef<'button'> & {
 	accented?: boolean;
 	thin?: boolean;
+	big?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((
-	{ className, accented, thin, ...props }, fwdRef
+	{ className, accented, big, thin, ...props }, fwdRef
 ) => {
 	return (
 		<button
@@ -18,6 +19,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((
 				'flex-center',
 				classes.button,
 				accented && classes.accent,
+				big && classes.big,
 				thin && responsive.thin,
 				className,
 			)}

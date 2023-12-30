@@ -1,14 +1,11 @@
-import { Export as ExportIcon, Play, SkipBack } from '@phosphor-icons/react'
-import { useAppState } from '../hooks/use-app-state'
-import { FolderMenu } from './folder-menu'
-import { Button } from './interactive'
-// import { MenuTabs } from './menu-tabs'
-import { Modal } from './modal'
-import classes from './menu.module.css'
-import { Export } from './export'
 import { ChangeEvent } from 'react'
+import { Play, SkipBack } from '@phosphor-icons/react'
 import { GAME_CATALOG, LayoutMode } from '../games2'
+import { useAppState } from '../hooks/use-app-state'
+import { Button } from './interactive'
+import { Modal } from './modal'
 import { MenuTabs } from './menu-tabs'
+import classes from './menu.module.css'
 
 const footClass = `flex-center ${classes.foot}`
 
@@ -34,8 +31,7 @@ export function Menu() {
 
 	return (
 		<Modal isOpen={state.isMenuOpen} onClose={() => actions.toggleMenu(false)}>
-			{/* <MenuTabs /> */}
-			{state.isExporting ? (<Export />) : (<MenuTabs />)}
+			<MenuTabs />
 			<section className="flex-center">
 				{state.menuKey && (
 					<select value={state.prefs[state.menuKey]?.suits ?? 4} onChange={handleSuits}>
@@ -53,13 +49,10 @@ export function Menu() {
 				)}
 			</section>
 			<footer className={footClass}>
-				<Button accented onClick={actions.undoAll} disabled={state.history.length < 2}>
+				<Button big accented onClick={actions.undoAll} disabled={state.history.length < 2}>
 					<SkipBack /> Retry
 				</Button>
-				<Button accented onClick={actions.toggleExport}>
-					<ExportIcon /> Export
-				</Button>
-				<Button accented onClick={() => actions.launchGame(false)}>
+				<Button big accented onClick={() => actions.launchGame(false)}>
 					New Game <Play />
 				</Button>
 			</footer>

@@ -63,6 +63,7 @@ export type BaseAppState = {
 	isMenuFiltered: boolean;
 	menuKey: GameKey;
 	prefs: Partial<Record<GameKey, Partial<GameDef>>>;
+	isFourColorEnabled: boolean;
 }
 
 export type AppState = BaseAppState & {
@@ -83,6 +84,7 @@ export type AppActions = {
 	toggleExport: () => void;
 	toggleMenu: (isMenuOpen: boolean) => void;
 	toggleFilter: () => void;
+	toggleFourColors: (isFourColorEnabled: boolean) => void;
 	setMenuKey: (menuKey: GameKey) => void;
 	setGamePref: <K extends keyof GameDef>(gameKey: GameKey, prefKey: K, prefValue: GameDef[K]) => void;
 }

@@ -12,7 +12,14 @@ import { isGameComplete } from '../functions/is-game-complete'
 
 function getInitialState() {
 	const state = getPersistedState()
-	const { history = [], gameKey = 'klondike', gamePrefs = {}, prefs = {}, isMenuFiltered = false, } = state
+	const {
+		history = [],
+		gameKey = 'klondike',
+		gamePrefs = {},
+		prefs = {},
+		isMenuFiltered = false,
+		isFourColorEnabled = true,
+	} = state
 	const result: BaseAppState = {
 		history,
 		selection: null,
@@ -21,6 +28,7 @@ function getInitialState() {
 		isExporting: false,
 		isMenuOpen: false,
 		isMenuFiltered,
+		isFourColorEnabled,
 		menuKey: gameKey,
 		prefs,
 	}
@@ -76,7 +84,7 @@ function getPrefs(state: BaseAppState, isRepeat: boolean) {
 
 export function useAppInternalState() {
 	const [state, setState] = useState(getInitialState)
-	const { history, gameKey, gamePrefs, prefs, isMenuFiltered, } = state
+	const { history, gameKey, gamePrefs, prefs, isMenuFiltered, isFourColorEnabled } = state
 	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
 	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
@@ -90,8 +98,8 @@ export function useAppInternalState() {
 	}
 
 	useEffect(() => {
-		setPersistedState({ history, gameKey, gamePrefs, prefs, isMenuFiltered })
-	}, [history, gameKey, gamePrefs, prefs, isMenuFiltered])
+		setPersistedState({ history, gameKey, gamePrefs, prefs, isMenuFiltered, isFourColorEnabled })
+	}, [history, gameKey, gamePrefs, prefs, isMenuFiltered, isFourColorEnabled])
 
 	const actions = useForever<AppActions>({
 		launchGame(isRepeat) {
@@ -228,6 +236,9 @@ export function useAppInternalState() {
 
 				return { ...prev, isMenuFiltered, menuKey, }
 			})
+		},
+		toggleFourColors(isFourColorEnabled) {
+			setState(prev => ({ ...prev, isFourColorEnabled, }))
 		},
 		setMenuKey(menuKey) {
 			setState(prev => ({ ...prev, menuKey, }))

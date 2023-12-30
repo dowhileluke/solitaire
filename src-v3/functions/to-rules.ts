@@ -41,16 +41,13 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function isConnected(source: Card, target: Card) {
-		if (def.groupRestriction === 'none') return true
+		if (def.moveRestriction === 'none') return true
 		if (!isSequential(source, target)) return false
-		if (def.groupRestriction === 'suit') return source.suit === target.suit
-		if (def.groupRestriction === 'alt-color') return isAltColor(source, target)
+		if (def.moveRestriction === 'relaxed-suit' || def.buildRestriction === 'suit') {
+			return source.suit === target.suit
+		}
 
-		// else use supermove logic
-		if (def.buildRestriction === 'suit') return source.suit === target.suit
-		if (def.buildRestriction === 'alt-color') return isAltColor(source, target)
-
-		return true
+		return isAltColor(source, target)
 	}
 
 	function toPileCards(cardIds: CardId[]) {
@@ -158,7 +155,7 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function getMaximumLength(state: GameState, isKingTailed: boolean) {
-		if (def.groupRestriction !== 'restricted') return 999
+		if (def.moveRestriction !== 'strict') return 999
 
 		const isKingsOnly = def.emptyRestriction === 'kings'
 		const freeCells = state.cells.filter(x => x === null).length
@@ -227,7 +224,8 @@ export function toRules(def: Required<GameDef>) {
 	function getSafeRank(foundationCards: Array<Card | null>, suitIndex: number) {
 		if (def.suits === 1) return 999
 
-		const safeDelta = def.groupRestriction === 'none' || def.buildDirection === 'either' ? 1 : 2
+		// Yukon- & Fortress-like games should be less optimistic; e.g. needing 2's to put Aces on
+		const safeDelta = def.moveRestriction === 'none' || def.buildDirection === 'either' ? 1 : 2
 		let lowest = 999
 
 		if (def.buildRestriction === 'suit') {

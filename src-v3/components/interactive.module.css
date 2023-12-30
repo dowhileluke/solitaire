@@ -31,3 +31,7 @@
 	background-color: var(--accent);
 	color: white;
 }
+
+.big {
+	font-size: 125%;
+}

@@ -1,7 +1,9 @@
 import { Tab } from '@headlessui/react'
-import { CaretLeft, Gear, Star } from '@phosphor-icons/react'
-import { FolderMenu } from './folder-menu'
+import { Gear, Star, X } from '@phosphor-icons/react'
 import { useAppState } from '../hooks/use-app-state'
+import { FolderMenu } from './folder-menu'
+import { Rules } from './rules'
+import { Settings } from './settings'
 import classes from './menu-tabs.module.css'
 
 const growTab = `${classes.tab} ${classes.grow}`
@@ -13,11 +15,11 @@ export function MenuTabs() {
 	return (
 		<Tab.Group>
 			<Tab.List className={classes.list}>
-					<button className={classes.tab}>
-						<CaretLeft />
+					<button className={classes.tab} onClick={() => actions.toggleMenu(false)}>
+						<X />
 					</button>
 					<Tab className={classes.tab}>Game List</Tab>
-					<Tab className={classes.tab}>Rules & Tips</Tab>
+					<Tab className={classes.tab}>How to Play</Tab>
 					<button className={growTab} />
 					<button className={classes.tab} onClick={actions.toggleFilter}>
 						<Star weight={state.isMenuFiltered ? 'fill' : 'regular'} />
@@ -31,10 +33,10 @@ export function MenuTabs() {
 					<FolderMenu />
 				</Tab.Panel>
 				<Tab.Panel className={panelClass}>
-					Two
+					<Rules />
 				</Tab.Panel>
 				<Tab.Panel className={panelClass}>
-					Three
+					<Settings />
 				</Tab.Panel>
 			</Tab.Panels>
 		</Tab.Group>

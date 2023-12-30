@@ -46,7 +46,8 @@ export type GameDef = {
 	// gameplay
 	buildDirection: 'descending' | 'either';
 	buildRestriction: 'none' | 'alt-color' | 'suit';
-	groupRestriction: 'none' | 'alt-color' | 'suit' | 'restricted';
+	// groupRestriction: 'none' | 'alt-color' | 'suit' | 'restricted';
+	moveRestriction: 'none' | 'strict' | 'relaxed' | 'relaxed-suit';
 	emptyRestriction: 'none' | 'kings';
 	allowRecant?: boolean;
 }
@@ -92,7 +93,7 @@ const klondike: GameDef = {
 
 	buildDirection: 'descending',
 	buildRestriction: 'alt-color',
-	groupRestriction: 'alt-color',
+	moveRestriction: 'relaxed',
 	emptyRestriction: 'kings',
 }
 
@@ -145,7 +146,7 @@ const spider: GameDef = {
 
 	buildDirection: 'descending',
 	buildRestriction: 'none',
-	groupRestriction: 'suit',
+	moveRestriction: 'relaxed-suit',
 	emptyRestriction: 'none',
 }
 
@@ -194,7 +195,7 @@ const freecell: GameDef = {
 
 	buildDirection: 'descending',
 	buildRestriction: 'alt-color',
-	groupRestriction: 'restricted',
+	moveRestriction: 'strict',
 	emptyRestriction: 'none',
 }
 
@@ -241,7 +242,7 @@ const yukon: GameDef = {
 
 	overHeight: 4,
 
-	groupRestriction: 'none',
+	moveRestriction: 'none',
 }
 
 const russian: GameDef = {
@@ -354,7 +355,7 @@ const thieves: GameDef = {
 
 	buildDirection: 'descending',
 	buildRestriction: 'suit',
-	groupRestriction: 'restricted',
+	moveRestriction: 'strict',
 	emptyRestriction: 'none',
 }
 
@@ -376,7 +377,7 @@ const alibaba: GameDef = {
 	goal: 'foundation@2',
 
 	decks: 1,
-	groupRestriction: 'suit',
+	moveRestriction: 'relaxed',
 }
 
 export const GAME_CATALOG = {

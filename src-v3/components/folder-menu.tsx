@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
-import { ArrowElbowDownRight, FolderOpen, FolderSimple, Star } from '@phosphor-icons/react'
-import { GameFamily, GAME_FAMILIES, GAME_CATALOG, GAMES_BY_FAMILY } from '../games2'
-import { useAppState } from '../hooks/use-app-state'
+import { Star } from '@phosphor-icons/react'
 import { concat } from '../functions/concat'
-import classes from './folder-menu.module.css'
+import { GameFamily, GAME_FAMILIES, GAMES_BY_FAMILY } from '../games2'
+import { useAppState } from '../hooks/use-app-state'
 import { ScrollArea } from './scroll-area'
+import classes from './folder-menu.module.css'
 
 type FolderFamily = GameFamily | 'Starred'
 type FolderProps = {

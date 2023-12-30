@@ -16,7 +16,7 @@ export function Completion() {
 			<h1>
 				Game Complete!
 			</h1>
-			<Button accented onClick={() => actions.launchGame(true)}>
+			<Button big accented onClick={() => actions.launchGame(true)}>
 				New Game
 				<Play />
 			</Button>
