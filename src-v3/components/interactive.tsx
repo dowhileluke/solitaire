@@ -42,18 +42,19 @@ type PickerProps<T extends string | number | boolean> = {
 	value: T;
 	onChange: (value: T) => void;
 	options: T[] | Array<LabeledValue<T>>;
+	isModified?: boolean;
 }
 
 const pickerClass = `flex-center ${classes.picker}`
-const selectClass = `${classes.plain} ${classes.accent} ${classes.select}`
+const selectClass = `${classes.plain} ${classes.select}`
 
 type BooleanSelectProps = {
 	options: ReactNode[];
-	first: boolean;
 	onClick: () => void;
+	first: boolean;
 }
 
-function BooleanSelect({ options, first, onClick }: BooleanSelectProps) {
+function BooleanSelect({ options, onClick, first }: BooleanSelectProps) {
 	return (
 		<Fusion onClick={onClick} className={selectClass}>
 			<div className={concat(!first && classes.hidden)}>{options[0]}</div>
@@ -62,7 +63,9 @@ function BooleanSelect({ options, first, onClick }: BooleanSelectProps) {
 	)
 }
 
-export function Picker<T extends string | number | boolean>({ value, onChange, options }: PickerProps<T>) {
+export function Picker<T extends string | number | boolean>({
+	options, value, onChange, isModified,
+}: PickerProps<T>) {
 	function handleChange(e: ChangeEvent<HTMLSelectElement>) {
 		const strValue = e.target.value
 		const strMatch = options.find(opt => typeof opt === 'object'
@@ -98,8 +101,8 @@ export function Picker<T extends string | number | boolean>({ value, onChange, o
 	const dropdown = isBoolean ? (
 		<BooleanSelect
 			options={options.map(opt => typeof opt === 'object' ? opt.label : opt.toString())}
-			first={value === getValueAtIndex(0)}
 			onClick={increment}
+			first={value === getValueAtIndex(0)}
 		/>
 	) : (
 		<select
@@ -117,7 +120,7 @@ export function Picker<T extends string | number | boolean>({ value, onChange, o
 	)
 
 	return (
-		<div className={pickerClass}>
+		<div className={concat(pickerClass, isModified && classes.modified)}>
 			<Button mini onClick={() => onChange(getValueAtRelativeIndex(-1))}><CaretLeft /></Button>
 			{dropdown}
 			<Button mini onClick={increment}><CaretRight /></Button>

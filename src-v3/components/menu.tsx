@@ -6,6 +6,7 @@ import { Button } from './interactive'
 import { Modal } from './modal'
 import { MenuTabs } from './menu-tabs'
 import classes from './menu.module.css'
+import { Prefs } from './prefs'
 
 const footClass = `flex-center ${classes.foot}`
 
@@ -32,22 +33,7 @@ export function Menu() {
 	return (
 		<Modal isOpen={state.isMenuOpen} onClose={() => actions.toggleMenu(false)}>
 			<MenuTabs />
-			<section className="flex-center">
-				{state.menuKey && (
-					<select value={state.prefs[state.menuKey]?.suits ?? 4} onChange={handleSuits}>
-						<option value="1">One Suit</option>
-						<option value="2">Two Suits</option>
-						<option value="3">Three Suits</option>
-						<option value="4">Four Suits</option>
-					</select>
-				)}
-				{state.menuKey && selectedGame && selectedGame.layoutMode === 'vertical' && (
-					<select value={state.prefs[state.menuKey]?.layoutMode || 'vertical'} onChange={handleLayout}>
-						<option value="vertical">Wide</option>
-						<option value="horizontal">Tall</option>
-					</select>
-				)}
-			</section>
+			<Prefs />
 			<footer className={footClass}>
 				<Button big accented onClick={actions.undoAll} disabled={state.history.length < 2}>
 					<SkipBack /> Retry

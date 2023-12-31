@@ -20,6 +20,10 @@
 	align-items: center;
 }
 
+.ui-gap {
+	gap: var(--ui-gap);
+}
+
 .fade {
 	opacity: var(--fade);
 }

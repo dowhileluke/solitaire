@@ -17,12 +17,12 @@ function getRedealText(dealLimit: number) {
 
 	if (redealCount === 0) return 'there is no redeal.'
 
-	const redealPrefix = 'it can be replenished from the waste '
+	const redealPrefix = 'the waste pile is flipped and becomes the next stock'
 
-	if (redealCount < 0) return redealPrefix + 'for redealing.'
-	if (redealCount === 1) return redealPrefix + 'for one redeal.'
+	if (redealCount < 0) return redealPrefix + '.'
+	if (redealCount === 1) return redealPrefix + ' for one redeal.'
 
-	return redealPrefix + `for ${redealCount} redeals.`
+	return redealPrefix + ` for ${redealCount} redeals.`
 }
 
 export function Rules() {

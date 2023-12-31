@@ -8,9 +8,11 @@
 	--black: rgb(var(--rgb-black));
 	--black-alt: rgba(var(--rgb-black), var(--alt));
 	
-	--rgb-red: 178, 34, 34;
+	--rgb-red: 178, 34, 34; /* firebrick */
 	--red: rgb(var(--rgb-red));
 	--red-alt: rgba(var(--rgb-red), var(--alt));
+
+	--blue: steelblue;
 
 	--card-width: 44px;
 	--card-height: 58px;
@@ -60,7 +62,7 @@ body {
 
 .four-color {
 	--diams: salmon;
-	--clubs: steelblue;
+	--clubs: var(--blue);
 	/* --diams: mediumvioletred; */
 	/* --clubs: darkslateblue; */
 	/* --diams: #d0a; */
