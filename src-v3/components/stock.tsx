@@ -2,7 +2,7 @@ import { Circle, Recycle, X } from '@phosphor-icons/react'
 import { generateArray, tail } from '@dowhileluke/fns'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
-import { Card } from './card'
+import { Card } from './card1'
 import { PileGroup } from './pile-group'
 import classes from './stock.module.css'
 
