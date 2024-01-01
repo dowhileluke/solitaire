@@ -1,0 +1,88 @@
+:root {
+	font: 16px arial, sans-serif;
+	line-height: 1;
+	-webkit-text-size-adjust: 100%;
+
+	--alt: 0.66;
+	--rgb-black: 51, 51, 51;
+	--black: rgb(var(--rgb-black));
+	--black-alt: rgba(var(--rgb-black), var(--alt));
+	
+	--rgb-red: 178, 34, 34; /* firebrick */
+	--red: rgb(var(--rgb-red));
+	--red-alt: rgba(var(--rgb-red), var(--alt));
+
+	--blue: steelblue;
+
+	--card-width: 44px;
+	--card-height: 58px;
+	--card-overlap: -33px;
+	--down-overlap: -53px;
+	--suit-ratio: 150%;
+	--radius: 5px;
+	--space: 0.125rem;
+	--gap: 0.125rem;
+	
+	--card-gap: 0.125rem;
+	--ui-gap: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+	:root {
+		font-size: 20px;
+
+		--card-width: 58px;
+		--card-height: 77px;
+		--card-overlap: -47px;
+		--down-overlap: -70px;
+		--radius: 6px;
+	}
+}
+
+* {
+	user-select: none;
+	touch-action: none;
+}
+
+body {
+	margin: 0;
+	color: var(--black);
+	background-color: linen;
+
+	--accent: var(--red);
+	--card-face: white;
+	--card-back: aliceblue;
+	--fade: 0.4;
+
+	--spades: var(--black);
+	--hearts: var(--red);
+	--diams: var(--red);
+	--clubs: var(--black);
+}
+
+.four-color {
+	--diams: salmon;
+	--clubs: var(--blue);
+	/* --diams: mediumvioletred; */
+	/* --clubs: darkslateblue; */
+	/* --diams: #d0a; */
+	/* --clubs: #09c; */
+  /* --clubs: #068; */
+  /* --clubs: #269; */
+	/* --diams: var(--red-alt); */
+	/* --clubs: var(--black-alt); */
+	/* --diams: steelblue; */
+	/* --clubs: forestgreen; */
+	/* --diams: rgb(204, 105, 0); */
+	/* --clubs: rgb(0, 122, 221); */
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+textarea {
+	font-size: inherit;
+}

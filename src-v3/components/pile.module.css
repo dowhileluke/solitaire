@@ -1,0 +1,28 @@
+.pile, .overlay {
+	display: flex;
+	flex-direction: column;
+	width: var(--card-width);
+}
+
+.wide {
+	/* cards have 125% font size */
+	width: calc(var(--size, 1) * (var(--card-width) - 1.25em) + 1.25em);
+}
+
+.wide li {
+	width: var(--card-width);
+}
+
+.horizontal {
+	flex-direction: row;
+}
+
+.horizontal li {
+	flex-shrink: 0;
+	width: var(--card-width);
+	margin-right: -1em;
+}
+
+.overlay li {
+	flex-shrink: 0;
+}

@@ -1,0 +1,13 @@
+.zones {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--ui-gap);
+}
+
+.zones > :first-child:last-child {
+	flex-grow: 1;
+}
+
+.wasteland {
+	display: flex;
+}

@@ -1,0 +1,92 @@
+.app {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	grid-template-areas: "ctrl" "main";
+}
+
+.ctrl {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.done {
+	grid-area: main;
+	z-index: 1;
+	flex-direction: column;
+	padding-bottom: 3em;
+}
+
+/* .layout initial def moved to local css for seahaven */
+
+@media (min-width: 600px) and (max-height: 550px) {
+	.hide { display: none; }
+
+	.app {
+		grid-template-rows: 1fr;
+		grid-template-columns: auto 1fr;
+		grid-template-areas: "ctrl main";
+	}
+
+	.ctrl {
+		flex-direction: column;
+		justify-content: start;
+		font-size: 125%;
+	}
+
+	.ctrl > :first-child {
+		margin-top: var(--card-gap);
+	}
+
+	.thin {
+		padding: 0.25em;
+	}
+
+	main.layout {
+		padding: var(--ui-gap);
+	}
+
+	@supports (padding: max(0px)) {
+		main.layout {
+			padding-right: max(var(--ui-gap), env(safe-area-inset-right));
+		}
+	}
+
+	/* two-column layout */
+	main.layout2 {
+		grid-template-rows: 1fr;
+		grid-template-columns: auto 1fr;
+	}
+
+	main.layout3 {
+		grid-template-columns: auto 1fr;
+	}
+
+	section.zones {
+		flex-direction: column-reverse;
+		justify-content: start;
+	}
+
+	/* increase specificity to override flex */
+	section.grid {
+		display: grid;
+		grid-template-columns: repeat(4, auto);
+		align-items: start;
+	}
+
+	section.grid:first-child:last-child {
+		flex-grow: 0;
+	}
+
+	.done {
+		padding-bottom: 0;
+		padding-right: 3em;
+	}
+
+	@supports (margin: max(0px)) {
+		.done {
+			padding-right: 2.5em;
+			margin-right: max(0px, env(safe-area-inset-right));
+		}
+	}
+}

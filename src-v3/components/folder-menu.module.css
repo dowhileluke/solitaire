@@ -1,0 +1,57 @@
+.menu {
+	overflow: auto;
+	flex-grow: 1;
+}
+
+.menu, .menu * {
+	touch-action: pan-y;
+}
+
+.heading, .item {
+	/* padding: var(--ui-gap); */
+	display: flex;
+	gap: var(--ui-gap);
+	align-items: center;
+}
+
+.heading {
+	margin: 0;
+	font-size: 50%;
+	color: var(--black-alt);
+	/* padding-right: var(--ui-gap); */
+}
+
+.item {
+	padding: 0.25em;
+	border-radius: 0.25em;
+}
+
+.label {
+	flex-grow: 1;
+	cursor: pointer;
+}
+
+.line {
+	flex-grow: 1;
+	border-bottom: 1px solid currentColor;
+}
+
+.selected {
+	color: white;
+	background-color: var(--accent);
+}
+
+.note {
+	font-size: 75%;
+}
+
+.star {
+	appearance: none;
+	font-size: inherit;
+	line-height: inherit;
+	background: none;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+	padding: 0;
+}

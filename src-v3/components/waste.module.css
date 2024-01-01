@@ -1,0 +1,9 @@
+.waste {
+	flex-shrink: 0;
+	width: calc(var(--card-width) * var(--size));
+	/* width: calc(var(--card-width) + (var(--card-width) - 1.2em) * var(--size)); */
+}
+
+.void {
+	border: none;
+}

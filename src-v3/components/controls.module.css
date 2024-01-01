@@ -1,0 +1,11 @@
+.ctrl {
+	background-color: var(--accent);
+	padding: var(--ui-gap);
+	gap: var(--ui-gap);
+}
+
+@supports (padding: max(0px)) {
+	.ctrl {
+		padding-left: max(var(--ui-gap), env(safe-area-inset-left));
+	}
+}
