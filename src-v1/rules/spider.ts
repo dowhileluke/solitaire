@@ -111,7 +111,7 @@ export const spider: Rules = {
 		let isChanged = false
 	
 		for (const pile of state.tableau) {
-			if (hasFullSequence(pile.cardIds)) {
+			if (hasFullSequence(pile.cardIds.slice(pile.down))) {
 				isChanged = true
 				tableau.push(trimPile(pile, 13))
 				foundations.unshift(pile.cardIds.slice(-1))
