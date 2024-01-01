@@ -58,7 +58,7 @@ export type BaseAppState = {
 	selection: Position | null;
 	gameKey: GameKey;
 	gamePrefs: Partial<GameDef>;
-	isExporting: boolean;
+	isPrefsOpen: boolean;
 	isMenuOpen: boolean;
 	isMenuFiltered: boolean;
 	menuKey: GameKey;
@@ -81,7 +81,7 @@ export type AppActions = {
 	undoAll: () => void;
 	deal: () => void;
 	fastForward: () => void;
-	toggleExport: () => void;
+	togglePrefs: () => void;
 	toggleMenu: (isMenuOpen: boolean) => void;
 	toggleFilter: () => void;
 	toggleFourColors: (isFourColorEnabled: boolean) => void;

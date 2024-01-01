@@ -1,10 +1,9 @@
 import { useAppState } from '../hooks/use-app-state'
 import { concat } from '../functions/concat'
+import { isFullyDealtGame } from '../functions/is-fully-dealt-game'
 import { GAME_CATALOG, GameDef, toFullDef } from '../games2'
 import { ScrollArea } from './scroll-area'
 import classes from './rules.module.css'
-import { isOpenGame } from '../functions/is-open-game'
-import { isFullyDealtGame } from '../functions/is-fully-dealt-game'
 
 const BUILD_TEXT: Record<GameDef['buildRestriction'], string> = {
 	'none': '',
@@ -17,7 +16,7 @@ function getRedealText(dealLimit: number) {
 
 	if (redealCount === 0) return 'there is no redeal.'
 
-	const redealPrefix = 'the waste pile is flipped and becomes the next stock'
+	const redealPrefix = 'the waste pile is flipped over and becomes the next stock'
 
 	if (redealCount < 0) return redealPrefix + '.'
 	if (redealCount === 1) return redealPrefix + ' for one redeal.'
@@ -30,23 +29,21 @@ export function Rules() {
 	const config = toFullDef(GAME_CATALOG[menuKey], menuKey)
 	const isFoundationGame = config.goal.startsWith('foundation')
 	const isFullyDealt = isFullyDealtGame(config)
-	// const isClosedGame = !isOpenGame(config)
 	const isBidirectional = config.buildDirection === 'either'
 	const isRelaxedSuit = config.moveRestriction === 'relaxed-suit'
-
 	const directionText = concat(isBidirectional && 'ascending or ', 'descending')
 	const buildText = BUILD_TEXT[config.buildRestriction]
 
 	return (
 		<ScrollArea className={classes.rules}>
-			<h3>Goal &mdash; {config.name}</h3>
+			<h3>Goal</h3>
 			<p>
 				{isFoundationGame
 					? 'Move all cards to the foundations.'
 					: `Form suited K→A sequences${
 						config.goal === 'sequence-in'
 							? ' within the tableau.'
-							: ', removing each as they are built.'
+							: ', removing each as they are completed.'
 					}`
 				}
 				{config.solveRate > 0 && ` ${config.solveRate}% of deals can be solved.`}
@@ -54,7 +51,7 @@ export function Rules() {
 			<h3>Movement</h3>
 			<p>
 				{config.moveRestriction === 'none' ? 'Any visible' : 'An exposed'} card
-				can be moved by placing it on a tableau pile to form a sequence
+				can be moved to a tableau pile if it forms a sequence
 				in {directionText} order{buildText ? ` with ${buildText}.` : ' regardless of suit.'}
 			</p>
 			<p>

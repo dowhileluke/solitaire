@@ -9,13 +9,14 @@ const ctrlClass = `${classes.ctrl} ${responsive.ctrl}`
 
 export function Controls() {
 	const [state, actions] = useAppState()
+	const gameName = GAME_CATALOG[state.config.key].name
 
 	return (
 		<nav className={ctrlClass}>
 			<Button thin onClick={() => actions.toggleMenu(true)} disabled={state.isMenuOpen}>
 				<List />
 				<span className={responsive.hide}>
-					{GAME_CATALOG[state.config.key].name}
+					{state.history.length > 0 ? gameName : 'Menu'}
 				</span>
 			</Button>
 			<Button thin onClick={actions.undo} disabled={state.isMenuOpen || state.history.length < 2}>

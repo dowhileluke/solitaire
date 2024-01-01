@@ -20,22 +20,10 @@ function getGameList(family: FolderFamily) {
 function GameFolder({ family }: FolderProps) {
 	const [state, actions] = useAppState()
 	const itemRef = useRef<HTMLLIElement>(null)
-	// const listRef = useRef<HTMLUListElement>(null)
-	// const selectedGame = state.menuKey ? GAME_CATALOG[state.menuKey] : null
-	// const isExpanded = selectedGame?.family === family
-	// const FolderIcon = isExpanded ? FolderOpen : FolderSimple
 	const gameList = getGameList(family)
 	const filteredList = state.isMenuFiltered
 		? gameList.filter(x => state.prefs[x.key]?.isFavorite || state.gameKey === x.key)
 		: gameList
-
-	// function handleFolderClick() {
-	// 	if (isExpanded || folderGames.length === 0) {
-	// 		actions.setMenuKey(null)
-	// 	} else {
-	// 		actions.setMenuKey(folderGames[0].key)
-	// 	}
-	// }
 
 	useEffect(() => {
 		if (itemRef.current) {

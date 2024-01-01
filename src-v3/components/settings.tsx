@@ -5,7 +5,6 @@ import { isOpenGame } from '../functions/is-open-game'
 import { toPlaintext } from '../functions/to-plaintext'
 import { useAppState } from '../hooks/use-app-state'
 import { Button, LabeledPicker, LabeledValue } from './interactive'
-import { ScrollArea } from './scroll-area'
 
 const enabledOpts: Array<LabeledValue<boolean>> = [
 	{ label: 'Allow', value: true, },
@@ -23,7 +22,7 @@ export function Settings() {
 	}
 
 	return (
-		<ScrollArea>
+		<div className="ui-pad">
 			<LabeledPicker
 				label="Four Color Deck"
 				value={isFourColorEnabled}
@@ -37,6 +36,6 @@ export function Settings() {
 					Export Board
 				</Button>
 			)}
-		</ScrollArea>
+		</div>
 	)
 }

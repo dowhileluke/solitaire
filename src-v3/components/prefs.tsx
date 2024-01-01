@@ -75,7 +75,7 @@ export function Prefs() {
 			)}
 			{def.moveRestriction === 'strict' && def.family === 'FreeCell' && (
 				<LabeledPicker
-					label="Sequence Moves"
+					label="Sequence Movement"
 					value={current.moveRestriction}
 					options={moveOpts}
 					onChange={mode => actions.setGamePref(state.menuKey, 'moveRestriction', mode)}

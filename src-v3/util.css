@@ -20,6 +20,10 @@
 	align-items: center;
 }
 
+.ui-pad {
+	padding: var(--ui-gap);
+}
+
 .ui-gap {
 	gap: var(--ui-gap);
 }

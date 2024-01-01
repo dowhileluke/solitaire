@@ -328,16 +328,16 @@ const stronghold: GameDef = {
 	cells: 1,
 }
 
-const canister: GameDef = {
-	...forecell,
-	name: 'Canister (sans Merci)',
-	family: 'Castle',
-	shortRules: 'Fortress using alternating colors',
-	solveRate: 0,
+// const canister: GameDef = {
+// 	...forecell,
+// 	name: 'Canister (sans Merci)',
+// 	family: 'Castle',
+// 	shortRules: 'Fortress using alternating colors',
+// 	solveRate: 0,
 
-	cells: 0,
-	buildDirection: 'either',
-}
+// 	cells: 0,
+// 	buildDirection: 'either',
+// }
 
 const thieves: GameDef = {
 	name: 'Forty Thieves',
@@ -373,7 +373,7 @@ const eight: GameDef = {
 const alibaba: GameDef = {
 	...thieves,
 	name: 'Ali Baba',
-	shortRules: 'One-deck variant, moveable sequences',
+	shortRules: 'One-deck Forty Thieves, moveable sequences',
 	goal: 'foundation@2',
 
 	decks: 1,
@@ -385,7 +385,7 @@ export const GAME_CATALOG = {
 	spider, spiderette, will, simple,
 	freecell, bakers, seahaven, forecell,
 	yukon, russian, scorpion, wasp, yukon2,
-	beleaguered, fortress, alleys, stronghold, canister,
+	beleaguered, fortress, alleys, stronghold, // canister,
 	thieves, eight, alibaba,
 }
 export const GAME_LIST = (Object.keys(GAME_CATALOG) as Array<GameKey>).map(k => toFullDef(GAME_CATALOG[k], k))

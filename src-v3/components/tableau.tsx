@@ -1,9 +1,9 @@
 import { split, tail } from '@dowhileluke/fns'
 import { useAppState } from '../hooks/use-app-state'
+import { Foundations } from './foundations'
 import { PileGroup } from './pile-group'
 import { Pile } from './pile'
 import classes from './tableau.module.css'
-import { Foundations } from './foundations'
 
 export function Tableau() {
 	const [{ config, history, layoutMode }] = useAppState()

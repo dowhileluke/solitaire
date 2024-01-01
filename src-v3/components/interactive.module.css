@@ -27,19 +27,35 @@
 	cursor: default;
 }
 
-.accent {
+.accent.outlined {
+	color: var(--accent);
+}
+
+.accent:not(.outlined) {
 	background-color: var(--accent);
 	color: white;
+}
+
+.accent:not(.outlined).blue {
+	background-color: var(--blue);
 }
 
 .big {
 	font-size: 125%;
 }
 
+.blue.outlined {
+	color: var(--blue);
+}
+
 .mini {
 	font-size: 75%;
 	padding: 0.25em;
 	border-radius: 9999px;
+}
+
+.outlined {
+	border-color: currentColor;
 }
 
 .picker {

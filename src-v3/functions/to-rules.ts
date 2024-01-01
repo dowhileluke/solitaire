@@ -43,6 +43,7 @@ export function toRules(def: Required<GameDef>) {
 	function isConnected(source: Card, target: Card) {
 		if (def.moveRestriction === 'none') return true
 		if (!isSequential(source, target)) return false
+		if (def.buildRestriction === 'none') return true
 		if (def.moveRestriction === 'relaxed-suit' || def.buildRestriction === 'suit') {
 			return source.suit === target.suit
 		}

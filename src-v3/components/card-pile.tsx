@@ -1,7 +1,7 @@
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { CardId } from '../types'
-import { Card } from './card2'
+import { Card } from './card'
 import classes from './card-pile.module.css'
 
 type CardPileProps = {

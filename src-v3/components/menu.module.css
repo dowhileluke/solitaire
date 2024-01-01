@@ -1,5 +1,59 @@
-.foot {
-	flex-shrink: 0;
-	gap: var(--ui-gap);
+.list {
+	display: flex;
+}
+
+.tab {
+	appearance: none;
+	font-size: inherit;
+	line-height: inherit;
+	background: none;
+
+	display: block;
+	text-align: left;
+	cursor: pointer;
 	padding: var(--ui-gap);
+	color: var(--black-alt);
+	border: 1px solid var(--black-alt);
+	border-top-width: 0;
+	border-right-width: 0;
+}
+
+.tab:first-child {
+	border-left-width: 0;
+}
+
+/* 
+.tab:last-child {
+	border-right: none;
+	margin-right: 0;
+} */
+
+.tab[data-headlessui-state~=selected] {
+	border-bottom-color: transparent;
+	color: var(--black);
+}
+
+.tab svg {
+	display: block;
+}
+
+.grow {
+	flex-grow: 1;
+	cursor: default;
+}
+
+.panels {
+	box-sizing: border-box;
+	padding: 0;
+	overflow: hidden;
+}
+
+.panels > div {
+	overflow: hidden;
+	display: grid;
+	grid-template-rows: 1fr auto;
+}
+
+.panels footer {
+	flex-direction: column;
 }

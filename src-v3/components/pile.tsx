@@ -4,7 +4,7 @@ import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { Pile as PileDef, PileCard, Position, Rules, CardId } from '../types'
-import { Card, DndCard } from './card2'
+import { Card, DndCard } from './card'
 import classes from './card-pile.module.css'
 
 type PileProps = {

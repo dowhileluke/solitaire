@@ -25,7 +25,7 @@ function getInitialState() {
 		selection: null,
 		gameKey,
 		gamePrefs,
-		isExporting: false,
+		isPrefsOpen: false,
 		isMenuOpen: false,
 		isMenuFiltered,
 		isFourColorEnabled,
@@ -222,8 +222,8 @@ export function useAppInternalState() {
 				}
 			})
 		},
-		toggleExport() {
-			setState(prev => ({ ...prev, isExporting: !prev.isExporting }))
+		togglePrefs() {
+			setState(prev => ({ ...prev, isPrefsOpen: !prev.isPrefsOpen }))
 		},
 		toggleMenu(isMenuOpen: boolean) {
 			setState(prev => ({ ...prev, isMenuOpen, menuKey: prev.gameKey, }))
@@ -245,17 +245,19 @@ export function useAppInternalState() {
 		},
 		setGamePref(gameKey, prefKey, prefValue) {
 			setState(prev => {
-				const { [gameKey]: prefsForKey = {}, ...otherPrefs } = prev.prefs
-
-				prefsForKey[prefKey] = prefValue
-
 				const standardConfig = getConfig({ gameKey, gamePrefs: {} })
-				const prefKeys = Object.keys(prefsForKey) as Array<keyof GameDef>
-				const isStandard = prefKeys.every(k => prefsForKey[k] === standardConfig[k])
+				const { [gameKey]: prefsForKey = {}, ...otherPrefs } = prev.prefs
+				const { [prefKey]: _, ...otherPrefsForKey } = prefsForKey
+
+				if (prefValue !== standardConfig[prefKey]) {
+					(otherPrefsForKey as Partial<GameDef>)[prefKey] = prefValue
+				}
+
+				const isStandard = Object.keys(otherPrefsForKey).length === 0
 
 				return {
 					...prev,
-					prefs: isStandard ? otherPrefs : { ...otherPrefs, [gameKey]: { ...prefsForKey, }, },
+					prefs: isStandard ? otherPrefs : { ...otherPrefs, [gameKey]: { ...otherPrefsForKey, }, },
 				}
 			})
 		},

@@ -10,10 +10,12 @@ type ButtonProps = ComponentPropsWithoutRef<'button'> & {
 	thin?: boolean;
 	big?: boolean;
 	mini?: boolean;
+	outlined?: boolean;
+	blue?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((
-	{ className, accented, big, thin, mini, ...props }, fwdRef
+	{ className, accented, big, thin, mini, outlined, blue, ...props }, fwdRef
 ) => {
 	return (
 		<button
@@ -26,6 +28,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((
 				big && classes.big,
 				thin && responsive.thin,
 				mini && classes.mini,
+				outlined && classes.outlined,
+				blue && classes.blue,
 				className,
 			)}
 			{...props}
