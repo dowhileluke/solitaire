@@ -8,11 +8,12 @@ export default defineConfig({
     react(),
     VitePWA({
       // devOptions: { enabled: true },
-      includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'faces/*.png'],
+      // includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'faces/*.png'],
+      includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'Solitaire',
         short_name: 'Solitaire',
-        description: 'Spider, Klondike, FreeCell, and Yukon solitaire card games',
+        description: 'A collection of solitaire card games',
         theme_color: 'firebrick',
         background_color: 'linen',
         icons: [
