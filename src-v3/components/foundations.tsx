@@ -4,11 +4,11 @@ import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { CardId } from '../types'
-import { Card } from './card1'
+import { Card } from './card'
 import { PileGroup } from './pile-group'
 import { Pile } from './pile'
 import classes from './foundations.module.css'
-import pileClasses from './pile.module.css'
+import pileClasses from './card-pile.module.css'
 import responsive from './responsive.module.css'
 
 const fauxPileClass = `fade ${pileClasses.pile}`

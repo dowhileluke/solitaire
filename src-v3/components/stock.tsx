@@ -2,9 +2,10 @@ import { Circle, Recycle, X } from '@phosphor-icons/react'
 import { generateArray, tail } from '@dowhileluke/fns'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
-import { Card } from './card1'
+import { Card } from './card'
 import { PileGroup } from './pile-group'
 import classes from './stock.module.css'
+import pileClasses from './card-pile.module.css'
 
 function divideUp(n: number, d: number) {
 	return Math.ceil(n / d)
@@ -23,9 +24,19 @@ export function Stock() {
 		stock.length > 0 || waste.down > 0 || waste.cardIds.length > config.wasteRate
 	)
 
+	function getDots() {
+		return (
+			<div className={classes.dots}>
+				{generateArray(dealMax, n => (
+					<Circle key={n} size="5px" weight={n >= dealCurr ? 'fill' : 'bold'} />
+				))}
+			</div>
+		)
+	}
+
 	return (
 		<PileGroup onClick={actions.deal} className={concat(!canRepeat && stock.length === 0 && 'fade')}>
-			<ul className={concat('overflow-hidden', classes.stock)}>
+			<ul className={pileClasses.pile}>
 				{stock.length === 0 ? (
 					<Card isPlaceholder details={null}>
 						{canRepeat ? <Recycle /> : <X />}
@@ -34,13 +45,7 @@ export function Stock() {
 					<Card isDown details={null} />
 				)}
 			</ul>
-			{dealMax > 1 && (
-				<div className={classes.dots}>
-					{generateArray(dealMax, n => (
-						<Circle key={n} size="5px" weight={n >= dealCurr ? 'fill' : 'bold'} />
-					))}
-				</div>
-			)}
+			{dealMax > 1 && getDots()}
 		</PileGroup>
 	)
 }
