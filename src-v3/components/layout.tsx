@@ -2,11 +2,12 @@ import { FlowerLotus, List } from '@phosphor-icons/react'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { DndArea } from './dnd-area'
+import { Button } from './interactive'
+import { VERSION } from './settings'
 import { Tableau } from './tableau'
 import { Zones } from './zones'
 import classes from './layout.module.css'
 import responsive from './responsive.module.css'
-import { Button } from './interactive'
 
 const welcomeClass = `full-height ${classes.welcome}`
 
@@ -30,7 +31,7 @@ function FirstRun() {
 		<>
 			<div />
 			<div className={welcomeClass}>
-				<h2>Welcome to Solitaire v2!</h2>
+				<h2>Welcome to Solitaire {VERSION}!</h2>
 				<ul className={classes.feats}>
 					{feats.map(f => (
 						<li key={f}>{miniCard} {f}</li>

@@ -84,6 +84,10 @@
 		padding-right: 3em;
 	}
 
+	.done h1 {
+		text-shadow: 0 0 1em linen;
+	}
+
 	@supports (margin: max(0px)) {
 		.done {
 			padding-right: 2.5em;

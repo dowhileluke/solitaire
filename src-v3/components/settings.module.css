@@ -1,0 +1,10 @@
+.settings {
+	display: grid;
+	grid-template-rows: 1fr auto;
+}
+
+.note {
+	text-align: center;
+	font-size: 75%;
+	color: var(--black-alt);
+}
