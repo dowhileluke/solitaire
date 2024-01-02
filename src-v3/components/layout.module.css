@@ -61,6 +61,10 @@
 	margin: 1em auto 0;
 }
 
+.start button {
+	box-shadow: 0 0 var(--gap) rgba(0, 0, 0, 0.5);
+}
+
 .foot {
 	display: none;
 	font-size: 80%;

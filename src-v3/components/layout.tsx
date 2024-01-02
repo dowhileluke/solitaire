@@ -38,7 +38,7 @@ function FirstRun() {
 					))}
 				</ul>
 				<div className={classes.start}>
-					<Button big outlined onClick={() => actions.toggleMenu(true)}>
+					<Button big onClick={() => actions.toggleMenu(true)}>
 						<List />
 						Get Started
 					</Button>
