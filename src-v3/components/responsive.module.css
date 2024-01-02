@@ -49,6 +49,7 @@
 	@supports (padding: max(0px)) {
 		main.layout {
 			padding-right: max(var(--ui-gap), env(safe-area-inset-right));
+			padding-bottom: max(var(--ui-gap), env(safe-area-inset-bottom));
 		}
 	}
 
