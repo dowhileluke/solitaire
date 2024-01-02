@@ -44,7 +44,11 @@ export function Menu() {
 									<SkipBack /> Retry
 								</Button>
 								<Button big blue={hasUserPrefs} accented outlined onClick={actions.togglePrefs}>
-									{state.isPrefsOpen ? (<CaretUp />) : (<FadersHorizontal />)}
+									{state.isPrefsOpen ? (
+										<CaretUp />
+									) : (
+										<FadersHorizontal weight={hasUserPrefs ? 'bold' : 'regular'} />
+									)}
 								</Button>
 								<Button big accented onClick={() => actions.launchGame(false)}>
 									New Game <Play />
