@@ -125,7 +125,7 @@ const easthaven: GameDef = {
 const whitehead: GameDef = {
 	...klondike,
 	name: 'Whitehead',
-	shortRules: 'Klondike using matching colors; open tableau',
+	shortRules: 'Klondike using matching colors, open tableau',
 	wasteRate: 1,
 	dealLimit: 1,
 	upPiles: true,
