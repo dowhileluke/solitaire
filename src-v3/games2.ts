@@ -45,8 +45,7 @@ export type GameDef = {
 
 	// gameplay
 	buildDirection: 'descending' | 'either';
-	buildRestriction: 'none' | 'alt-color' | 'suit';
-	// groupRestriction: 'none' | 'alt-color' | 'suit' | 'restricted';
+	buildRestriction: 'none' | 'alt-color' | 'same-color' | 'suit';
 	moveRestriction: 'none' | 'strict' | 'relaxed' | 'relaxed-suit';
 	emptyRestriction: 'none' | 'kings';
 	allowRecant?: boolean;
@@ -123,12 +122,31 @@ const easthaven: GameDef = {
 	allowRecant: true,
 }
 
+const whitehead: GameDef = {
+	...klondike,
+	name: 'Whitehead',
+	shortRules: 'Klondike using matching colors; open tableau',
+	wasteRate: 1,
+	dealLimit: 1,
+	upPiles: true,
+	buildRestriction: 'same-color',
+	moveRestriction: 'relaxed-suit',
+}
+
 const easthaven2: GameDef = {
 	...easthaven,
 	name: 'Double Easthaven',
 	shortRules: 'Two-deck Easthaven',
 	decks: 2,
 	piles: 8,
+}
+
+const irmgard: GameDef = {
+	...easthaven2,
+	name: 'Irmgard',
+	shortRules: 'Double Easthaven +1 pile, King-only spaces',
+	piles: 9,
+	emptyRestriction: 'kings',
 }
 
 const spider: GameDef = {
@@ -256,7 +274,7 @@ const russian: GameDef = {
 const scorpion: GameDef = {
 	...russian,
 	name: 'Scorpion',
-	shortRules: 'Construct K-A sequences by suit',
+	shortRules: 'Move any card to build suited sequences',
 	goal: 'sequence-out',
 
 	upPiles: 3,
@@ -381,7 +399,7 @@ const alibaba: GameDef = {
 }
 
 export const GAME_CATALOG = {
-	klondike, westcliff, easthaven, klondike2, easthaven2,
+	klondike, westcliff, easthaven, whitehead, klondike2, easthaven2, irmgard,
 	spider, spiderette, will, simple,
 	freecell, bakers, seahaven, forecell,
 	yukon, russian, scorpion, wasp, yukon2,

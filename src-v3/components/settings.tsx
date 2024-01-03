@@ -6,7 +6,19 @@ import { useAppState } from '../hooks/use-app-state'
 import { Button, LabeledPicker, LabeledValue } from './interactive'
 import classes from './settings.module.css'
 
-export const VERSION = 'v2.1'
+type Version = {
+	v: string;
+	name: string;
+	isMajor?: boolean;
+}
+
+const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
+const VERSION_HISTORY: Version[] = [
+	{ v: '2.2', name: 'Whitehead & Irmgard', isMajor: true, },
+	{ v: '2.1', name: 'Spider fix', isMajor: true, },
+]
+
+export const LATEST_VERSION = VERSION_HISTORY.find(v => v.isMajor) ?? VERSION_2
 
 const enabledOpts: Array<LabeledValue<boolean>> = [
 	{ label: 'Allow', value: true, },
@@ -42,7 +54,7 @@ export function Settings() {
 					</Button>
 				)}
 			</div>
-			<div className={classes.note}>{VERSION} - Spider fix</div>
+			<div className={classes.note}>v{LATEST_VERSION.v} - {LATEST_VERSION.name}</div>
 		</div>
 	)
 }

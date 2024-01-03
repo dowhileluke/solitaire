@@ -8,6 +8,7 @@ import classes from './rules.module.css'
 const BUILD_TEXT: Record<GameDef['buildRestriction'], string> = {
 	'none': '',
 	'alt-color': 'alternating colors',
+	'same-color': 'matching colors',
 	'suit': 'matching suits',
 }
 

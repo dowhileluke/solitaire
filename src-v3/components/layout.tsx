@@ -3,7 +3,7 @@ import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { DndArea } from './dnd-area'
 import { Button } from './interactive'
-import { VERSION } from './settings'
+import { LATEST_VERSION } from './settings'
 import { Tableau } from './tableau'
 import { Zones } from './zones'
 import classes from './layout.module.css'
@@ -31,7 +31,7 @@ function FirstRun() {
 		<>
 			<div />
 			<div className={welcomeClass}>
-				<h2>Welcome to Solitaire {VERSION}!</h2>
+				<h2>Welcome to Solitaire v{LATEST_VERSION.v}!</h2>
 				<ul className={classes.feats}>
 					{feats.map(f => (
 						<li key={f}>{miniCard} {f}</li>
@@ -57,7 +57,7 @@ export function Layout() {
 	const [state] = useAppState()
 	const { isTowers, buildRestriction } = state.config
 	const isFirstRun = state.history.length === 0
-	const isTwoColored = buildRestriction === 'alt-color' 
+	const isTwoColored = buildRestriction.endsWith('-color')
 
 	return (
 		<main className={concat(

@@ -23,7 +23,7 @@ const copiesBySuitCount: Record<number, number[]> = {
 }
 
 export function toRules(def: Required<GameDef>) {
-	const isTwoColored = def.buildRestriction === 'alt-color' && def.suits > 1
+	const isTwoColored = def.suits > 1 && def.buildRestriction.endsWith('-color')
 
 	function isSequentialDesc(low: Card, high: Card) {
 		return low.rank + 1 === high.rank
@@ -37,7 +37,7 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function isAltColor(a: Card, b: Card) {
-		return def.suits === 1 || a.isRed !== b.isRed
+		return a.isRed !== b.isRed
 	}
 
 	function isConnected(source: Card, target: Card) {
@@ -46,9 +46,11 @@ export function toRules(def: Required<GameDef>) {
 		if (def.moveRestriction === 'relaxed-suit' || def.buildRestriction === 'suit') {
 			return source.suit === target.suit
 		}
-		if (def.buildRestriction === 'none') return true
+		if (def.buildRestriction === 'none' || !isTwoColored) return true
 
-		return isAltColor(source, target)
+		const isAltColorGame = def.buildRestriction === 'alt-color'
+
+		return isAltColorGame === isAltColor(source, target)
 	}
 
 	function toPileCards(cardIds: CardId[]) {
@@ -139,8 +141,11 @@ export function toRules(def: Required<GameDef>) {
 		if (!isSequential(source, target)) return false
 		if (def.buildRestriction === 'none') return true
 		if (def.buildRestriction === 'suit') return source.suit === target.suit
+		if (!isTwoColored) return true
 
-		return isAltColor(source, target)
+		const isAltColorGame = def.buildRestriction === 'alt-color'
+
+		return isAltColorGame === isAltColor(source, target)
 	}
 
 	function isValidInvertedMove(state: GameState, cards: Card[], to: Position) {
@@ -271,11 +276,16 @@ export function toRules(def: Required<GameDef>) {
 			if (seenBlack < copiesOfColor) lowestBlack = -1
 
 			if (isTwoColored) {
+				const isAltColorGame = def.buildRestriction === 'alt-color'
 				const isRed = isRedIndex(suitIndex)
 				const lowestOfColor = isRed ? lowestRed : lowestBlack
 				const lowestOfAlt = isRed ? lowestBlack : lowestRed
 
-				lowest = Math.min(lowestOfColor + 1, lowestOfAlt)
+				if (isAltColorGame) {
+					lowest = Math.min(lowestOfColor + 1, lowestOfAlt)
+				} else {
+					lowest = lowestOfColor
+				}
 			} else {
 				lowest = Math.min(lowestRed, lowestBlack)
 			}
@@ -319,7 +329,7 @@ export function toRules(def: Required<GameDef>) {
 		}
 
 		const isKingsOnly = def.emptyRestriction === 'kings'
-		const isSuitInsensitive = def.suits === 1 || def.buildRestriction !== 'none'
+		const isSuitInsensitive = def.suits === 1 || def.buildRestriction === 'alt-color'
 		const invalidX = from.zone === 'tableau' ? from.x : 999
 		let eligibleSpace: GuessedPosition | null = null
 		let eligiblePile: GuessedPosition | null = null
