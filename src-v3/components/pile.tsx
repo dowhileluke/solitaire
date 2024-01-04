@@ -34,10 +34,11 @@ function toSimpleDetails(cardIds: CardId[]) {
 	}))
 }
 
-function isPosMatch(cardPos: Position, selection: Position) {
+function isPosMatch(cardPos: Position, selection: Position, isMerciActive: boolean) {
 	if (cardPos.zone === 'tableau' && selection.zone === 'tableau') {
 		if (cardPos.x !== selection.x) return false
-		if (cardPos.y >= selection.y) return true
+		if (cardPos.y === selection.y) return true
+		if (cardPos.y > selection.y && !isMerciActive) return true
 
 		return 'partial'
 	} else if (cardPos.zone === 'foundation' && selection.zone === 'foundation') {
@@ -54,7 +55,7 @@ function isPosMatch(cardPos: Position, selection: Position) {
 export function Pile({
 	toPos, cardIds, down = 0, maxDepth, emptyNode, isDragOnly, isDropOnly, placeholderClass, angle = 'S', onClick,
 }: PileProps) {
-	const [{ rules, selection }] = useAppState()
+	const [{ rules, selection, isMerciActive, merciX }] = useAppState()
 	const details = maxDepth ? toSimpleDetails(cardIds) : toDetails({ cardIds, down }, rules)
 	const [hidden, visible] = split(details, maxDepth ? -maxDepth : -999)
 
@@ -64,7 +65,11 @@ export function Pile({
 		const posZero = toPos(0, null)
 
 		if (cardIds.length === 0) {
-			if (isDragOnly) return null
+			if (isDragOnly) return (
+				<Card isPlaceholder className={placeholderClass} details={null} onClick={onClick}>
+					{emptyNode}
+				</Card>
+			)
 
 			return (
 				<DndCard isPlaceholder className={placeholderClass} details={null} mode="drop" pos={posZero} onClick={onClick}>
@@ -94,24 +99,35 @@ export function Pile({
 					<Card key={index} isDown={index < down - hidden.length} details={card} onClick={onClick} />
 				)
 
-				if (!card || !card.isAvailable || !toPos) {
+				if (!card || (!card.isAvailable && !isMerciActive) || !toPos) {
 					return simpleCard
 				}
 
 				const cardPos = toPos(index + hidden.length, card)
 
+				if (merciX !== null && cardPos.zone === 'tableau' && cardPos.x === merciX && index === visible.length - 1) {
+					return (
+						<DndCard key={index} details={null} mode="drop" pos={cardPos} className={classes.ghost} />
+					)
+				}
+
 				if (!selection) {
-					if (isDropOnly) return simpleCard
+					if (isDropOnly || (isMerciActive && cardPos.zone !== 'tableau')) return simpleCard
 
 					return (
 						<DndCard key={index} details={card} mode="drag" pos={cardPos} />
 					)
 				}
 
-				const posMatch = isPosMatch(cardPos, selection)
+				const posMatch = isPosMatch(cardPos, selection, isMerciActive)
 
 				if (posMatch === true) {
-					return null
+					if (!isMerciActive) return null
+
+					// needs to be plain card in order to allow quick tapping card
+					return (
+						<Card key={index} details={null} className={classes.ghost} />
+					)
 				} else if (posMatch === 'partial' || index < visible.length - 1 || isDragOnly) {
 					return simpleCard
 				} else {

@@ -6,15 +6,14 @@ import { Pile } from './pile'
 import classes from './cells.module.css'
 
 export function Cells() {
-	const [{ config, history }] = useAppState()
+	const [{ config, history, isMerciActive }] = useAppState()
 
-	if (history.length === 0) return null
 	if (history[0].cells.length === 0) return null
-
+	
 	const { isTowers } = config
 
 	return (
-		<PileGroup className={concat(isTowers && classes.group)}>
+		<PileGroup className={concat(isTowers && classes.group, isMerciActive && 'fade')}>
 			{tail(history).cells.map((id, x) => (
 				<Pile
 					key={x}

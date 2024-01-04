@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
 import { GAME_CATALOG, GameDef, toFullDef } from '../games2'
-import { moveCardIds } from '../functions/move-card-ids'
+import { moveCardIds, swapMerciCardIds } from '../functions/move-card-ids'
 import { setPersistedState, getPersistedState } from '../functions/persist'
 import { toInitialState } from '../functions/to-initial-state'
 import { toRules } from '../functions/to-rules'
@@ -23,6 +23,7 @@ function getInitialState() {
 	const result: BaseAppState = {
 		history,
 		selection: null,
+		merciX: null,
 		gameKey,
 		gamePrefs,
 		isPrefsOpen: false,
@@ -89,12 +90,14 @@ export function useAppInternalState() {
 	const rules = useMemo(() => toRules(config), [config])
 	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
 	const isComplete = history.length > 0 && isGameComplete(tail(history))
+	const isMerciActive = state.merciX !== null
 	const appState: AppState = {
 		...state,
 		config,
 		rules,
 		layoutMode,
 		isComplete,
+		isMerciActive,
 	}
 
 	useEffect(() => {
@@ -124,6 +127,10 @@ export function useAppInternalState() {
 				const NEVERMIND: typeof prev = { ...prev, selection: null }
 
 				if (to && isSelfTargeting(prev.selection, to)) return NEVERMIND
+				if (to && to.zone === 'merci') {
+					if (prev.selection.zone !== 'tableau') return NEVERMIND
+					if (prev.merciX === null) return { ...prev, selection: null, merciX: prev.selection.x, }
+				}
 
 				const GAME_STATE = tail(prev.history)
 				const { isValidMove, guessMove, finalizeState, advanceState } = getRules(prev)
@@ -133,10 +140,16 @@ export function useAppInternalState() {
 
 				let nextGameState: GameState | null = null
 
-				if (!to && prev.selection.zone === 'foundation') {
+				if (prev.merciX !== null) {
+					if (to && to.zone !== 'merci') {
+						if (to.zone !== 'tableau' || to.x !== prev.merciX) return NEVERMIND
+					}
+
+					nextGameState = finalizeState(swapMerciCardIds(GAME_STATE, prev.merciX, prev.selection))
+				} else if (!to && prev.selection.zone === 'foundation') {
 					nextGameState = advanceState(GAME_STATE)
 				}
-				
+
 				if (nextGameState === null) {
 					let target: Position | null = to ?? null
 					let invert = false
@@ -170,17 +183,20 @@ export function useAppInternalState() {
 					...prev,
 					history: prev.history.concat(nextGameState),
 					selection: null,
+					merciX: null,
 				}
 			})
 		},
 		undo() {
 			setState(prev => {
+				if (prev.merciX !== null) return { ...prev, merciX: null, }
 				if (prev.history.length < 2) return prev
 
 				return {
 					...prev,
 					history: prev.history.slice(0, -1),
 					selection: null,
+					merci: null,
 				}
 			})
 		},
@@ -189,6 +205,7 @@ export function useAppInternalState() {
 				...prev,
 				history: prev.history.slice(0, 1),
 				selection: null,
+				merci: null,
 				isMenuOpen: false,
 			}))
 		},

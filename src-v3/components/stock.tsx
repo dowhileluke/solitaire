@@ -1,10 +1,10 @@
-import { Circle, Recycle, X } from '@phosphor-icons/react'
-import { generateArray, tail } from '@dowhileluke/fns'
+import { Recycle, X } from '@phosphor-icons/react'
+import { tail } from '@dowhileluke/fns'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { Card } from './card'
+import { Dots } from './dots'
 import { PileGroup } from './pile-group'
-import classes from './stock.module.css'
 import pileClasses from './card-pile.module.css'
 
 function divideUp(n: number, d: number) {
@@ -24,16 +24,6 @@ export function Stock() {
 		stock.length > 0 || waste.down > 0 || waste.cardIds.length > config.wasteRate
 	)
 
-	function getDots() {
-		return (
-			<div className={classes.dots}>
-				{generateArray(dealMax, n => (
-					<Circle key={n} size="5px" weight={n >= dealCurr ? 'fill' : 'bold'} />
-				))}
-			</div>
-		)
-	}
-
 	return (
 		<PileGroup onClick={actions.deal} className={concat(!canRepeat && stock.length === 0 && 'fade')}>
 			<ul className={pileClasses.pile}>
@@ -45,7 +35,7 @@ export function Stock() {
 					<Card isDown details={null} />
 				)}
 			</ul>
-			{dealMax > 1 && getDots()}
+			{dealMax > 1 && (<Dots value={dealCurr} max={dealMax} />)}
 		</PileGroup>
 	)
 }

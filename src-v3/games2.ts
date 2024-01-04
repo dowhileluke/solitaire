@@ -33,6 +33,7 @@ export type GameDef = {
 	suits?: 1 | 2 | 3 | 4;
 	wasteRate?: number;
 	dealLimit?: number;
+	merciCount?: number;
 
 	// layout
 	piles: number;
@@ -62,6 +63,7 @@ export function toFullDef(def: GameDef, key: GameKey) {
 		suits: 4,
 		wasteRate: 0,
 		dealLimit: 0,
+		merciCount: 0,
 
 		upPiles: 0,
 		emptyPiles: 0,
@@ -346,16 +348,18 @@ const stronghold: GameDef = {
 	cells: 1,
 }
 
-// const canister: GameDef = {
-// 	...forecell,
-// 	name: 'Canister (sans Merci)',
-// 	family: 'Castle',
-// 	shortRules: 'Fortress using alternating colors',
-// 	solveRate: 0,
+const canister: GameDef = {
+	...forecell,
+	name: 'Canister',
+	family: 'Castle',
+	shortRules: 'Bidirectional packing with alternating colors',
+	solveRate: 0,
 
-// 	cells: 0,
-// 	buildDirection: 'either',
-// }
+	merciCount: 1,
+
+	cells: 0,
+	buildDirection: 'either',
+}
 
 const thieves: GameDef = {
 	name: 'Forty Thieves',
@@ -403,7 +407,7 @@ export const GAME_CATALOG = {
 	spider, spiderette, will, simple,
 	freecell, bakers, seahaven, forecell,
 	yukon, russian, scorpion, wasp, yukon2,
-	beleaguered, fortress, alleys, stronghold, // canister,
+	beleaguered, fortress, alleys, stronghold, canister,
 	thieves, eight, alibaba,
 }
 export const GAME_LIST = (Object.keys(GAME_CATALOG) as Array<GameKey>).map(k => toFullDef(GAME_CATALOG[k], k))

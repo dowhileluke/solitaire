@@ -29,6 +29,7 @@ export type GameState = {
 	waste: Pile | null;
 	cells: Array<CardId | null>;
 	pass: number;
+	merciUsed: number;
 }
 
 export type Position =
@@ -36,6 +37,7 @@ export type Position =
 	| { zone: 'foundation'; x: number; y?: number | null }
 	| { zone: 'waste'; y?: number | null; }
 	| { zone: 'cell'; x: number; y?: number | null }
+	| { zone: 'merci'; y?: number | null; }
 
 export type GuessedPosition = Position & { invert?: boolean }
 
@@ -56,6 +58,7 @@ export type Rules = {
 export type BaseAppState = {
 	history: GameState[];
 	selection: Position | null;
+	merciX: number | null;
 	gameKey: GameKey;
 	gamePrefs: Partial<GameDef>;
 	isPrefsOpen: boolean;
@@ -71,6 +74,7 @@ export type AppState = BaseAppState & {
 	rules: Rules;
 	layoutMode: LayoutMode;
 	isComplete: boolean;
+	isMerciActive: boolean;
 }
 
 export type AppActions = {

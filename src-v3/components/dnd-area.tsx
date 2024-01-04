@@ -56,7 +56,7 @@ export function DndArea({ children }: PropsWithChildren) {
 			<DragOverlay wrapperElement="ul" className={wrapperClass}>
 				{state.selection && (
 					<Pile
-						cardIds={toSelectedCardIds(tail(state.history), state.selection)}
+						cardIds={toSelectedCardIds(tail(state.history), state.selection, state.isMerciActive)}
 						toPos={null}
 						angle={'E'}
 					/>

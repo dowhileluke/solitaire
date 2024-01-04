@@ -19,7 +19,7 @@ export function Controls() {
 					{state.history.length > 0 ? gameName : 'Menu'}
 				</span>
 			</Button>
-			<Button thin onClick={actions.undo} disabled={state.isMenuOpen || state.history.length < 2}>
+			<Button thin onClick={actions.undo} disabled={state.isMenuOpen || (state.history.length < 2 && state.merciX === null)}>
 				<ArrowCounterClockwise />
 				<span className={responsive.hide}>Undo</span>
 			</Button>

@@ -1,6 +1,7 @@
+import { tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { CardId, GameState, Position } from '../types'
-import { truncatePile, extendPile } from './pile'
+import { truncatePile, extendPile, toPile } from './pile'
 
 function purgeCardIds(state: GameState, target: Position) {
 	const result: GameState = { ...state }
@@ -64,4 +65,33 @@ function placeCardIds(state: GameState, cardIds: CardId[], target: Position) {
 
 export function moveCardIds(state: GameState, cardIds: CardId[], from: Position, to: Position) {
 	return placeCardIds(purgeCardIds(state, from), cardIds, to)
+}
+
+export function swapMerciCardIds(state: GameState, merciX: number, to: Position) {
+	if (to.zone !== 'tableau') throw new Error('Invalid merci zone!')
+
+	const merciCardId = tail(state.tableau[merciX].cardIds)
+	const otherCardId = state.tableau[to.x].cardIds[to.y]
+
+	const tableau = state.tableau.map((pile, x) => {
+		const isMerciX = x === merciX
+		const isOtherX = x === to.x
+
+		if (!isMerciX && !isOtherX) return pile
+
+		const clone = pile.cardIds.slice()
+
+		if (isMerciX) clone[clone.length - 1] = otherCardId
+		if (isOtherX) clone[to.y] = merciCardId
+
+		return toPile(clone, pile.down)
+	})
+
+	const result: GameState = {
+		...state,
+		tableau,
+		merciUsed: state.merciUsed + 1,
+	}
+
+	return result
 }

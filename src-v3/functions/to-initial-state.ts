@@ -103,6 +103,7 @@ export function toInitialState(def: Required<GameDef>) {
 		stock,
 		waste: def.wasteRate > 0 ? toPile([]) : null,
 		pass: 1,
+		merciUsed: 0,
 	}
 
 	return result

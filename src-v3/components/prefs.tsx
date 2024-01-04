@@ -33,6 +33,11 @@ const boolOpts: Array<LabeledValue<number>> = [
 	{ value: 1, label: 'Yes', }
 ]
 
+const merciOpts: Array<LabeledValue<number>> = [
+	{ value: 1, label: 'One', },
+	{ value: 3, label: 'Three', },
+]
+
 function getDealMode(def: Required<GameDef>) {
 	return (def.wasteRate === 3 ? DEAL_THREE : 0) | (def.dealLimit === 0 ? 0 : LIMITED)
 }
@@ -98,6 +103,15 @@ export function Prefs() {
 					options={boolOpts}
 					onChange={n => actions.setGamePref(state.menuKey, 'emptyPiles', n)}
 					isModified={current.emptyPiles !== original.emptyPiles}
+				/>
+			)}
+			{original.merciCount > 0 && (
+				<LabeledPicker
+					label="Merci moves"
+					value={current.merciCount}
+					options={merciOpts}
+					onChange={n => actions.setGamePref(state.menuKey, 'merciCount', n)}
+					isModified={current.merciCount !== original.merciCount}
 				/>
 			)}
 		</div>

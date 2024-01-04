@@ -179,3 +179,10 @@
 .suit-c {
 	color: var(--clubs);
 }
+
+.ghost {
+	background-color: var(--card-face);
+	border-style: dashed;
+	border-width: 2px;
+	opacity: 0.9;
+}

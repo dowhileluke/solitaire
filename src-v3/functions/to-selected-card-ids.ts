@@ -6,7 +6,7 @@ function asArray(id: CardId | null) {
 	return id === null ? [] : [id]
 }
 
-export function toSelectedCardIds(state: GameState, selection: Position) {
+function toSimpleCardIds(state: GameState, selection: Position) {
 	if (selection.zone === 'tableau') {
 		return state.tableau[selection.x].cardIds.slice(selection.y)
 	} else if (selection.zone === 'foundation') {
@@ -18,4 +18,10 @@ export function toSelectedCardIds(state: GameState, selection: Position) {
 	}
 
 	return NO_CARDS
+}
+
+export function toSelectedCardIds(state: GameState, selection: Position, isMerciActive = false) {
+	const cardIds = toSimpleCardIds(state, selection)
+
+	return isMerciActive ? cardIds.slice(0, 1) : cardIds
 }

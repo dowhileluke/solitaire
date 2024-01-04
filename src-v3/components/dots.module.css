@@ -1,0 +1,6 @@
+.dots {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	padding: var(--card-gap) 0;
+}

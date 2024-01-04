@@ -14,6 +14,7 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.3', name: 'Canister', isMajor: true, },
 	{ v: '2.2', name: 'Whitehead & Irmgard', isMajor: true, },
 	{ v: '2.1', name: 'Spider fix', isMajor: true, },
 ]
