@@ -126,7 +126,7 @@ export function useAppInternalState() {
 
 				const NEVERMIND: typeof prev = { ...prev, selection: null }
 
-				if (to && isSelfTargeting(prev.selection, to)) return NEVERMIND
+				if (to && prev.merciX === null && isSelfTargeting(prev.selection, to)) return NEVERMIND
 				if (to && to.zone === 'merci') {
 					if (prev.selection.zone !== 'tableau') return NEVERMIND
 					if (prev.merciX === null) return { ...prev, selection: null, merciX: prev.selection.x, }

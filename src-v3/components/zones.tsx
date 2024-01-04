@@ -11,10 +11,8 @@ import responsive from './responsive.module.css'
 const zonesClass = `overflow-hidden ${classes.zones}`
 
 function Wasteland() {
-	const [{ isMerciActive }] = useAppState()
-
 	return (
-		<div className={concat(classes.wasteland, isMerciActive && 'fade')}>
+		<div className={classes.wasteland}>
 			<Stock />
 			<Waste />
 		</div>

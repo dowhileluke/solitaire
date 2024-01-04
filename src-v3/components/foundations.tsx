@@ -31,7 +31,7 @@ type FoundationsProps = {
 const NULL_ARRAY = generateArray<CardId | null>(8, () => null)
 
 export function Foundations({ groupIndex, vertical }: FoundationsProps) {
-	const [{ history, config, isMerciActive }, { fastForward }] = useAppState()
+	const [{ history, config }, { fastForward }] = useAppState()
 	const foundationCount = 4 * config.decks
 	const { foundations } = tail(history)
 	const { goal, isTowers } = config
@@ -45,7 +45,6 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 		<PileGroup vertical={vertical} spaced={vertical} className={concat(
 			classes.found,
 			!isTowers && !vertical && responsive.grid,
-			isMerciActive && 'fade',
 		)}>
 			{portion.map((id, i) => isBuilding || id !== null ? (
 				<Pile

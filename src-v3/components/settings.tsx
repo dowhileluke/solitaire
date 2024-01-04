@@ -14,12 +14,14 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.3.2', name: 'Improved merci functionality', },
 	{ v: '2.3.1', name: 'Edge case fix for removed stars', },
 	{ v: '2.3', name: 'Canister', isMajor: true, },
 	{ v: '2.2', name: 'Whitehead & Irmgard', isMajor: true, },
 	{ v: '2.1', name: 'Spider fix', isMajor: true, },
 ]
 
+export const VERSION = VERSION_HISTORY[0].v
 export const LATEST_VERSION = VERSION_HISTORY.find(v => v.isMajor) ?? VERSION_2
 
 const enabledOpts: Array<LabeledValue<boolean>> = [
@@ -56,7 +58,7 @@ export function Settings() {
 					</Button>
 				)}
 			</div>
-			<div className={classes.note}>v{LATEST_VERSION.v} - {LATEST_VERSION.name}</div>
+			<div className={classes.note}>v{VERSION} - {LATEST_VERSION.name}</div>
 		</div>
 	)
 }
