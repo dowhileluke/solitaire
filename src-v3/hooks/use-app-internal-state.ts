@@ -264,17 +264,20 @@ export function useAppInternalState() {
 			setState(prev => {
 				const standardConfig = getConfig({ gameKey, gamePrefs: {} })
 				const { [gameKey]: prefsForKey = {}, ...otherPrefs } = prev.prefs
-				const { [prefKey]: _, ...otherPrefsForKey } = prefsForKey
+				const { [prefKey]: _, ...rest } = prefsForKey
+				const otherPrefsForKey: Partial<GameDef> = rest
 
 				if (prefValue !== standardConfig[prefKey]) {
-					(otherPrefsForKey as Partial<GameDef>)[prefKey] = prefValue
+					(otherPrefsForKey)[prefKey] = prefValue
 				}
 
 				const isStandard = Object.keys(otherPrefsForKey).length === 0
+				const isUnfavorite = prev.isMenuFiltered && gameKey === prev.menuKey && !otherPrefsForKey.isFavorite
 
 				return {
 					...prev,
 					prefs: isStandard ? otherPrefs : { ...otherPrefs, [gameKey]: { ...otherPrefsForKey, }, },
+					menuKey: isUnfavorite ? prev.gameKey : prev.menuKey,
 				}
 			})
 		},
