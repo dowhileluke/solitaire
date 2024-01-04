@@ -70,6 +70,12 @@ export function Rules() {
 				{config.emptyRestriction === 'kings' ? 'King-lead sequences' : 'Any sequence'} may
 				fill an empty space.
 			</p>
+			{config.merciCount > 0 && (
+				<p>
+					A merci move is permitted {config.merciCount === 1 ? 'once' : `${config.merciCount}x`} per game;
+					swap an exposed tableau card with any other card in the tableau.
+				</p>
+			)}
 			{!isFullyDealt && (
 				<>
 					<h3>Dealing</h3>
