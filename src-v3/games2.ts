@@ -133,6 +133,7 @@ const whitehead: GameDef = {
 	upPiles: true,
 	buildRestriction: 'same-color',
 	moveRestriction: 'relaxed-suit',
+	emptyRestriction: 'none',
 }
 
 const easthaven2: GameDef = {
