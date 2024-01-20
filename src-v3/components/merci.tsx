@@ -1,4 +1,4 @@
-import { Swap } from '@phosphor-icons/react'
+import { Swap, X } from '@phosphor-icons/react'
 import { tail } from '@dowhileluke/fns'
 import { useAppState } from '../hooks/use-app-state'
 import { Dots } from './dots'
@@ -22,7 +22,7 @@ export function Merci() {
 				toPos={y => ({ zone: 'merci', y })}
 				isDropOnly
 				isDragOnly={!isMerciAvailable}
-				emptyNode={<Swap />}
+				emptyNode={isMerciAvailable ? <Swap /> : <X />}
 				placeholderClass={classes.merci}
 			/>
 			{config.merciCount > 1 && (<Dots value={layout.merciUsed} max={config.merciCount} />)}
