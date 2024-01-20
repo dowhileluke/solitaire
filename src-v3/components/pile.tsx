@@ -6,6 +6,7 @@ import { useAppState } from '../hooks/use-app-state'
 import { Pile as PileDef, PileCard, Position, Rules, CardId } from '../types'
 import { Card, DndCard } from './card'
 import classes from './card-pile.module.css'
+import { ArrowSquareIn } from '@phosphor-icons/react'
 
 type PileProps = {
 	toPos: ((index: number, card: PileCard | null) => Position) | null;
@@ -107,7 +108,9 @@ export function Pile({
 
 				if (merciX !== null && cardPos.zone === 'tableau' && cardPos.x === merciX && index === visible.length - 1) {
 					return (
-						<DndCard key={index} details={null} mode="drop" pos={cardPos} className={classes.ghost} />
+						<DndCard key={index} details={null} mode="drop" pos={cardPos} className={classes.ghost}>
+							<ArrowSquareIn />
+						</DndCard>
 					)
 				}
 
