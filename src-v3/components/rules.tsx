@@ -40,7 +40,7 @@ export function Rules() {
 			<h3>Goal</h3>
 			<p>
 				{isFoundationGame
-					? 'Move all cards to the foundations.'
+					? 'Move all cards to the foundations, building A→K by suit.'
 					: `Form suited K→A sequences${
 						config.goal === 'sequence-in'
 							? ' within the tableau.'

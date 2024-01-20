@@ -44,6 +44,10 @@
 	touch-action: none;
 }
 
+html, body, #root {
+	height: 100%;
+}
+
 body {
 	margin: 0;
 	color: var(--black);
