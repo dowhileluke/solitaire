@@ -55,14 +55,16 @@ export function Rules() {
 				can be moved to a tableau pile if it forms a sequence
 				in {directionText} order{buildText ? ` with ${buildText}.` : ' regardless of suit.'}
 			</p>
-			<p>
-				{isRelaxedSuit ? 'Mono-suited sequences' : 'Sequences'} may
-				also be moved in this manner{
-					config.moveRestriction === 'strict'
-						? ' if each card could be moved individually.'
-						: '.'
-				}
-			</p>
+			{config.moveRestriction !== 'none' && (
+				<p>
+					{isRelaxedSuit ? 'Mono-suited sequences' : 'Sequences'} may
+					also be moved in this manner{
+						config.moveRestriction === 'strict'
+							? ' if each card could be moved individually.'
+							: '.'
+					}
+				</p>
+			)}
 			{config.cells > 0 && (
 				<p>Single cards may be placed in a free cell.</p>
 			)}
