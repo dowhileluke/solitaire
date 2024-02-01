@@ -228,13 +228,11 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function getSafeRank(foundationCards: Array<Card | null>, suitIndex: number) {
-		if (def.suits === 1) return 999
-
 		// Yukon- & Fortress-like games should be less optimistic; e.g. needing 2's to put Aces on
 		const safeDelta = def.moveRestriction === 'none' || def.buildDirection === 'either' ? 1 : 2
 		let lowest = 999
 
-		if (def.buildRestriction === 'suit') {
+		if (def.buildRestriction === 'suit' || def.suits === 1) {
 			const copiesOfSuit = copiesBySuitCount[def.suits][suitIndex] * def.decks
 			let seen = 0
 

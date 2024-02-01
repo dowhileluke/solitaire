@@ -85,8 +85,12 @@
 	border: none;
 	text-align: center;
 	cursor: pointer;
-	background: none;
+	background: inherit;
 	color: white;
+}
+
+.select option {
+	background-color: inherit;
 }
 
 .hidden {

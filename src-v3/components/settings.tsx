@@ -14,6 +14,7 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.4.1', name: 'Safer auto-complete logic', },
 	{ v: '2.4', name: 'Android improvements', isMajor: true, },
 	{ v: '2.3.4', name: 'Whitehead rule adjustment', },
 	{ v: '2.3.3', name: 'Merci explanation', },
