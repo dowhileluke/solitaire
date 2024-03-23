@@ -6,13 +6,15 @@ type Tip = string | string[]
 type GameTips = Tip[]
 
 const REVEAL = 'Revealing all face-down cards is essential to victory.'
-const INTACT = 'Leave the final card of each pile intact unless a King can immediately fill the space.'
+const TABLEAU = 'Prioritize moving cards within the tableau instead of making moves from the stock.'
+const INTACT = 'Unless the empty space is needed for a King move, leave the final card of a pile intact to build upon.'
 
 // klondike
 const klondike: GameTips = [
 	REVEAL,
-	'Prioritize moving cards within the tableau instead of making moves from the stock.',
+	TABLEAU,
 	INTACT,
+	'Pass through the stock once or twice to ',
 ]
 
 
