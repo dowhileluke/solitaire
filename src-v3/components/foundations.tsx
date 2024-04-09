@@ -3,15 +3,13 @@ import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
-import { CardId } from '../types'
+import { CardId, PileCard } from '../types'
 import { Card } from './card'
 import { PileGroup } from './pile-group'
 import { Pile } from './pile'
 import classes from './foundations.module.css'
 import pileClasses from './card-pile.module.css'
 import responsive from './responsive.module.css'
-
-const fauxPileClass = `fade ${pileClasses.pile}`
 
 function mockCardIds(id: CardId | null) {
 	if (id === null) return []
@@ -21,6 +19,33 @@ function mockCardIds(id: CardId | null) {
 	if (card.rank === 0) return [id]
 
 	return [id - 1, id]
+}
+
+function toFauxCard(id: CardId | null) {
+	if (id === null) return null
+
+	const result: PileCard = {
+		...CARD_DATA[id],
+		isAvailable: true,
+		isConnected: false,
+	}
+
+	return result
+}
+
+
+const fauxPileClass = `fade ${pileClasses.pile}`
+
+function toFauxPile(index: number, id: CardId | null) {
+	const card = toFauxCard(id)
+
+	return (
+		<ul key={index} className={card ? pileClasses.pile : fauxPileClass}>
+			<Card isPlaceholder={!card} details={card}>
+				<Stack size="1em" />
+			</Card>
+		</ul>
+	)
 }
 
 type FoundationsProps = {
@@ -46,7 +71,7 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 			classes.found,
 			!isTowers && !vertical && responsive.grid,
 		)}>
-			{portion.map((id, i) => isBuilding || id !== null ? (
+			{portion.map((id, i) => isBuilding ? (
 				<Pile
 					key={i}
 					toPos={(_, card) => ({ zone: 'foundation', x: portionIndex + i, y: card?.rank ?? null })}
@@ -58,11 +83,7 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 					onClick={fastForward}
 				/>
 			) : (
-				<ul key={i} className={fauxPileClass}>
-					<Card isPlaceholder details={null}>
-						<Stack size="1em" />
-					</Card>
-				</ul>
+				toFauxPile(i, id)
 			))}
 		</PileGroup>
 	)

@@ -24,6 +24,7 @@ const copiesBySuitCount: Record<number, number[]> = {
 
 export function toRules(def: Required<GameDef>) {
 	const isTwoColored = def.suits > 1 && def.buildRestriction.endsWith('-color')
+	const isKingsOnly = def.emptyRestriction === 'kings'
 
 	function isSequentialDesc(low: Card, high: Card) {
 		return low.rank + 1 === high.rank
@@ -163,7 +164,6 @@ export function toRules(def: Required<GameDef>) {
 	function getMaximumLength(state: GameState, isKingTailed: boolean) {
 		if (def.moveRestriction !== 'strict') return 999
 
-		const isKingsOnly = def.emptyRestriction === 'kings'
 		const freeCells = state.cells.filter(x => x === null).length
 		const freePiles = state.tableau.filter(pile => pile.cardIds.length === 0).length
 
@@ -181,7 +181,6 @@ export function toRules(def: Required<GameDef>) {
 
 			if (cards.length > maxLength) return false
 
-			const isKingsOnly = def.emptyRestriction === 'kings'
 			const targetPile = state.tableau[to.x]
 
 			if (targetPile.cardIds.length === 0) {
@@ -307,6 +306,11 @@ export function toRules(def: Required<GameDef>) {
 		})
 	}
 
+	// checks for a king moving from an open space
+	function isTerminalMove(rank: number, from: Position) {
+		return def.buildDirection === 'descending' && rank === 12 && from.zone === 'tableau' && from.y === 0
+	}
+
 	function guessMove(state: GameState, movingCardIds: CardId[], from: Position) {
 		const highestCard = CARD_DATA[movingCardIds[0]]
 		let eligibleFoundation: GuessedPosition | null = null
@@ -319,14 +323,13 @@ export function toRules(def: Required<GameDef>) {
 				const guess: GuessedPosition = { zone: 'foundation', x: foundIndexes[i], }
 
 				if (isValidMove(state, movingCardIds, guess)) {
-					if (highestCard.rank <= safeRank) return guess
+					if (highestCard.rank <= safeRank || isTerminalMove(highestCard.rank, from)) return guess
 
 					eligibleFoundation = guess
 				}
 			}
 		}
 
-		const isKingsOnly = def.emptyRestriction === 'kings'
 		const isSuitInsensitive = def.suits === 1 || def.buildRestriction === 'alt-color'
 		const invalidX = from.zone === 'tableau' ? from.x : 999
 		let eligibleSpace: GuessedPosition | null = null
