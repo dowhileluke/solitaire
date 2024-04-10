@@ -1,0 +1,104 @@
+[klondike]
+The hidden goal of this game is to reveal all the face down cards, otherwise too many moves may become impossible.
+It is virtually always correct to make such a move if it does not require using a card from the stock. 
+
+Most of the strategy comes down to manipulating cards in the stock pile.
+Early cards in each fresh deal will remain accessible on the next deal as long as cards that came before remain undisturbed.
+Thus, it is best to prioritize card moves toward the very end of a deal.
+
+Common Tip: Leave the final card of a stack in place until the empty space can be used immediately.
+
+[westcliff]
+With only one pass through the deck, there is not a ton of decision making to be done.
+Most available moves simply have to be taken.
+Reveal as many face down cards as possible and hope for the best!
+
+Common Tip: Leave the final card of a stack in place until the empty space can be used immediately.
+
+[easthaven]
+Most of the skill in this game is empty space management.
+If an empty space cannot be formed within ~2 deals the game is likely doomed.
+
+An ideal use of an empty space is to fix multiple tangled stacks while leaving a new empty space left over.
+Another great use is to reveal a new card in a pile that is likely to become empty soon.
+Otherwise, it is still valuable to use the space to help get the remaining piles in better order.
+
+When dealing, some judgment is required whether or not an empty space is likely to be reopened after being filled by a random card.
+If no other stacks are in good shape, it is often better to leave the space open before dealing.
+
+Common Tip: Despite some risk in doing so, it sometimes becomes necessary to move just two suits to the foundations rather than developing evenly.
+
+[whitehead]
+TODO
+With only one pass through the deck, it becomes important to move as many cards as possible to the tableau.
+But this should not be done carelessly. 
+
+[klondike2]
+The addition of two extra piles means that stock manipulation is much less necessary compared to single-deck Klondike.
+Most moves can be made without much worry.
+It is still advisable to prioritize moves that do not need cards from the stock pile.
+
+[easthaven2]
+*clone*
+
+[irmgard]
+TODO
+
+[spider]
+TODO
+
+[spiderette]
+*clone*
+
+[will]
+*clone*
+
+[simple]
+TODO
+
+[freecell]
+Try to uncover aces early in order to start reducing the number of cards in play.
+
+Look for opportunities to clear an entire tableau column.
+Common Tip: An empty space can be used to enable movement of large stacks or as a spot to deposit a sequence blocking important cards underneath.
+
+[bakers]
+Aim to open up an empty space in a way that requires few free cells, two is a good rule of thumb.
+Common Tip: An empty space can be used to enable movement of large stacks or as a spot to deposit a sequence blocking important cards underneath.
+
+Common Tip: Prioritize moving a large number of cards in a single suit to their foundation instead of digging for every Ace.
+
+[seahaven]
+Look for ways to empty the cells that start filled to enable longer series of moves.
+
+Avoid stacking three or more cards of a given suit on top of lower ranked cards of the same suit, unless there is no other choice.
+Six or more cards stacked like this will become impossible to untangle. 
+
+Common Tip: Prioritize moving a large number of cards in a single suit to their foundation instead of digging for every Ace.
+
+Common Tip: Leave the final card of a stack in place until the empty space can be used immediately.
+
+[forecell]
+Aim to form pure sequences with no other cards beneath, ideally using a King as the base.
+Until such sequences are possible, look for piles of relatively unimportant cards to build sequences upon.
+
+Free cells are absolutely vital for success and should be opened whenever possible.
+Even without many open cells, long sequences can sometimes be moved in small pieces. 
+
+Aces should be somewhat prioritized when deciding which piles to dig into.
+
+[yukon]
+This game is a balancing act of uncovering cards while avoiding the creation of stacks that are impossible to detangle.
+For example, placing a stack containing a red 9 on top of a stack containing a black 8. 
+There is a second red 9 in the deck so this is not necessarily impossible to fix, just difficult.
+
+Common Tip: Leave the final card of a stack in place until the empty space can be used immediately.
+
+Common Tip: Despite some risk in doing so, it sometimes becomes necessary to move just two suits to the foundations rather than developing evenly.
+
+[russian]
+[scorpion]
+[wasp]
+[yukon2]
+
+[beleaguered]
