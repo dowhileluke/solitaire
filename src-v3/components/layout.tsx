@@ -13,6 +13,7 @@ const welcomeClass = `full-height ${classes.welcome}`
 
 const feats = [
 	'More than twenty new games',
+	'Gameplay tips included with rules',
 	'Improvements to UI clarity & layout',
 	'Auto-complete [tap a foundation]',
 ]
