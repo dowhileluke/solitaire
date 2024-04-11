@@ -4,6 +4,7 @@ import { isFullyDealtGame } from '../functions/is-fully-dealt-game'
 import { GAME_CATALOG, GameDef, toFullDef } from '../games2'
 import { ScrollArea } from './scroll-area'
 import classes from './rules.module.css'
+import { TIP_COMPENDIUM } from '../tips'
 
 const BUILD_TEXT: Record<GameDef['buildRestriction'], string> = {
 	'none': '',
@@ -34,6 +35,7 @@ export function Rules() {
 	const isRelaxedSuit = config.moveRestriction === 'relaxed-suit'
 	const directionText = concat(isBidirectional && 'ascending or ', 'descending')
 	const buildText = BUILD_TEXT[config.buildRestriction]
+	const tips = TIP_COMPENDIUM[menuKey]
 
 	return (
 		<ScrollArea className={classes.rules}>
@@ -98,6 +100,12 @@ export function Rules() {
 							} the stock is exhausted, one card can be dealt from the stock to every tableau pile.
 						</p>
 					)}
+				</>
+			)}
+			{tips && (
+				<>
+					<h3>Tips</h3>
+					{tips.map(t => (<p key={t}>{t}</p>))}
 				</>
 			)}
 		</ScrollArea>
