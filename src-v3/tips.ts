@@ -79,9 +79,9 @@ COMMON_4,
 const seahaven = [
 `Begin by looking for ways to empty the initially filled cells to enable complex plays.`,
 
-`Avoid stacking ~3 or more cards of a given suit on top of any lower ranked cards of the same suit, unless there is no other choice.
-Six or more cards stacked like this will become impossible to untangle.`,
-	
+`Avoid stacking ~3 or more cards of a given suit on top of any lower ranked cards of the same suit, until there is no other choice.
+Six or more cards stacked like this are impossible to untangle.`,
+
 COMMON_4,
 
 COMMON_1,
