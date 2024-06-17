@@ -12,9 +12,9 @@ import responsive from './responsive.module.css'
 const welcomeClass = `full-height ${classes.welcome}`
 
 const feats = [
-	'More than twenty new games',
-	'Gameplay tips included with rules',
-	'Improvements to UI clarity & layout',
+	'Twenty-eight games to play',
+	'Gameplay rules and tips',
+	'Customizable difficulty',
 	'Auto-complete [tap a foundation]',
 ]
 
