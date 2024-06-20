@@ -14,6 +14,7 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.5.1', name: 'Screen resolution tweak', },
 	{ v: '2.5', name: 'Gameplay tips', isMajor: true, },
 	{ v: '2.4.3', name: 'Improve king movement in niche case', },
 	{ v: '2.4.2', name: 'Unclickable Spider foundations', },

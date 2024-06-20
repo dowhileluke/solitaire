@@ -27,7 +27,7 @@
 	--ui-gap: 0.5rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 800px) and (min-height: 600px) {
 	:root {
 		font-size: 20px;
 
