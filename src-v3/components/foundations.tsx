@@ -80,7 +80,7 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 					maxDepth={1}
 					isDropOnly={!config.allowRecant}
 					angle={vertical ? 'E' : 'S'}
-					onClick={fastForward}
+					onClick={() => fastForward(portionIndex + i)}
 				/>
 			) : (
 				toFauxPile(i, id)

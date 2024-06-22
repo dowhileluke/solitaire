@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { tail } from '@dowhileluke/fns'
-import { GAME_CATALOG, GameDef, toFullDef } from '../games2'
-import { moveCardIds, swapMerciCardIds } from '../functions/move-card-ids'
+import { GameDef } from '../games2'
 import { setPersistedState, getPersistedState } from '../functions/persist'
 import { toInitialState } from '../functions/to-initial-state'
 import { toRules } from '../functions/to-rules'
-import { toSelectedCardIds } from '../functions/to-selected-card-ids'
-import { AppActions, AppState, BaseAppState, GameState, Position } from '../types'
+import { AppActions, AppState, BaseAppState } from '../types'
 import { useForever } from './use-forever'
 import { isGameComplete } from '../functions/is-game-complete'
+import { getConfig, getPrefs, getRules } from '../functions/internal'
+import { concludeSelection } from '../functions/conclude-selection'
 
 function getInitialState() {
 	const state = getPersistedState()
@@ -32,52 +32,6 @@ function getInitialState() {
 		isFourColorEnabled,
 		menuKey: gameKey,
 		prefs,
-	}
-
-	return result
-}
-
-type ConfigProps = Pick<BaseAppState, 'gameKey' | 'gamePrefs'>
-
-function getConfig({ gameKey, gamePrefs }: ConfigProps) {
-	// ignore layoutMode
-	const { layoutMode, ...rest } = gamePrefs
-
-	return toFullDef({ ...GAME_CATALOG[gameKey], ...rest, }, gameKey)
-}
-
-function getRules(props: ConfigProps) {
-	return toRules(getConfig(props))
-}
-
-function isSelfTargeting(source: Position, target: Position) {
-	if (source.zone === 'foundation' && target.zone === 'foundation') {
-		return source.x === target.x
-	}
-
-	if (source.zone === 'tableau' && target.zone === 'tableau') {
-		return source.x === target.x
-	}
-
-	return false
-}
-
-function getPrefs(state: BaseAppState, isRepeat: boolean) {
-	if (isRepeat) {
-		const { gameKey, gamePrefs } = state
-		const result: ConfigProps = {
-			gameKey,
-			gamePrefs,
-		}
-
-		return result
-	}
-
-	const gameKey = state.menuKey
-	const prefsForGame = state.prefs[gameKey] ?? {}
-	const result: ConfigProps = {
-		gameKey,
-		gamePrefs: { ...prefsForGame },
 	}
 
 	return result
@@ -121,71 +75,7 @@ export function useAppInternalState() {
 			setState(prev => ({ ...prev, selection, }))
 		},
 		moveCards(to) {
-			setState(prev => {
-				if (!prev.selection) return prev
-
-				const NEVERMIND: typeof prev = { ...prev, selection: null }
-
-				if (to && prev.merciX === null && isSelfTargeting(prev.selection, to)) return NEVERMIND
-				if (to && to.zone === 'merci') {
-					if (prev.selection.zone !== 'tableau') return NEVERMIND
-					if (prev.merciX === null) return { ...prev, selection: null, merciX: prev.selection.x, }
-				}
-
-				const GAME_STATE = tail(prev.history)
-				const { isValidMove, guessMove, finalizeState, advanceState } = getRules(prev)
-				const selectedCardIds = toSelectedCardIds(GAME_STATE, prev.selection)
-
-				if (selectedCardIds.length === 0) return NEVERMIND
-
-				let nextGameState: GameState | null = null
-
-				if (prev.merciX !== null) {
-					if (to && to.zone !== 'merci') {
-						if (to.zone !== 'tableau' || to.x !== prev.merciX) return NEVERMIND
-					}
-
-					nextGameState = finalizeState(swapMerciCardIds(GAME_STATE, prev.merciX, prev.selection))
-				} else if (!to && prev.selection.zone === 'foundation') {
-					nextGameState = advanceState(GAME_STATE)
-				}
-
-				if (nextGameState === null) {
-					let target: Position | null = to ?? null
-					let invert = false
-	
-					if (to) {
-						const validity = isValidMove(GAME_STATE, selectedCardIds, to)
-	
-						if (!validity) return NEVERMIND
-	
-						invert = validity === 'invert'
-					} else {
-						const guess = guessMove(GAME_STATE, selectedCardIds, prev.selection)
-	
-						target = guess
-						invert = Boolean(guess?.invert)
-					}
-	
-					if (!target) return NEVERMIND
-	
-					nextGameState = finalizeState(moveCardIds(
-						GAME_STATE,
-						invert ? selectedCardIds.slice().reverse() : selectedCardIds,
-						prev.selection,
-						target,
-					))
-				}
-
-				if (!nextGameState) return NEVERMIND
-
-				return {
-					...prev,
-					history: prev.history.concat(nextGameState),
-					selection: null,
-					merciX: null,
-				}
-			})
+			setState(prev => concludeSelection(prev, to))
 		},
 		undo() {
 			setState(prev => {
@@ -223,20 +113,11 @@ export function useAppInternalState() {
 				}
 			})
 		},
-		fastForward() {
+		fastForward(x) {
 			setState(prev => {
 				if (prev.selection) return prev
 
-				const GAME_STATE = tail(prev.history)
-				const { advanceState } = getRules(prev)
-				const nextState = advanceState(GAME_STATE)
-
-				if (!nextState) return prev
-
-				return {
-					...prev,
-					history: prev.history.concat(nextState),
-				}
+				return concludeSelection({ ...prev, selection: { zone: 'foundation', x } })
 			})
 		},
 		togglePrefs() {
