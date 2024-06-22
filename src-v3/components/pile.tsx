@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, SyntheticEvent } from 'react'
+import { MouseEventHandler, ReactNode } from 'react'
 import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
