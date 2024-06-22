@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react'
+import { MouseEventHandler, ReactNode, SyntheticEvent } from 'react'
 import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
@@ -18,7 +18,7 @@ type PileProps = {
 	isDropOnly?: boolean;
 	placeholderClass?: string;
 	angle?: 'W' | 'E' | 'S';
-	onClick?: MouseEventHandler<HTMLLIElement>;
+	onClick?: MouseEventHandler<HTMLUListElement>;
 }
 
 function toDetails({ cardIds, down }: PileDef, rules: Rules) {
@@ -67,13 +67,13 @@ export function Pile({
 
 		if (cardIds.length === 0) {
 			if (isDragOnly) return (
-				<Card isPlaceholder className={placeholderClass} details={null} onClick={onClick}>
+				<Card isPlaceholder className={placeholderClass} details={null}>
 					{emptyNode}
 				</Card>
 			)
 
 			return (
-				<DndCard isPlaceholder className={placeholderClass} details={null} mode="drop" pos={posZero} onClick={onClick}>
+				<DndCard isPlaceholder className={placeholderClass} details={null} mode="drop" pos={posZero}>
 					{emptyNode}
 				</DndCard>
 			)
@@ -81,12 +81,12 @@ export function Pile({
 
 		if (hidden.length > 0) {
 			return (
-				<Card isPlaceholder details={tail(hidden)} onClick={onClick} />
+				<Card isPlaceholder details={tail(hidden)} />
 			)
 		}
 
 		return (
-			<Card isPlaceholder className={placeholderClass} details={null} onClick={onClick}>
+			<Card isPlaceholder className={placeholderClass} details={null}>
 				{emptyNode}
 			</Card>
 		)
@@ -97,7 +97,7 @@ export function Pile({
 			{getPlaceholder()}
 			{visible.map((card, index) => {
 				const simpleCard = (
-					<Card key={index} isDown={index < down - hidden.length} details={card} onClick={onClick} />
+					<Card key={index} isDown={index < down - hidden.length} details={card} />
 				)
 
 				if (!card || (!card.isAvailable && !isMerciActive) || !toPos) {
@@ -147,11 +147,14 @@ export function Pile({
 	}
 
 	return (
-		<ul className={concat(
-			classes.pile, 
-			angle !== 'S' && classes.horizontal,
-			angle === 'W' && classes.west,
-		)}>
+		<ul
+			onClick={onClick}
+			className={concat(
+				classes.pile, 
+				angle !== 'S' && classes.horizontal,
+				angle === 'W' && classes.west,
+			)}
+		>
 			{cards}
 		</ul>
 	)

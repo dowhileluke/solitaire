@@ -1,6 +1,8 @@
 .group {
 	gap: var(--card-gap);
 	padding: var(--card-gap);
+
+	border-radius: var(--radius);
 }
 
 .vert {

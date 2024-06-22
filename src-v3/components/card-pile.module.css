@@ -5,6 +5,8 @@
 	width: var(--card-width);
 	min-height: var(--card-height);
 	flex-direction: column;
+
+	border-radius: var(--radius);
 }
 
 .horizontal {
