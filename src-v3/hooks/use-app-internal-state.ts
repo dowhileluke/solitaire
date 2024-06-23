@@ -20,6 +20,9 @@ function getInitialState() {
 		isMenuFiltered = false,
 		isFourColorEnabled = true,
 	} = state
+
+	// convert legacy value
+	const colorMode = state.colorMode ?? (isFourColorEnabled && 'rummi')
 	const result: BaseAppState = {
 		history,
 		selection: null,
@@ -29,7 +32,7 @@ function getInitialState() {
 		isPrefsOpen: false,
 		isMenuOpen: false,
 		isMenuFiltered,
-		isFourColorEnabled,
+		colorMode,
 		menuKey: gameKey,
 		prefs,
 	}
@@ -39,7 +42,7 @@ function getInitialState() {
 
 export function useAppInternalState() {
 	const [state, setState] = useState(getInitialState)
-	const { history, gameKey, gamePrefs, prefs, isMenuFiltered, isFourColorEnabled } = state
+	const { history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode } = state
 	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
 	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
@@ -55,8 +58,8 @@ export function useAppInternalState() {
 	}
 
 	useEffect(() => {
-		setPersistedState({ history, gameKey, gamePrefs, prefs, isMenuFiltered, isFourColorEnabled })
-	}, [history, gameKey, gamePrefs, prefs, isMenuFiltered, isFourColorEnabled])
+		setPersistedState({ history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode })
+	}, [history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode])
 
 	const actions = useForever<AppActions>({
 		launchGame(isRepeat) {
@@ -135,8 +138,8 @@ export function useAppInternalState() {
 				return { ...prev, isMenuFiltered, menuKey, }
 			})
 		},
-		toggleFourColors(isFourColorEnabled) {
-			setState(prev => ({ ...prev, isFourColorEnabled, }))
+		setColorMode(colorMode) {
+			setState(prev => ({ ...prev, colorMode, }))
 		},
 		setMenuKey(menuKey) {
 			setState(prev => ({ ...prev, menuKey, }))

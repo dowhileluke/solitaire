@@ -3,19 +3,21 @@ import { Export } from '@phosphor-icons/react'
 import { isOpenGame } from '../functions/is-open-game'
 import { toPlaintext } from '../functions/to-plaintext'
 import { useAppState } from '../hooks/use-app-state'
+import { ColorMode } from '../types'
 import { VERSION, LATEST_VERSION } from '../version'
 import { Button, LabeledPicker, LabeledValue } from './interactive'
 import classes from './settings.module.css'
 
-const enabledOpts: Array<LabeledValue<boolean>> = [
-	{ label: 'Allow', value: true, },
+const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Disabled', value: false, },
+	{ label: 'Enabled', value: 'rummi', },
+	// { label: 'Blue/Green', value: 'poli', },
 ]
 
 const settingsClass = `ui-pad ui-gap ${classes.settings}`
 
 export function Settings() {
-	const [{ config, history, isFourColorEnabled }, { toggleFourColors }] = useAppState()
+	const [{ config, history, colorMode }, { setColorMode }] = useAppState()
 	const isOpen = useMemo(() => isOpenGame(config), [config])
 
 	function handleExport() {
@@ -28,10 +30,10 @@ export function Settings() {
 		<div className={settingsClass}>
 			<div>
 				<LabeledPicker
-					label="Four Color Deck"
-					value={isFourColorEnabled}
-					onChange={yes => toggleFourColors(yes)}
-					options={enabledOpts}
+					label="Four Color Mode"
+					value={colorMode}
+					onChange={mode => setColorMode(mode)}
+					options={colorModes}
 				/>
 				<br />
 				{isOpen && (

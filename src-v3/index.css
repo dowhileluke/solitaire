@@ -13,6 +13,7 @@
 	--red-alt: rgba(var(--rgb-red), var(--alt));
 
 	--blue: steelblue;
+	--green: seagreen;
 
 	--card-width: 44px;
 	--card-height: 58px;
@@ -62,6 +63,16 @@ body {
 	--hearts: var(--red);
 	--diams: var(--red);
 	--clubs: var(--black);
+}
+
+.rummi {
+	--diams: salmon;
+	--clubs: var(--blue);
+}
+
+.poli {
+	--diams: var(--blue);
+	--clubs: var(--green);
 }
 
 .four-color {

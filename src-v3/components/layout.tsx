@@ -62,7 +62,7 @@ export function Layout() {
 
 	return (
 		<main className={concat(
-			!isTwoColored && state.isFourColorEnabled && 'four-color',
+			!isTwoColored && state.colorMode,
 			layoutClass,
 			responsive.layout,
 			!isTowers && responsive.layout2,
