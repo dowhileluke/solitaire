@@ -26,7 +26,7 @@ export const Card = forwardRef<HTMLLIElement, CardProps>(({
 		classes.up,
 		classes[`suit-${details.initials.charAt(1)}`],
 		details.isConnected && classes.connected,
-		details.isAvailable && classes.available,
+		details.isAvailable && classes.clickable,
 		squeezeRanks.includes(details.rank) && classes.squeeze,
 	) : 'flex-center'
 	const cardClasses = concat(

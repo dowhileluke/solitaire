@@ -43,7 +43,7 @@
 	z-index: 1;
 }
 
-.available {
+.clickable {
 	cursor: pointer;
 }
 

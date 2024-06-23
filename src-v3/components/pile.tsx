@@ -1,4 +1,5 @@
 import { MouseEventHandler, ReactNode } from 'react'
+import { ArrowSquareIn } from '@phosphor-icons/react'
 import { generateArray, split, tail } from '@dowhileluke/fns'
 import { CARD_DATA } from '../data'
 import { concat } from '../functions/concat'
@@ -6,7 +7,6 @@ import { useAppState } from '../hooks/use-app-state'
 import { Pile as PileDef, PileCard, Position, Rules, CardId } from '../types'
 import { Card, DndCard } from './card'
 import classes from './card-pile.module.css'
-import { ArrowSquareIn } from '@phosphor-icons/react'
 
 type PileProps = {
 	toPos: ((index: number, card: PileCard | null) => Position) | null;
@@ -150,7 +150,8 @@ export function Pile({
 		<ul
 			onClick={onClick}
 			className={concat(
-				classes.pile, 
+				classes.pile,
+				onClick && classes.clickable,
 				angle !== 'S' && classes.horizontal,
 				angle === 'W' && classes.west,
 			)}
