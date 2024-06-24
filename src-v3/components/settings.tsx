@@ -23,7 +23,18 @@ export function Settings() {
 	function handleExport() {
 		if (history.length === 0) return
 
-		navigator.clipboard.writeText(toPlaintext(history[0]))
+		const txt = toPlaintext(history[0])
+
+		if (navigator.clipboard.write) {
+			navigator.clipboard.write([
+				new ClipboardItem({
+					'text/plain': txt,
+				})
+			])
+		} else {
+			navigator.clipboard.writeText(txt)
+		}
+
 	}
 
 	return (
