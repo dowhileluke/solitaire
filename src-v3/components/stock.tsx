@@ -11,6 +11,8 @@ function divideUp(n: number, d: number) {
 	return Math.ceil(n / d)
 }
 
+const stockClass = `${pileClasses.pile} ${pileClasses.clickable}`
+
 export function Stock() {
 	const [{ history, config }, actions] = useAppState()
 
@@ -26,7 +28,7 @@ export function Stock() {
 
 	return (
 		<PileGroup onClick={actions.deal} className={concat(!canRepeat && stock.length === 0 && 'fade')}>
-			<ul className={pileClasses.pile}>
+			<ul className={stockClass}>
 				{stock.length === 0 ? (
 					<Card isPlaceholder details={null}>
 						{canRepeat ? <Recycle /> : <X />}
