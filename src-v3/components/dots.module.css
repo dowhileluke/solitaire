@@ -3,4 +3,6 @@
 	flex-direction: column;
 	justify-content: start;
 	padding: var(--card-gap) 0;
+
+	color: var(--placeheld);
 }

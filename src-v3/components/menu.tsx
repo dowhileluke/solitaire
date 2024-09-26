@@ -21,7 +21,7 @@ export function Menu() {
 	const hasUserPrefs = userPrefs && Object.keys(userPrefs).some((prop, i) => prop !== 'isFavorite' || i > 0)
 
 	return (
-		<Modal isOpen={state.isMenuOpen} onClose={() => actions.toggleMenu(false)}>
+		<Modal isOpen={state.isMenuOpen} onClose={() => actions.toggleMenu(false)} className={state.themeMode || ''}>
 			<Tab.Group>
 				<Tab.List className={classes.list}>
 					<button className={classes.tab} onClick={actions.toggleFilter}>

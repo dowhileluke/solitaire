@@ -1,4 +1,5 @@
 .app {
+	background-color: var(--main-bg);
 	display: grid;
 	grid-template-rows: auto 1fr;
 	grid-template-areas: "ctrl" "main";
@@ -17,6 +18,10 @@
 
 	/* for comparison, menu bar is 2.5em + 2px */
 	padding-bottom: 6em;
+}
+
+.done h1 {
+	text-shadow: 0 0 1em var(--main-bg);
 }
 
 /* .layout initial def moved to local css for seahaven */
@@ -84,10 +89,6 @@
 	.done {
 		padding-bottom: 0;
 		padding-right: 3em;
-	}
-
-	.done h1 {
-		text-shadow: 0 0 1em linen;
 	}
 
 	@supports (margin: max(0px)) {
