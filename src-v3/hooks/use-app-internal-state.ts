@@ -46,7 +46,7 @@ export function useAppInternalState() {
 	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
 	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
-	const isComplete = history.length > 0 && isGameComplete(tail(history))
+	const isComplete = history.length > 0 && isGameComplete(tail(history), config)
 	const isMerciActive = state.merciX !== null
 	const appState: AppState = {
 		...state,
