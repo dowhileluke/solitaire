@@ -31,6 +31,7 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function isSequential(source: Card, target: Card) {
+		if (def.buildRestriction === 'rank') return source.rank === target.rank
 		if (isSequentialDesc(source, target)) return true
 		if (def.buildDirection === 'descending') return false
 
@@ -155,8 +156,10 @@ export function toRules(def: Required<GameDef>) {
 		if (to.zone !== 'tableau') return false
 
 		const targetPile = state.tableau[to.x]
+		const targetHeight = targetPile.cardIds.length
 
-		if (targetPile.cardIds.length === 0) return def.emptyRestriction === 'none' || tail(cards).rank === 12
+		if (cards.length + targetHeight > def.heightRestriction) return false
+		if (targetHeight === 0) return def.emptyRestriction === 'none' || tail(cards).rank === 12
 
 		return isCompatible(tail(cards), tailCard(targetPile.cardIds))
 	}
@@ -177,13 +180,16 @@ export function toRules(def: Required<GameDef>) {
 
 	function isValidSimpleMove(state: GameState, cards: Card[], to: Position) {
 		if (to.zone === 'tableau') {
+			const targetPile = state.tableau[to.x]
+			const targetHeight = targetPile.cardIds.length
+
+			if (cards.length + targetHeight > def.heightRestriction) return false
+
 			const maxLength = cards.length === 1 ? 999 : getMaximumLength(state, tail(cards).rank === 12)
 
 			if (cards.length > maxLength) return false
 
-			const targetPile = state.tableau[to.x]
-
-			if (targetPile.cardIds.length === 0) {
+			if (targetHeight === 0) {
 				if (isKingsOnly) return cards[0].rank === 12
 
 				const halfMax = maxLength >> 1

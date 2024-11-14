@@ -24,8 +24,8 @@ const moveOpts: Array<LabeledValue<GameDef['moveRestriction']>> = [
 ]
 
 const layoutOpts: Array<LabeledValue<LayoutMode>> = [
-	{ value: 'horizontal', label: 'Tall', },
-	{ value: 'vertical', label: 'Wide', },
+	{ value: 'horizontal', label: 'Standard', },
+	{ value: 'vertical', label: 'Split', },
 ]
 
 const boolOpts: Array<LabeledValue<number>> = [
