@@ -12,7 +12,7 @@ export function Tableau() {
 	const { tableau } = tail(history)
 	const isMassive = tableau.length > 10
 
-	if (layoutMode === 'horizontal' && !isMassive) {
+	if (layoutMode === 'horizontal') {
 		return (
 			<PileGroup>
 				{tableau.map((pile, x) => (
@@ -31,7 +31,7 @@ export function Tableau() {
 	const [left, right] = split(tableau, half)
 
 	return (
-		<div className={concat(classes.multi, isMassive && classes.vertical)}>
+		<div className={concat(classes.multi, isMassive && classes.massive)}>
 			<PileGroup vertical={!isMassive}>
 				{left.map((pile, x) => (
 					<Pile

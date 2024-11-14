@@ -59,7 +59,7 @@ export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 	const [{ history, config }, { fastForward }] = useAppState()
 	const { goal, isTowers } = config
 
-	if (goal === 'sorted') return (<div />)
+	if (goal === 'sorted') return null
 
 	const foundationCount = 4 * config.decks
 	const { foundations } = tail(history)

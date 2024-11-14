@@ -412,6 +412,7 @@ const beeswax: GameDef = {
 	goal: 'sorted',
 
 	// layout
+	layoutMode: 'vertical',
 	piles: 13,
 	upPiles: true,
 	emptyPiles: 2,
