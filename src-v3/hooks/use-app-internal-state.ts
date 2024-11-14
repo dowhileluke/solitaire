@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { tail } from '@dowhileluke/fns'
-import { GameDef } from '../games2'
+import { objectFilter, tail } from '@dowhileluke/fns'
 import { setPersistedState, getPersistedState } from '../functions/persist'
 import { toInitialState } from '../functions/to-initial-state'
 import { toRules } from '../functions/to-rules'
@@ -148,8 +147,7 @@ export function useAppInternalState() {
 			setState(prev => {
 				const standardConfig = getConfig({ gameKey, gamePrefs: {} })
 				const { [gameKey]: prefsForKey = {}, ...otherPrefs } = prev.prefs
-				const { [prefKey]: _, ...rest } = prefsForKey
-				const otherPrefsForKey: Partial<GameDef> = rest
+				const otherPrefsForKey = objectFilter(prefsForKey, (_, key) => key !== prefKey)
 
 				if (prefValue !== standardConfig[prefKey]) {
 					(otherPrefsForKey)[prefKey] = prefValue
