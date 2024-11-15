@@ -410,6 +410,7 @@ const beeswax: GameDef = {
 	family: 'Other',
 	shortRules: 'Sort cards by rank',
 	goal: 'sorted',
+	solveRate: 99,
 
 	// layout
 	layoutMode: 'vertical',

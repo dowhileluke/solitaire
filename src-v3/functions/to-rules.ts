@@ -59,15 +59,10 @@ export function toRules(def: Required<GameDef>) {
 		const cards = cardIds.map(id => CARD_DATA[id]).reverse()
 		const result: PileCard[] = []
 
-		let available = 0
 		let isAvailable = true
 	
 		for (const [i, card] of cards.entries()) {
 			const nextCard = cards[i + 1]
-	
-			if (isAvailable) {
-				available += 1
-			}
 	
 			if (nextCard && isConnected(card, nextCard)) {
 				result.push({ ...card, isConnected: true, isAvailable })
