@@ -420,9 +420,9 @@ const beeswax: GameDef = {
 	pileHeight: 4,
 
 	// gameplay
-	buildDirection: 'either',
+	buildDirection: 'descending',
 	buildRestriction: 'rank',
-	moveRestriction: 'strict',
+	moveRestriction: 'relaxed',
 	emptyRestriction: 'none',
 	heightRestriction: 4,
 }
