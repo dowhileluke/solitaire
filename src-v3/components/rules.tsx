@@ -36,7 +36,7 @@ function getMoveText(config: Required<GameDef>) {
 	const directionText = concat(isBidirectional && 'ascending or ', 'descending')
 	const buildText = BUILD_TEXT[config.buildRestriction]
 	
-	return prefix + `can be moved to a tableau pile if it forms a sequence in ${directionText} order` + 
+	return prefix + `forms a sequence in ${directionText} order` +
 		(buildText ? ` with ${buildText}` : ' regardless of suit') + suffix
 }
 
