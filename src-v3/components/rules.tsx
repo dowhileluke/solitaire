@@ -53,11 +53,20 @@ function getRedealText(dealLimit: number) {
 	return redealPrefix + ` for ${redealCount} redeals.`
 }
 
+function getFinalCellsText(finalCells: number) {
+	if (!finalCells) return null
+
+	const plural = finalCells > 1 ? 'cells' : 'cell'
+
+	return `Then ${finalCells} free ${plural} becomes available.`
+}
+
 export function Rules() {
 	const [{ menuKey }] = useAppState()
 	const config = toFullDef(GAME_CATALOG[menuKey], menuKey)
 	const isFullyDealt = isFullyDealtGame(config)
 	const isRelaxedSuit = config.moveRestriction === 'relaxed-suit'
+	const hasFinalCells = config.dealLimit > 0 && config.finalCells > 0
 	const tips = TIP_COMPENDIUM[menuKey]
 
 	return (
@@ -81,7 +90,7 @@ export function Rules() {
 					}
 				</p>
 			)}
-			{config.cells > 0 && (
+			{(config.cells > 0 || hasFinalCells) && (
 				<p>Single cards may be placed in a free cell.</p>
 			)}
 			<p>
@@ -104,6 +113,8 @@ export function Rules() {
 								be dealt from the stock to the waste pile.</p>
 							<p>
 								When the stock is exhausted, {getRedealText(config.dealLimit)}
+								{' '}
+								{hasFinalCells && getFinalCellsText(config.finalCells)}
 							</p>
 						</>
 					) : (

@@ -400,8 +400,10 @@ export function toRules(def: Required<GameDef>) {
 		if (wasteRate > 0) {
 			if (!state.waste) return null
 
+			const isFinalPass = dealLimit > 0 && state.pass >= dealLimit
+
 			if (isEmpty) {
-				if (dealLimit && state.pass >= dealLimit) return null
+				if (isFinalPass) return null
 				if (state.stock.length === 0 && state.waste.down === 0) return null
 
 				const [flippedIds, stock] = split(state.waste.cardIds, wasteRate)
@@ -423,6 +425,10 @@ export function toRules(def: Required<GameDef>) {
 					cardIds: state.waste.cardIds.concat(flippedIds),
 					down: state.waste.cardIds.length,
 				},
+			}
+
+			if (stock.length === 0 && isFinalPass && def.finalCells > 0) {
+				result.cells = result.cells.concat(generateArray(def.finalCells, () => null))
 			}
 
 			return result

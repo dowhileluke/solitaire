@@ -9,13 +9,12 @@ const suitOpts: Array<LabeledValue<1 | 2 | 3 | 4>> = [
 	{ value: 4, label: '4 suits', },
 ]
 
-const DEAL_THREE = 1
-const LIMITED = 2
-const dealOpts: Array<LabeledValue<number>> = [
-	{ value: LIMITED, label: '1 card, 1 deal', },
-	{ value: 0, label: '1 card, no limit', },
-	{ value: DEAL_THREE, label: '3 cards, no limit', },
-	{ value: DEAL_THREE | LIMITED, label: '3 cards, 3 deals', },
+const dealOpts: Array<LabeledValue<string>> = [
+	{ value: '1x0', label: '1 card, no limit', },
+	{ value: '1x1', label: '1 card, 1 deal', },
+	{ value: '3x0', label: '3 cards, no limit', },
+	{ value: '3x3', label: '3 cards, 3 deals', },
+	{ value: '3x1', label: '3 cards, 1 deal', },
 ]
 
 const moveOpts: Array<LabeledValue<GameDef['moveRestriction']>> = [
@@ -39,7 +38,7 @@ const merciOpts: Array<LabeledValue<number>> = [
 ]
 
 function getDealMode(def: Required<GameDef>) {
-	return (def.wasteRate === 3 ? DEAL_THREE : 0) | (def.dealLimit === 0 ? 0 : LIMITED)
+	return `${def.wasteRate}x${def.dealLimit}`
 }
 
 export function Prefs() {
@@ -50,9 +49,8 @@ export function Prefs() {
 	const current = toFullDef({ ...def, ...prefs }, state.menuKey)
 	const dealMode = getDealMode(current)
 
-	function handleDeal(flags: number) {
-		const wasteRate = flags & DEAL_THREE ? 3 : 1
-		const dealLimit = flags & LIMITED ? wasteRate : 0
+	function handleDeal(dealMode: string) {
+		const [wasteRate, dealLimit] = dealMode.split('x').map(s => Number(s))
 
 		actions.setGamePref(state.menuKey, 'wasteRate', wasteRate)
 		actions.setGamePref(state.menuKey, 'dealLimit', dealLimit)
