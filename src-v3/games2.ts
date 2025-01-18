@@ -128,6 +128,16 @@ const easthaven: GameDef = {
 	allowRecant: true,
 }
 
+const sawayama: GameDef = {
+	...klondike,
+	name: 'Sawayama',
+	shortRules: 'Single-deal Klondike with an open tableau',
+	dealLimit: 1,
+	finalCells: 1,
+	upPiles: true,
+	emptyRestriction: 'none',
+}
+
 const whitehead: GameDef = {
 	...klondike,
 	name: 'Whitehead',
@@ -137,16 +147,6 @@ const whitehead: GameDef = {
 	upPiles: true,
 	buildRestriction: 'same-color',
 	moveRestriction: 'relaxed-suit',
-	emptyRestriction: 'none',
-}
-
-const sawayama: GameDef = {
-	...klondike,
-	name: 'Sawayama',
-	shortRules: 'Single-deal Klondike with an open tableau',
-	dealLimit: 1,
-	finalCells: 1,
-	upPiles: true,
 	emptyRestriction: 'none',
 }
 
@@ -440,7 +440,7 @@ const beeswax: GameDef = {
 }
 
 export const GAME_CATALOG = {
-	klondike, westcliff, easthaven, whitehead, sawayama, klondike2, easthaven2, irmgard,
+	klondike, westcliff, easthaven, sawayama, whitehead, klondike2, easthaven2, irmgard,
 	spider, spiderette, will, simple,
 	freecell, bakers, seahaven, forecell,
 	yukon, russian, scorpion, wasp, yukon2,
