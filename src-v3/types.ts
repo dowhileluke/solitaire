@@ -55,7 +55,7 @@ export type Rules = {
 	toPileCards: (cardIds: CardId[]) => PileCard[];
 }
 
-export type ColorMode = false | 'rummi' | 'poli'
+export type ColorMode = false | 'rummi' | 'poli' | 'copa'
 export type ThemeMode = false | 'green'
 
 export type BaseAppState = {

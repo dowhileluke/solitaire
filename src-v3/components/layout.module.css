@@ -25,6 +25,7 @@
 }
 
 .welcome {
+	color: var(--placeheld);
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -47,6 +48,7 @@
 }
 
 .mini {
+	color: var(--black);
 	background-color: var(--card-back);
 	box-sizing: border-box;
 	padding: 2px;
@@ -59,6 +61,7 @@
 }
 
 .start {
+	color: var(--black);
 	flex: 1;
 	margin: 1em auto 0;
 }
@@ -70,8 +73,8 @@
 .foot {
 	display: none;
 	font-size: 80%;
-	color: var(--black-alt);
 	text-align: center;
+	opacity: 0.5;
 }
 
 @media (display-mode: browser) and (max-width: 1023px) {

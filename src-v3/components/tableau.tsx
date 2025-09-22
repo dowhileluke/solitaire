@@ -12,7 +12,7 @@ export function Tableau() {
 
 	if (layoutMode === 'horizontal') {
 		return (
-			<PileGroup className={classes.tableau}>
+			<PileGroup>
 				{tableau.map((pile, x) => (
 					<Pile
 						key={x}

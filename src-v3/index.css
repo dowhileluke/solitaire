@@ -14,7 +14,6 @@
 	--red-alt: rgba(var(--rgb-red), var(--alt));
 
 	--blue: steelblue;
-	--green: seagreen;
 
 	--card-width: 44px;
 	--card-height: 58px;
@@ -68,9 +67,9 @@ body {
 }
 
 .green {
-	--main-bg: var(--green);
+	--main-bg: darkgreen;
 	--placeheld: white;
-	--accent: var(--black);
+	--accent: saddlebrown;
 }
 
 .rummi {
@@ -80,7 +79,21 @@ body {
 
 .poli {
 	--diams: var(--blue);
-	--clubs: var(--green);
+	--clubs: green;
+}
+
+.copa {
+	--spades: #111111;
+	--hearts: red;
+	--diams: dodgerblue;
+	--clubs: seagreen;
+}
+
+.bala {
+	--spades: #242c56;
+	--hearts: #f11b52;
+	--diams: #f15a27;
+	--clubs: #074540;
 }
 
 .four-color {

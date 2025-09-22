@@ -7,8 +7,13 @@ import { Controls } from './controls'
 import { Layout } from './layout'
 import { Menu } from './menu'
 import responsive from './responsive.module.css'
+import { ThemeMode } from '../types'
 
 const appClass = `viewport-height overflow-hidden ${responsive.app}`
+
+const themeColors: Record<ThemeMode & string, string> = {
+	green: 'saddlebrown',
+}
 
 function ThemedApp({ children }: PropsWithChildren) {
 	const [{ themeMode }] = useAppState()
@@ -17,7 +22,7 @@ function ThemedApp({ children }: PropsWithChildren) {
 		const metaTag = document.querySelector('meta[name=theme-color]')
 		
 		if (metaTag) {
-			metaTag.setAttribute('content', themeMode ? '#333' : 'firebrick')
+			metaTag.setAttribute('content', themeMode && themeColors[themeMode] || 'firebrick')
 		}
 	}, [themeMode])
 
