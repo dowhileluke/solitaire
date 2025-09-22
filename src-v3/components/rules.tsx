@@ -11,6 +11,33 @@ const BUILD_TEXT: Record<GameDef['buildRestriction'], string> = {
 	'alt-color': 'alternating colors',
 	'same-color': 'matching colors',
 	'suit': 'matching suits',
+	'rank': '',
+}
+
+function getGoalText(config: Required<GameDef>) {
+	if (config.goal === 'sorted') return 'Move all cards of matching ranks to the same pile.'
+	if (config.goal.startsWith('foundation')) return 'Move all cards to the foundations, building A→K by suit.'
+
+	const seqType = config.goal === 'sequence-in' ? ' within the tableau.' : ', removing each as they are completed.'
+
+	return `Form suited K→A sequences${seqType}`
+}
+
+function getMoveText(config: Required<GameDef>) {
+	const cardType = config.moveRestriction === 'none' ? 'Any visible' : 'An exposed'
+	const prefix = `${cardType} card can be moved to a tableau pile if it `
+	const suffix = config.heightRestriction < 999 ? `, and the pile size does not exceed ${config.heightRestriction} cards.` : '.'
+
+	if (config.goal === 'sorted') {
+		return prefix + 'matches in rank' + suffix
+	}
+
+	const isBidirectional = config.buildDirection === 'either'
+	const directionText = concat(isBidirectional && 'ascending or ', 'descending')
+	const buildText = BUILD_TEXT[config.buildRestriction]
+	
+	return prefix + `forms a sequence in ${directionText} order` +
+		(buildText ? ` with ${buildText}` : ' regardless of suit') + suffix
 }
 
 function getRedealText(dealLimit: number) {
@@ -26,36 +53,32 @@ function getRedealText(dealLimit: number) {
 	return redealPrefix + ` for ${redealCount} redeals.`
 }
 
+function getFinalCellsText(finalCells: number) {
+	if (!finalCells) return null
+
+	const plural = finalCells > 1 ? 'cells' : 'cell'
+
+	return `Then ${finalCells} free ${plural} becomes available.`
+}
+
 export function Rules() {
 	const [{ menuKey }] = useAppState()
 	const config = toFullDef(GAME_CATALOG[menuKey], menuKey)
-	const isFoundationGame = config.goal.startsWith('foundation')
 	const isFullyDealt = isFullyDealtGame(config)
-	const isBidirectional = config.buildDirection === 'either'
 	const isRelaxedSuit = config.moveRestriction === 'relaxed-suit'
-	const directionText = concat(isBidirectional && 'ascending or ', 'descending')
-	const buildText = BUILD_TEXT[config.buildRestriction]
+	const hasFinalCells = config.dealLimit > 0 && config.finalCells > 0
 	const tips = TIP_COMPENDIUM[menuKey]
 
 	return (
 		<ScrollArea className={classes.rules}>
 			<h3>Goal</h3>
 			<p>
-				{isFoundationGame
-					? 'Move all cards to the foundations, building A→K by suit.'
-					: `Form suited K→A sequences${
-						config.goal === 'sequence-in'
-							? ' within the tableau.'
-							: ', removing each as they are completed.'
-					}`
-				}
+				{getGoalText(config)}
 				{config.solveRate > 0 && ` ${config.solveRate}% of deals can be solved.`}
 			</p>
 			<h3>Movement</h3>
 			<p>
-				{config.moveRestriction === 'none' ? 'Any visible' : 'An exposed'} card
-				can be moved to a tableau pile if it forms a sequence
-				in {directionText} order{buildText ? ` with ${buildText}.` : ' regardless of suit.'}
+				{getMoveText(config)}
 			</p>
 			{config.moveRestriction !== 'none' && (
 				<p>
@@ -67,7 +90,7 @@ export function Rules() {
 					}
 				</p>
 			)}
-			{config.cells > 0 && (
+			{(config.cells > 0 || hasFinalCells) && (
 				<p>Single cards may be placed in a free cell.</p>
 			)}
 			<p>
@@ -90,6 +113,8 @@ export function Rules() {
 								be dealt from the stock to the waste pile.</p>
 							<p>
 								When the stock is exhausted, {getRedealText(config.dealLimit)}
+								{' '}
+								{hasFinalCells && getFinalCellsText(config.finalCells)}
 							</p>
 						</>
 					) : (

@@ -57,9 +57,12 @@ const NULL_ARRAY = generateArray<CardId | null>(8, () => null)
 
 export function Foundations({ groupIndex, vertical }: FoundationsProps) {
 	const [{ history, config }, { fastForward }] = useAppState()
+	const { goal, isTowers } = config
+
+	if (goal === 'sorted') return null
+
 	const foundationCount = 4 * config.decks
 	const { foundations } = tail(history)
-	const { goal, isTowers } = config
 	const portionSize = (foundationCount / (isTowers ? 2 : 1))
 	const portionIndex = portionSize * groupIndex
 	const splitPortions = split(foundations.concat(NULL_ARRAY).slice(0, foundationCount), portionSize)

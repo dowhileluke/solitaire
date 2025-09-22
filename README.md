@@ -1,27 +1,7 @@
-# React + TypeScript + Vite
+# Solitaire
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Instead of installing a menagerie of solitaire apps for my phone, I developed this progressive web app to support dozens of games in one unified place. And as an added bonus, without ads or in-app purchases!
 
-Currently, two official plugins are available:
+Other features include: intelligent tap-to-move cards, quick-fill foundation piles, and instructions for every game. Gameplay tips are also included for some games where I felt qualified to comment.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+You can play the app on your phone or browser here: https://dowhileluke.github.io/solitaire/

@@ -1,6 +1,6 @@
 import { categorize } from '@dowhileluke/fns'
 
-export type GameFamily = 'Klondike' | 'Spider' | 'FreeCell' | 'Yukon' | 'Castle' | 'Forty'
+export type GameFamily = 'Klondike' | 'Spider' | 'FreeCell' | 'Yukon' | 'Castle' | 'Forty' | 'Other'
 // export type FamilyDef = {
 // 	key: GameFamily;
 // 	desc: string;
@@ -13,9 +13,9 @@ export type GameFamily = 'Klondike' | 'Spider' | 'FreeCell' | 'Yukon' | 'Castle'
 // 	{ key: 'Castle', desc: 'Unravel tableaus' },
 // 	{ key: 'Forty', desc: '' },
 // ]
-export const GAME_FAMILIES: GameFamily[] = ['Klondike', 'Spider', 'FreeCell', 'Yukon', 'Castle', 'Forty']
+export const GAME_FAMILIES: GameFamily[] = ['Klondike', 'Spider', 'FreeCell', 'Yukon', 'Castle', 'Forty', 'Other']
 export type GameKey = keyof typeof GAME_CATALOG
-export type GameGoal = 'foundation' | 'foundation@2' | 'sequence-in' | 'sequence-out'
+export type GameGoal = 'foundation' | 'foundation@2' | 'sequence-in' | 'sequence-out' | 'sorted'
 export type LayoutMode = 'horizontal' | 'vertical'
 export type GameDef = {
 	key?: GameKey;
@@ -34,6 +34,7 @@ export type GameDef = {
 	wasteRate?: number;
 	dealLimit?: number;
 	merciCount?: number;
+	finalCells?: number;
 
 	// layout
 	piles: number;
@@ -46,9 +47,10 @@ export type GameDef = {
 
 	// gameplay
 	buildDirection: 'descending' | 'either';
-	buildRestriction: 'none' | 'alt-color' | 'same-color' | 'suit';
+	buildRestriction: 'none' | 'alt-color' | 'same-color' | 'suit' | 'rank';
 	moveRestriction: 'none' | 'strict' | 'relaxed' | 'relaxed-suit';
 	emptyRestriction: 'none' | 'kings';
+	heightRestriction?: number;
 	allowRecant?: boolean;
 }
 
@@ -64,6 +66,7 @@ export function toFullDef(def: GameDef, key: GameKey) {
 		wasteRate: 0,
 		dealLimit: 0,
 		merciCount: 0,
+		finalCells: 0,
 
 		upPiles: 0,
 		emptyPiles: 0,
@@ -71,6 +74,7 @@ export function toFullDef(def: GameDef, key: GameKey) {
 		cells: 0,
 		filledCells: 0,
 
+		heightRestriction: 999,
 		allowRecant: false,
 
 		...def,
@@ -122,6 +126,16 @@ const easthaven: GameDef = {
 	wasteRate: 0,
 	emptyRestriction: 'none',
 	allowRecant: true,
+}
+
+const sawayama: GameDef = {
+	...klondike,
+	name: 'Sawayama',
+	shortRules: 'Single-deal Klondike with an open tableau',
+	dealLimit: 1,
+	finalCells: 1,
+	upPiles: true,
+	emptyRestriction: 'none',
 }
 
 const whitehead: GameDef = {
@@ -403,13 +417,36 @@ const alibaba: GameDef = {
 	moveRestriction: 'relaxed',
 }
 
+const beeswax: GameDef = {
+	name: 'Beeswax',
+	family: 'Other',
+	shortRules: 'Sort cards by rank',
+	goal: 'sorted',
+	solveRate: 99,
+
+	// layout
+	layoutMode: 'vertical',
+	piles: 13,
+	upPiles: true,
+	emptyPiles: 2,
+	pileHeight: 4,
+
+	// gameplay
+	buildDirection: 'descending',
+	buildRestriction: 'rank',
+	moveRestriction: 'relaxed',
+	emptyRestriction: 'none',
+	heightRestriction: 4,
+}
+
 export const GAME_CATALOG = {
-	klondike, westcliff, easthaven, whitehead, klondike2, easthaven2, irmgard,
+	klondike, westcliff, easthaven, sawayama, whitehead, klondike2, easthaven2, irmgard,
 	spider, spiderette, will, simple,
 	freecell, bakers, seahaven, forecell,
 	yukon, russian, scorpion, wasp, yukon2,
 	beleaguered, fortress, alleys, stronghold, canister,
 	thieves, eight, alibaba,
+	beeswax,
 }
 export const GAME_LIST = (Object.keys(GAME_CATALOG) as Array<GameKey>).map(k => toFullDef(GAME_CATALOG[k], k))
 export const GAMES_BY_FAMILY = categorize(GAME_LIST, g => g.family)

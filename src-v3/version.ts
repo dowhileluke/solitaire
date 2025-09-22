@@ -6,6 +6,9 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.7', name: 'Sawayama', isMajor: true, },
+	{ v: '2.6.1', name: 'Rules typo', },
+	{ v: '2.6', name: 'Beeswax', isMajor: true, },
 	{ v: '2.5.3', name: 'Code organization', },
 	{ v: '2.5.2', name: 'Improved pile hitbox', },
 	{ v: '2.5.1', name: 'Adjusted screen resolution cutoff', },

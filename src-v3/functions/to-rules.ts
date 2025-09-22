@@ -31,6 +31,7 @@ export function toRules(def: Required<GameDef>) {
 	}
 
 	function isSequential(source: Card, target: Card) {
+		if (def.buildRestriction === 'rank') return source.rank === target.rank
 		if (isSequentialDesc(source, target)) return true
 		if (def.buildDirection === 'descending') return false
 
@@ -58,15 +59,10 @@ export function toRules(def: Required<GameDef>) {
 		const cards = cardIds.map(id => CARD_DATA[id]).reverse()
 		const result: PileCard[] = []
 
-		let available = 0
 		let isAvailable = true
 	
 		for (const [i, card] of cards.entries()) {
 			const nextCard = cards[i + 1]
-	
-			if (isAvailable) {
-				available += 1
-			}
 	
 			if (nextCard && isConnected(card, nextCard)) {
 				result.push({ ...card, isConnected: true, isAvailable })
@@ -155,8 +151,10 @@ export function toRules(def: Required<GameDef>) {
 		if (to.zone !== 'tableau') return false
 
 		const targetPile = state.tableau[to.x]
+		const targetHeight = targetPile.cardIds.length
 
-		if (targetPile.cardIds.length === 0) return def.emptyRestriction === 'none' || tail(cards).rank === 12
+		if (cards.length + targetHeight > def.heightRestriction) return false
+		if (targetHeight === 0) return def.emptyRestriction === 'none' || tail(cards).rank === 12
 
 		return isCompatible(tail(cards), tailCard(targetPile.cardIds))
 	}
@@ -177,13 +175,16 @@ export function toRules(def: Required<GameDef>) {
 
 	function isValidSimpleMove(state: GameState, cards: Card[], to: Position) {
 		if (to.zone === 'tableau') {
+			const targetPile = state.tableau[to.x]
+			const targetHeight = targetPile.cardIds.length
+
+			if (cards.length + targetHeight > def.heightRestriction) return false
+
 			const maxLength = cards.length === 1 ? 999 : getMaximumLength(state, tail(cards).rank === 12)
 
 			if (cards.length > maxLength) return false
 
-			const targetPile = state.tableau[to.x]
-
-			if (targetPile.cardIds.length === 0) {
+			if (targetHeight === 0) {
 				if (isKingsOnly) return cards[0].rank === 12
 
 				const halfMax = maxLength >> 1
@@ -399,8 +400,10 @@ export function toRules(def: Required<GameDef>) {
 		if (wasteRate > 0) {
 			if (!state.waste) return null
 
+			const isFinalPass = dealLimit > 0 && state.pass >= dealLimit
+
 			if (isEmpty) {
-				if (dealLimit && state.pass >= dealLimit) return null
+				if (isFinalPass) return null
 				if (state.stock.length === 0 && state.waste.down === 0) return null
 
 				const [flippedIds, stock] = split(state.waste.cardIds, wasteRate)
@@ -422,6 +425,10 @@ export function toRules(def: Required<GameDef>) {
 					cardIds: state.waste.cardIds.concat(flippedIds),
 					down: state.waste.cardIds.length,
 				},
+			}
+
+			if (stock.length === 0 && isFinalPass && def.finalCells > 0) {
+				result.cells = result.cells.concat(generateArray(def.finalCells, () => null))
 			}
 
 			return result
