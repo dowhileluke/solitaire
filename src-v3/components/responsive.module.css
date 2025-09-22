@@ -22,7 +22,7 @@
 }
 
 .done h1 {
-	text-shadow: 0 0 1em var(--main-bg);
+	text-shadow: 0 0 2px var(--main-bg), 0 0 1em var(--main-bg);
 }
 
 .done button {
