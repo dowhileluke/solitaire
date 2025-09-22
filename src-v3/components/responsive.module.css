@@ -12,6 +12,7 @@
 }
 
 .done {
+	color: var(--placeheld);
 	grid-area: main;
 	z-index: 1;
 	flex-direction: column;
@@ -22,6 +23,10 @@
 
 .done h1 {
 	text-shadow: 0 0 1em var(--main-bg);
+}
+
+.done button {
+	box-shadow: 0 0 1em var(--main-bg);
 }
 
 /* .layout initial def moved to local css for seahaven */
