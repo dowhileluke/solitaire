@@ -66,10 +66,17 @@ body {
 	--clubs: var(--black);
 }
 
-.green {
+.grass {
 	--main-bg: darkgreen;
 	--placeheld: white;
+}
+
+.grass, .sand {
 	--accent: saddlebrown;
+}
+
+.grass .noise, .sand .noise {
+	background-image: url('./noise.png');
 }
 
 .rummi {

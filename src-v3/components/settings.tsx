@@ -21,14 +21,15 @@ const colorModes: Array<LabeledValue<ColorMode>> = [
 
 const themeModes: Array<LabeledValue<ThemeMode>> = [
 	{ label: 'Standard', value: false, },
-	{ label: 'Green', value: 'green', },
+	{ label: 'Grass', value: 'grass', },
+	{ label: 'Sand', value: 'sand', },
 ]
 
 const settingsClass = `ui-pad ui-gap overflow-hidden ${classes.settings}`
 const splitClass = `${classes.split} overflow-hidden`
 const panelClass = `${classes.panel} justify-center overflow-hidden`
 const labelClass = `${interactiveClasses.labeled} overflow-hidden`
-const previewClass = `${classes.preview} overflow-hidden`
+const previewClass = `${classes.preview} noise overflow-hidden`
 
 export function Settings() {
 	const [{ config, history, colorMode, themeMode }, { setColorMode, setThemeMode }] = useAppState()
