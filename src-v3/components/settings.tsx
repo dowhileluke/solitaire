@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { Export } from '@phosphor-icons/react'
-import { generateArray } from '@dowhileluke/fns'
 import { isOpenGame } from '../functions/is-open-game'
 import { toPlaintext } from '../functions/to-plaintext'
 import { useAppState } from '../hooks/use-app-state'
