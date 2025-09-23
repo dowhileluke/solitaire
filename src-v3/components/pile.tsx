@@ -8,7 +8,7 @@ import { Pile as PileDef, PileCard, Position, Rules, CardId } from '../types'
 import { Card, DndCard } from './card'
 import classes from './card-pile.module.css'
 
-type PileProps = {
+export type PileProps = {
 	toPos: ((index: number, card: PileCard | null) => Position) | null;
 	cardIds: CardId[];
 	down?: number;

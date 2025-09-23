@@ -7,7 +7,7 @@ import { useAppState } from '../hooks/use-app-state'
 import { ColorMode, ThemeMode } from '../types'
 import { VERSION, LATEST_VERSION } from '../version'
 import { Button, LabeledPicker, LabeledValue } from './interactive'
-import { Pile } from './pile'
+import { Pile, PileProps } from './pile'
 import classes from './settings.module.css'
 import pileClasses from './card-pile.module.css'
 import interactiveClasses from './interactive.module.css'
@@ -16,11 +16,12 @@ const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Never', value: false, },
 	{ label: 'Orange/Blue', value: 'rummi', },
 	{ label: 'Blue/Green', value: 'poli', },
-	{ label: 'Bright B/G', value: 'copa', },
+	{ label: 'Vivid', value: 'copa', },
 ]
 
 const themeModes: Array<LabeledValue<ThemeMode>> = [
 	{ label: 'Standard', value: false, },
+	{ label: 'Chalk', value: 'chalk', },
 	{ label: 'Grass', value: 'grass', },
 	{ label: 'Sand', value: 'sand', },
 ]
@@ -30,6 +31,33 @@ const splitClass = `${classes.split} overflow-hidden`
 const panelClass = `${classes.panel} justify-center overflow-hidden`
 const labelClass = `${interactiveClasses.labeled} overflow-hidden`
 const previewClass = `${classes.preview} noise overflow-hidden`
+
+// [[27, 0], [25, 50], [33], []]
+const previewPiles: PileProps[] = [
+	{ cardIds: [27, 0], down: 0, toPos: null, },
+	{ cardIds: [0, 25, 50], down: 1, toPos: null, },
+	{ cardIds: [], down: 0, toPos: () => ({ zone: 'merci' }), },
+	{ cardIds: [0, 0, 0, 0], down: 4, toPos: null, },
+]
+
+const panel = (
+	<div className={panelClass}>
+		<div className={labelClass}>
+			<div>Preview</div>
+			<div className={previewClass}>
+				<div className={classes.piles}>
+				{previewPiles.map((props, index) => {
+					return (
+						<ul key={index} className={pileClasses.pile}>
+							<Pile {...props} />
+						</ul>
+					)
+				})}
+				</div>
+			</div>
+		</div>
+	</div>
+)
 
 export function Settings() {
 	const [{ config, history, colorMode, themeMode }, { setColorMode, setThemeMode }] = useAppState()
@@ -78,22 +106,7 @@ export function Settings() {
 						</Button>
 					)}
 				</div>
-				<div className={panelClass}>
-					<div className={labelClass}>
-						<div>Preview</div>
-						<div className={previewClass}>
-							<div className={classes.piles}>
-							{[[27, 0], [25, 50], [33], [44]].map((cardIds, index) => {
-								return (
-									<ul className={pileClasses.pile}>
-										<Pile cardIds={generateArray(index, () => 0).concat(cardIds)} down={index} toPos={null} />
-									</ul>
-								)
-							})}
-							</div>
-						</div>
-					</div>
-				</div>
+				{panel}
 			</div>
 			<div className={classes.note}>v{VERSION} - {LATEST_VERSION.name}</div>
 		</div>

@@ -66,6 +66,11 @@ body {
 	--clubs: var(--black);
 }
 
+.chalk {
+	--main-bg: var(--black);
+	--placeheld: white;
+}
+
 .grass {
 	--main-bg: darkgreen;
 	--placeheld: white;
@@ -101,23 +106,6 @@ body {
 	--hearts: #f11b52;
 	--diams: #f15a27;
 	--clubs: #074540;
-}
-
-.four-color {
-	--diams: salmon;
-	--clubs: var(--blue);
-	/* --diams: mediumvioletred; */
-	/* --clubs: darkslateblue; */
-	/* --diams: #d0a; */
-	/* --clubs: #09c; */
-  /* --clubs: #068; */
-  /* --clubs: #269; */
-	/* --diams: var(--red-alt); */
-	/* --clubs: var(--black-alt); */
-	/* --diams: steelblue; */
-	/* --clubs: forestgreen; */
-	/* --diams: rgb(204, 105, 0); */
-	/* --clubs: rgb(0, 122, 221); */
 }
 
 ul {
