@@ -3,6 +3,31 @@
 	grid-template-rows: 1fr auto;
 }
 
+.split {
+	display: flex;
+	gap: var(--ui-gap);
+}
+
+.panel {
+	width: 100%;
+}
+
+.preview {
+	border: 1px solid var(--black);
+	background-color: var(--main-bg);
+	padding: var(--ui-gap);
+	border-radius: var(--radius);
+}
+
+.piles {
+	display: flex;
+	gap: var(--ui-gap);
+}
+
+.piles ul {
+	flex-shrink: 0;
+}
+
 .note {
 	text-align: center;
 	font-size: 75%;

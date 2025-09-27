@@ -84,6 +84,7 @@
 .select {
 	border: none;
 	text-align: center;
+	text-align-last:center;
 	cursor: pointer;
 	background: inherit;
 	color: white;

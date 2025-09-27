@@ -143,6 +143,8 @@
 	width: 100%;
 	height: var(--card-height);
 	box-shadow: none;
+	color: var(--placeheld);
+	border-color: currentColor;
 }
 
 .horizontal .placeholder {

@@ -9,7 +9,7 @@ export default defineConfig({
     VitePWA({
       // devOptions: { enabled: true },
       // includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'faces/*.png'],
-      includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'noise.png'],
       manifest: {
         name: 'Solitaire',
         short_name: 'Solitaire',

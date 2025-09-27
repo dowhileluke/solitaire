@@ -3,21 +3,63 @@ import { Export } from '@phosphor-icons/react'
 import { isOpenGame } from '../functions/is-open-game'
 import { toPlaintext } from '../functions/to-plaintext'
 import { useAppState } from '../hooks/use-app-state'
-import { ColorMode } from '../types'
+import { ColorMode, ThemeMode } from '../types'
 import { VERSION, LATEST_VERSION } from '../version'
 import { Button, LabeledPicker, LabeledValue } from './interactive'
+import { Pile, PileProps } from './pile'
 import classes from './settings.module.css'
+import pileClasses from './card-pile.module.css'
+import interactiveClasses from './interactive.module.css'
 
 const colorModes: Array<LabeledValue<ColorMode>> = [
-	{ label: 'Disabled', value: false, },
-	{ label: 'Enabled', value: 'rummi', },
-	// { label: 'Blue/Green', value: 'poli', },
+	{ label: 'Never', value: false, },
+	{ label: 'Orange/Blue', value: 'rummi', },
+	{ label: 'Blue/Green', value: 'poli', },
+	{ label: 'Vivid', value: 'copa', },
 ]
 
-const settingsClass = `ui-pad ui-gap ${classes.settings}`
+const themeModes: Array<LabeledValue<ThemeMode>> = [
+	{ label: 'Standard', value: false, },
+	{ label: 'Chalk', value: 'chalk', },
+	{ label: 'Grass', value: 'grass', },
+	{ label: 'Sand', value: 'sand', },
+]
+
+const settingsClass = `ui-pad ui-gap overflow-hidden ${classes.settings}`
+const splitClass = `${classes.split} overflow-hidden`
+const panelClass = `${classes.panel} justify-center overflow-hidden`
+const labelClass = `${interactiveClasses.labeled} overflow-hidden`
+const previewClass = `${classes.preview} noise overflow-hidden`
+
+// [[27, 0], [25, 50], [33], []]
+const previewPiles: PileProps[] = [
+	{ cardIds: [27, 0], down: 0, toPos: null, },
+	{ cardIds: [0, 25, 50], down: 1, toPos: null, },
+	{ cardIds: [], down: 0, toPos: () => ({ zone: 'merci' }), },
+	{ cardIds: [0, 0, 0, 0], down: 4, toPos: null, },
+]
+
+const panel = (
+	<div className={panelClass}>
+		<div className={labelClass}>
+			<div>Preview</div>
+			<div className={previewClass}>
+				<div className={classes.piles}>
+				{previewPiles.map((props, index) => {
+					return (
+						<ul key={index} className={pileClasses.pile}>
+							<Pile {...props} />
+						</ul>
+					)
+				})}
+				</div>
+			</div>
+		</div>
+	</div>
+)
 
 export function Settings() {
-	const [{ config, history, colorMode }, { setColorMode }] = useAppState()
+	const [{ config, history, colorMode, themeMode }, { setColorMode, setThemeMode }] = useAppState()
 	const isOpen = useMemo(() => isOpenGame(config), [config])
 
 	function handleExport() {
@@ -39,20 +81,31 @@ export function Settings() {
 
 	return (
 		<div className={settingsClass}>
-			<div>
-				<LabeledPicker
-					label="Four Color Mode"
-					value={colorMode}
-					onChange={mode => setColorMode(mode)}
-					options={colorModes}
-				/>
-				<br />
-				{isOpen && (
-					<Button accented onClick={handleExport}>
-						<Export />
-						Export Board
-					</Button>
-				)}
+			<div className={splitClass}>
+				<div>
+					<LabeledPicker
+						label="Four Color Mode"
+						value={colorMode}
+						onChange={mode => setColorMode(mode)}
+						options={colorModes}
+					/>
+					<br />
+					<LabeledPicker
+						label="Theme"
+						value={themeMode}
+						onChange={mode => setThemeMode(mode)}
+						options={themeModes}
+					/>
+					<br />
+					<br />
+					{isOpen && (
+						<Button accented onClick={handleExport}>
+							<Export />
+							Export Board
+						</Button>
+					)}
+				</div>
+				{panel}
 			</div>
 			<div className={classes.note}>v{VERSION} - {LATEST_VERSION.name}</div>
 		</div>

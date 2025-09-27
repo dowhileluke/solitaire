@@ -55,7 +55,8 @@ export type Rules = {
 	toPileCards: (cardIds: CardId[]) => PileCard[];
 }
 
-export type ColorMode = false | 'rummi' | 'poli'
+export type ColorMode = false | 'rummi' | 'poli' | 'copa'
+export type ThemeMode = false | 'chalk' | 'grass' | 'sand'
 
 export type BaseAppState = {
 	history: GameState[];
@@ -72,6 +73,7 @@ export type BaseAppState = {
 	/** @deprecated */
 	isFourColorEnabled?: boolean;
 	colorMode: ColorMode;
+	themeMode: ThemeMode;
 }
 
 export type AppState = BaseAppState & {
@@ -94,6 +96,7 @@ export type AppActions = {
 	toggleMenu: (isMenuOpen: boolean) => void;
 	toggleFilter: () => void;
 	setColorMode: (mode: ColorMode) => void;
+	setThemeMode: (mode: ThemeMode) => void;
 	setMenuKey: (menuKey: GameKey) => void;
 	setGamePref: <K extends keyof GameDef>(gameKey: GameKey, prefKey: K, prefValue: GameDef[K]) => void;
 }

@@ -1,12 +1,14 @@
 import { FormEvent, Fragment, ReactNode } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import classes from './modal.module.css'
+import { concat } from '../functions/concat';
 
 export type ModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
 	onSubmit?: (e: FormEvent) => void;
 	children?: ReactNode;
+	className?: string;
 }
 
 const fullscreen = `viewport-height ${classes.fixed}`
@@ -14,7 +16,7 @@ const backdropClass = `${fullscreen} blur`
 const gutterClass = `full-height flex-center ${classes.gutter}`
 const panelClass = `overflow-hidden ${classes.panel}`
 
-export function Modal({ isOpen, onClose, onSubmit, children }: ModalProps) {
+export function Modal({ isOpen, onClose, onSubmit, children, className }: ModalProps) {
 	return (
 		<Transition
 			as={Fragment}
@@ -22,7 +24,7 @@ export function Modal({ isOpen, onClose, onSubmit, children }: ModalProps) {
 			appear
 		>
 			<Dialog onClose={onClose} className={fullscreen}>
-				<div className={backdropClass}>
+				<div className={concat(backdropClass, className)}>
 					<div className={gutterClass}>
 						<Transition.Child
 							as={Fragment}
