@@ -81,7 +81,7 @@ body {
 }
 
 .grass .noise, .sand .noise {
-	background-image: url('./noise.png');
+	background-image: url('/noise.png');
 }
 
 .rummi {
