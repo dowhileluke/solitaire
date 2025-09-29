@@ -144,6 +144,9 @@
 	height: var(--card-height);
 	box-shadow: none;
 	color: var(--placeheld);
+}
+
+.placeholder:not(.up) {
 	border-color: currentColor;
 }
 
