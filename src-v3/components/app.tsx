@@ -12,7 +12,7 @@ import { ThemeMode } from '../types'
 const appClass = `viewport-height overflow-hidden ${responsive.app}`
 
 const themeColors: Partial<Record<ThemeMode & string, string>> = {
-	grass: 'saddlebrown',
+	grass: '#231',
 	sand: 'saddlebrown',
 }
 
