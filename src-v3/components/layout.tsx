@@ -63,7 +63,8 @@ export function Layout() {
 	return (
 		<main className={concat(
 			'noise',
-			!isTwoColored && state.colorMode,
+			state.colorMode,
+			isTwoColored && 'two-color',
 			layoutClass,
 			responsive.layout,
 			!isTowers && responsive.layout2,

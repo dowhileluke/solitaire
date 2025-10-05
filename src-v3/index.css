@@ -74,9 +74,10 @@ body {
 .grass {
 	--main-bg: darkgreen;
 	--placeheld: white;
+	--accent: #231;
 }
 
-.grass, .sand {
+.sand {
 	--accent: saddlebrown;
 }
 
@@ -99,6 +100,11 @@ body {
 	--hearts: red;
 	--diams: dodgerblue;
 	--clubs: seagreen;
+}
+
+.two-color {
+	--diams: var(--hearts);
+	--clubs: var(--spades);
 }
 
 .bala {
