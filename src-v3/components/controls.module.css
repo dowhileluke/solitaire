@@ -2,6 +2,7 @@
 	background-color: var(--accent);
 	padding: var(--ui-gap);
 	gap: var(--ui-gap);
+	transition: var(--slide);
 }
 
 @supports (padding: max(0px)) {

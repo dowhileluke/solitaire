@@ -26,6 +26,7 @@
 	
 	--card-gap: 0.125rem;
 	--ui-gap: 0.5rem;
+	--slide: background-color 240ms ease-out;
 }
 
 @media (min-width: 800px) and (min-height: 600px) {
