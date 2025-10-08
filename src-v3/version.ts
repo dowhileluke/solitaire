@@ -6,6 +6,7 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.8.3', name: 'Extra color', },
 	{ v: '2.8.2', name: 'Theme tweaks', },
 	{ v: '2.8.1', name: 'Waste border fix', },
 	{ v: '2.8', name: 'Themes', isMajor: true, },

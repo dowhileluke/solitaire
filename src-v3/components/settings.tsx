@@ -14,6 +14,7 @@ import interactiveClasses from './interactive.module.css'
 const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Never', value: false, },
 	{ label: 'Orange/Blue', value: 'rummi', },
+	{ label: 'Green/Yellow', value: 'bava', },
 	{ label: 'Blue/Green', value: 'poli', },
 	{ label: 'Vivid', value: 'copa', },
 ]

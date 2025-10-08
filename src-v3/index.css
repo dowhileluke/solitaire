@@ -91,6 +91,15 @@ body {
 	--clubs: var(--blue);
 }
 
+.bava {
+	--spades: green;
+	--diams: goldenrod;
+}
+
+.bava.two-color {
+	--spades: var(--black);
+}
+
 .poli {
 	--diams: var(--blue);
 	--clubs: green;
