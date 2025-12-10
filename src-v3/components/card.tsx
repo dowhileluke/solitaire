@@ -37,10 +37,13 @@ export const Card = forwardRef<HTMLLIElement, CardProps>(({
 		className,
 	)
 
-	const label = details && !isDown && (
+	const isUpcard = details && !isDown;
+	const label = isUpcard && (
 		<div>
-			<abbr>{details.name}</abbr>
-			<abbr>{IS_ANDROID ? suitIcons[details.suitIndex] : details.suit}</abbr>
+			<label>
+				<abbr>{details.name}</abbr>
+				<abbr>{IS_ANDROID ? suitIcons[details.suitIndex] : details.suit}</abbr>
+			</label>
 		</div>
 	)
 
@@ -50,6 +53,7 @@ export const Card = forwardRef<HTMLLIElement, CardProps>(({
 			{label}
 			{isDown && (<FlowerLotus size="100%" weight="thin" />)}
 			{!label && children}
+			{isUpcard && details.rank > 9 && <hr className={classes.court} />}
 		</li>
 	)
 })

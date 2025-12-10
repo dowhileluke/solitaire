@@ -41,6 +41,7 @@
 	border-radius: var(--radius);
 	flex-shrink: 8;
 	z-index: 1;
+	position: relative;
 }
 
 .clickable {
@@ -101,38 +102,58 @@
 
 /* name & suit */
 
-.card div {
-	display: flex;
+.card > div {
+	position: relative;
+	z-index: 3;
 }
 
-.card div:nth-child(2) {
+.card label {
+	display: inline-flex;
+	background: white;
+	border-radius: var(--radius);
+	flex-grow: 0;
+	padding-right: 0.1em;
+	padding-bottom: 0.1em;
+}
+
+.card > div:nth-child(2) {
 	transform: rotate(180deg);
 }
 
-.horizontal .card div {
+.horizontal .card label {
 	flex-direction: column;
 }
 
 .card div abbr:first-child {
-  margin-bottom: -0.2em;
+	margin-bottom: -0.2em;
 }
 
 /* name & suit -- squeezed */
 
-.squeeze {
+.squeeze abbr:first-child {
+	text-indent: -0.1em;
 	letter-spacing: -0.2em;
 }
 
-.squeeze abbr:first-child {
-  text-indent: -0.1em;
+.squeeze label {
+	gap: 0.2em;
 }
 
-.squeeze div {
-  gap: 0.2em;
+.horizontal .squeeze label {
+	gap: 0;
+	padding-right: 0.2em;
 }
 
-.horizontal .squeeze div {
-  gap: 0;
+/* court card detail */
+
+.court {
+	position: absolute;
+	z-index: 2;
+	inset: 0.5em 0.2em;
+	margin: 0;
+	color: inherit;
+	border: 1px solid currentColor;
+	border-radius: var(--radius);
 }
 
 /* special cases based on position within pile */
@@ -165,6 +186,7 @@
 }
 
 /* drag overlay */
+
 .overpile li {
 	flex-shrink: 0;
 }
