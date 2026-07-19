@@ -56,9 +56,9 @@ const layoutClass = `full-height overflow-hidden ${classes.layout}`
 
 export function Layout() {
 	const [state] = useAppState()
-	const { isTowers, buildRestriction } = state.config
+	const { isTowers, buildRestriction, suits } = state.config
 	const isFirstRun = state.history.length === 0
-	const isTwoColored = buildRestriction.endsWith('-color')
+	const isTwoColored = buildRestriction.endsWith('-color') || suits < 3
 
 	return (
 		<main className={concat(

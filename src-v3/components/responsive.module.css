@@ -1,5 +1,4 @@
 .app {
-	background-color: var(--main-bg);
 	display: grid;
 	grid-template-rows: auto 1fr;
 	grid-template-areas: "ctrl" "main";

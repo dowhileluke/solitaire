@@ -20,6 +20,8 @@ function ThemedApp({ children }: PropsWithChildren) {
 	const [{ themeMode }] = useAppState()
 
 	useEffect(() => {
+		document.body.setAttribute('data-theme', themeMode || '')
+
 		const metaTag = document.querySelector('meta[name=theme-color]')
 		
 		if (metaTag) {
@@ -28,7 +30,7 @@ function ThemedApp({ children }: PropsWithChildren) {
 	}, [themeMode])
 
 	return (
-		<div className={concat(appClass, themeMode)}>
+		<div className={appClass}>
 			{children}
 		</div>
 	)

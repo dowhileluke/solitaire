@@ -4,6 +4,7 @@
 	-webkit-text-size-adjust: 100%;
 
 	--main-bg: linen;
+	--accent: var(--red);
 	--alt: 0.66;
 	--rgb-black: 51, 51, 51;
 	--black: rgb(var(--rgb-black));
@@ -55,7 +56,6 @@ body {
 	color: var(--black);
 	background-color: var(--main-bg);
 
-	--accent: var(--red);
 	--placeheld: var(--black);
 	--card-face: white;
 	--card-back: aliceblue;
@@ -67,22 +67,22 @@ body {
 	--clubs: var(--black);
 }
 
-.chalk {
+[data-theme=chalk] {
 	--main-bg: var(--black);
 	--placeheld: white;
 }
 
-.grass {
+[data-theme=grass] {
 	--main-bg: darkgreen;
 	--placeheld: white;
 	--accent: #231;
 }
 
-.sand {
+[data-theme=sand] {
 	--accent: saddlebrown;
 }
 
-.grass .noise, .sand .noise {
+[data-theme=grass] .noise, [data-theme=sand] .noise {
 	background-image: url('/noise.png');
 }
 

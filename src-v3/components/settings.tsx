@@ -12,7 +12,7 @@ import pileClasses from './card-pile.module.css'
 import interactiveClasses from './interactive.module.css'
 
 const colorModes: Array<LabeledValue<ColorMode>> = [
-	{ label: 'Never', value: false, },
+	{ label: 'Disabled', value: false, },
 	{ label: 'Orange/Blue', value: 'rummi', },
 	{ label: 'Green/Yellow', value: 'bava', },
 	{ label: 'Blue/Green', value: 'poli', },
@@ -20,7 +20,7 @@ const colorModes: Array<LabeledValue<ColorMode>> = [
 ]
 
 const themeModes: Array<LabeledValue<ThemeMode>> = [
-	{ label: 'Standard', value: false, },
+	{ label: 'None', value: false, },
 	{ label: 'Chalk', value: 'chalk', },
 	{ label: 'Grass', value: 'grass', },
 	{ label: 'Sand', value: 'sand', },
