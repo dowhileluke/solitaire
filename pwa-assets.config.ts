@@ -1,4 +1,4 @@
-import { Asset, Preset, defineConfig, minimalPreset } from '@vite-pwa/assets-generator/config'
+import { Asset, Preset, defineConfig } from '@vite-pwa/assets-generator/config'
 
 const padding = 0.25
 const resizeOptions: Asset['resizeOptions'] = {

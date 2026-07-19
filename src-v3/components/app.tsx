@@ -1,5 +1,4 @@
 import { PropsWithChildren, useEffect } from 'react'
-import { concat } from '../functions/concat'
 import { useAppState } from '../hooks/use-app-state'
 import { AppStateProvider } from './app-state-provider'
 import { Completion } from './completion'

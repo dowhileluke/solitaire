@@ -62,7 +62,7 @@ function getNote(mode: Mode, { deckCount, modeFlags, suitCount }: GameConfig) {
 	}
 
 	if (mode === 'freecell' && suitCount > 1) {
-		if (modeFlags & FLAG_SUITED_ONLY) return "AKA Baker\'s Game"
+		if (modeFlags & FLAG_SUITED_ONLY) return "AKA Baker's Game"
 
 		return 'Build sequences with alternating colors'
 	}
