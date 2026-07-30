@@ -28,6 +28,7 @@ export const Card = forwardRef<HTMLLIElement, CardProps>(({
 		details.isConnected && classes.connected,
 		details.isAvailable && classes.clickable,
 		squeezeRanks.includes(details.rank) && classes.squeeze,
+		details.rank > 9 && concat(classes.face, details.initials),
 	) : 'flex-center'
 	const cardClasses = concat(
 		classes.card,

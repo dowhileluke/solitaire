@@ -41,6 +41,11 @@
 	border-radius: var(--radius);
 	flex-shrink: 8;
 	z-index: 1;
+
+	/* face card image placement */
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: 0 1.25em;
 }
 
 .clickable {
@@ -52,11 +57,19 @@
 	margin-bottom: 0;
 	margin-right: -1.2em;
 	flex-direction: row;
+
+	/* face card image placement */
+	background-size: auto 100%;
+	background-position-x: 300%;
+	background-position-y: center;
 }
 
 .horizontal.west .card {
 	margin-right: 0;
 	margin-left: -1.2em;
+
+	/* face card image placement */
+	background-position-x: -200%;
 }
 
 .up {
@@ -99,7 +112,11 @@
 	padding-right: 3px;
 }
 
-/* name & suit */
+/* card -- faces */
+.face {
+}
+
+/* name & suit (index/label) */
 
 .card div {
 	display: flex;
@@ -107,6 +124,11 @@
 
 .card div:nth-child(2) {
 	transform: rotate(180deg);
+}
+
+.west > .card.face div:nth-child(1),
+:not(.west) > .card.face div:nth-child(2) {
+	visibility: hidden;
 }
 
 .horizontal .card div {
