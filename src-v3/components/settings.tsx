@@ -10,6 +10,7 @@ import { Pile, PileProps } from './pile'
 import classes from './settings.module.css'
 import pileClasses from './card-pile.module.css'
 import interactiveClasses from './interactive.module.css'
+import { concat } from '../functions/concat'
 
 const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Disabled', value: false, },
@@ -24,6 +25,11 @@ const themeModes: Array<LabeledValue<ThemeMode>> = [
 	{ label: 'Chalk', value: 'chalk', },
 	{ label: 'Grass', value: 'grass', },
 	{ label: 'Sand', value: 'sand', },
+]
+
+const booleanOpts: Array<LabeledValue<boolean>> = [
+	{ label: 'Disabled', value: false, },
+	{ label: 'Enabled', value: true, },
 ]
 
 const settingsClass = `ui-pad ui-gap overflow-hidden ${classes.settings}`
@@ -60,7 +66,10 @@ const panel = (
 )
 
 export function Settings() {
-	const [{ config, history, colorMode, themeMode }, { setColorMode, setThemeMode }] = useAppState()
+	const [
+		{ config, history, colorMode, themeMode, facesMode },
+		{ setColorMode, setThemeMode, setFacesMode }
+	] = useAppState()
 	const isOpen = useMemo(() => isOpenGame(config), [config])
 
 	function handleExport() {
@@ -81,7 +90,7 @@ export function Settings() {
 	}
 
 	return (
-		<div className={settingsClass}>
+		<div className={concat(settingsClass, facesMode && 'faces')}>
 			<div className={splitClass}>
 				<div>
 					<LabeledPicker
@@ -96,6 +105,13 @@ export function Settings() {
 						value={themeMode}
 						onChange={mode => setThemeMode(mode)}
 						options={themeModes}
+					/>
+					<br />
+					<LabeledPicker
+						label="Face Card Images"
+						value={facesMode}
+						onChange={mode => setFacesMode(mode)}
+						options={booleanOpts}
 					/>
 					<br />
 					<br />

@@ -70,10 +70,13 @@ export type BaseAppState = {
 	menuKey: GameKey;
 	prefs: Partial<Record<GameKey, Partial<GameDef>>>;
 
-	/** @deprecated */
-	isFourColorEnabled?: boolean;
 	colorMode: ColorMode;
 	themeMode: ThemeMode;
+	facesMode: boolean;
+
+	/** @deprecated */
+	isFourColorEnabled?: boolean;
+
 }
 
 export type AppState = BaseAppState & {
@@ -97,6 +100,7 @@ export type AppActions = {
 	toggleFilter: () => void;
 	setColorMode: (mode: ColorMode) => void;
 	setThemeMode: (mode: ThemeMode) => void;
+	setFacesMode: (mode: boolean) => void;
 	setMenuKey: (menuKey: GameKey) => void;
 	setGamePref: <K extends keyof GameDef>(gameKey: GameKey, prefKey: K, prefValue: GameDef[K]) => void;
 }

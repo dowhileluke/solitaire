@@ -126,8 +126,8 @@
 	transform: rotate(180deg);
 }
 
-.west > .card.face div:nth-child(1),
-:not(.west) > .card.face div:nth-child(2) {
+:global(.faces) .west > .card.face div:nth-child(1),
+:global(.faces) :not(.west) > .card.face div:nth-child(2) {
 	visibility: hidden;
 }
 
