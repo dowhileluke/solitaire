@@ -1,47 +1,47 @@
-.faces .jc {
-	background-image: url(./svg-faces-cropped/jc.svg);
+.faces .jc::before {
+	background-image: url(./svg-faces/jc.svg);
 }
 
-.faces .jd {
-	background-image: url(./svg-faces-cropped/jd.svg);
+.faces .jd::before {
+	background-image: url(./svg-faces/jd.svg);
 }
 
-.faces .jh {
-	background-image: url(./svg-faces-cropped/jh.svg);
+.faces .jh::before {
+	background-image: url(./svg-faces/jh.svg);
 }
 
-.faces .js {
-	background-image: url(./svg-faces-cropped/js.svg);
+.faces .js::before {
+	background-image: url(./svg-faces/js.svg);
 }
 
-.faces .qc {
-	background-image: url(./svg-faces-cropped/qc.svg);
+.faces .qc::before {
+	background-image: url(./svg-faces/qc.svg);
 }
 
-.faces .qd {
-	background-image: url(./svg-faces-cropped/qd.svg);
+.faces .qd::before {
+	background-image: url(./svg-faces/qd.svg);
 }
 
-.faces .qh {
-	background-image: url(./svg-faces-cropped/qh.svg);
+.faces .qh::before {
+	background-image: url(./svg-faces/qh.svg);
 }
 
-.faces .qs {
-	background-image: url(./svg-faces-cropped/qs.svg);
+.faces .qs::before {
+	background-image: url(./svg-faces/qs.svg);
 }
 
-.faces .kc {
-	background-image: url(./svg-faces-cropped/kc.svg);
+.faces .kc::before {
+	background-image: url(./svg-faces/kc.svg);
 }
 
-.faces .kd {
-	background-image: url(./svg-faces-cropped/kd.svg);
+.faces .kd::before {
+	background-image: url(./svg-faces/kd.svg);
 }
 
-.faces .kh {
-	background-image: url(./svg-faces-cropped/kh.svg);
+.faces .kh::before {
+	background-image: url(./svg-faces/kh.svg);
 }
 
-.faces .ks {
-	background-image: url(./svg-faces-cropped/ks.svg);
+.faces .ks::before {
+	background-image: url(./svg-faces/ks.svg);
 }

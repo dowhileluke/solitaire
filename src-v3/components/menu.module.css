@@ -12,8 +12,8 @@
 	text-align: left;
 	cursor: pointer;
 	padding: var(--ui-gap);
-	color: var(--black-alt);
-	border: 1px solid var(--black-alt);
+	color: var(--gray);
+	border: 1px solid var(--gray);
 	border-top-width: 0;
 	border-right-width: 0;
 }

@@ -27,7 +27,7 @@ function toDetails({ cardIds, down }: PileDef, rules: Rules) {
 	return downCards.concat(rules.toPileCards(cardIds.slice(down)))
 }
 
-function toSimpleDetails(cardIds: CardId[]) {
+export function toSimpleDetails(cardIds: CardId[]) {
 	return cardIds.map((id, index): PileCard => ({
 		...CARD_DATA[id],
 		isConnected: false,

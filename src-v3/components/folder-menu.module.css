@@ -17,7 +17,7 @@
 .heading {
 	margin: 0;
 	font-size: 50%;
-	color: var(--black-alt);
+	color: var(--gray);
 	/* padding-right: var(--ui-gap); */
 }
 

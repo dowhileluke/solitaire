@@ -40,7 +40,7 @@ const previewClass = `${classes.preview} noise overflow-hidden`
 
 // [[27, 0], [25, 50], [33], []]
 const previewPiles: PileProps[] = [
-	{ cardIds: [27, 0], down: 0, toPos: null, },
+	{ cardIds: [1, 26], down: 0, toPos: null, },
 	{ cardIds: [0, 25, 50], down: 1, toPos: null, },
 	{ cardIds: [], down: 0, toPos: () => ({ zone: 'merci' }), },
 	{ cardIds: [0, 0, 0, 0], down: 4, toPos: null, },
