@@ -27,7 +27,7 @@
 	--green: green;
 	--blue: steelblue;
 
-	--black-fi: sepia(1) grayscale(1) brightness(120%);
+	--black-fi: grayscale(1) brightness(120%);
 	/* --red-fi: sepia(1) saturate(159%) hue-rotate(320deg) brightness(144%) contrast(240%); */
 	/* --red-fi: sepia(1) saturate(3) hue-rotate(315deg) brightness(90%); */
 	--red-fi: sepia(1) saturate(333%) hue-rotate(300deg) brightness(80%) contrast(120%);
@@ -144,6 +144,9 @@ body {
 .two-color {
 	--diams: var(--hearts);
 	--clubs: var(--spades);
+
+	--diams-fi: var(--hearts-fi);
+	--clubs-fi: var(--spades-fi);
 }
 
 .bala {
