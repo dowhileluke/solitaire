@@ -5,8 +5,8 @@ import { CSSProperties, useState } from 'react'
 
 // const cardIds = [36, 37, 38, 49, 50, 51]
 // const cardIds = [10, 11, 12, 23, 24, 25, 36, 37, 38]
-const cardIds = [10, 11, 12, 49, 50, 51]
-// const cardIds = [23, 24, 25, 36, 37, 38]
+// const cardIds = [10, 11, 12, 49, 50, 51]
+const cardIds = [23, 24, 25, 36, 37, 38]
 
 type Filters = {
     saturate: number;
@@ -29,19 +29,19 @@ export function TestFaces() {
         setState(prev => ({ ...prev, ...f }))
     }
 
-    const pclass = 'faces four-color bava'
+    const pclass = 'faces four-color rummi'
     const filter = `sepia(1) saturate(${state.saturate}%) hue-rotate(${state.hue}deg) brightness(${state.brightness}%) contrast(${state.contrast}%)`;
 
     return (
         <div>
-            <div className={pclass} style={{ display: 'flex', gap: 4, '--filter': 'var(--yellow-fi)'} as CSSProperties}>
+            <div className={pclass} style={{ display: 'flex', gap: 4, '--filter': 'var(--red-fi)'} as CSSProperties}>
                 {toSimpleDetails(cardIds).map(d => (
                     <ul key={d.id} className={pileClasses.pile}>
                         <Card details={d} />
                     </ul>
                 ))}
             </div>
-            <div className={pclass} style={{ display: 'flex', gap: 4, '--green-fi': filter } as CSSProperties}>
+            <div className={pclass} style={{ display: 'flex', gap: 4, '--orange-fi': filter } as CSSProperties}>
                 {toSimpleDetails(cardIds).map(d => (
                     <ul key={d.id} className={pileClasses.pile}>
                         <Card details={d} />
