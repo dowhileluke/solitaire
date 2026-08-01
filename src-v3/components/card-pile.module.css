@@ -68,7 +68,7 @@
 
 :global(.faces) .horizontal .face.card::before {
 	background-size: auto 100%;
-	background-position-x: 300%;
+	background-position-x: left 1.15em;
 	background-position-y: center;
 }
 
@@ -78,7 +78,7 @@
 }
 
 :global(.faces) .horizontal.west .face.card::before {
-	background-position-x: -200%;
+	background-position-x: right 1.15em;
 }
 
 .up {
