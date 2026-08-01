@@ -157,8 +157,6 @@ body, .two-color {
 .copa:not(.two-color) {
 	--diams: dodgerblue;
 	--clubs: seagreen;
-	--spades-fi: var(--black-fi);
-	--hearts-fi: var(--red-fi);
 	--diams-fi: var(--blue-fi);
 	--clubs-fi: var(--green-fi);
 }
