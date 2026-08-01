@@ -56,6 +56,12 @@
 * {
 	user-select: none;
 	touch-action: none;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+*:focus {
+	outline: none;
 }
 
 html, body, #root {
@@ -71,16 +77,6 @@ body {
 	--card-face: white;
 	--card-back: aliceblue;
 	--fade: 0.4;
-
-	--spades: var(--black);
-	--hearts: var(--red);
-	--diams: var(--red);
-	--clubs: var(--black);
-
-	--spades-fi: var(--black-fi);
-	--hearts-fi: var(--red-fi);
-	--diams-fi: var(--red-fi);
-	--clubs-fi: var(--black-fi);
 }
 
 [data-theme=chalk] {
@@ -106,6 +102,8 @@ body {
 	--diams: var(--orange);
 	--clubs: var(--blue);
 
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
 	--diams-fi: var(--orange-fi);
 	--clubs-fi: var(--blue-fi);
 }
@@ -115,38 +113,54 @@ body {
 	--diams: var(--yellow);
 
 	--spades-fi: var(--green-fi);
+	--hearts-fi: var(--red-fi);
 	--diams-fi: var(--yellow-fi);
-}
-
-.bava.two-color {
-	--spades: var(--black);
-	--spades-fi: var(--black-fi);
+	--clubs-fi: var(--black-fi);
 }
 
 .poli {
 	--diams: var(--blue);
 	--clubs: green;
 
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
 	--diams-fi: var(--blue-fi);
 	--clubs-fi: var(--green-fi);
 }
 
+/* defined late to supercede most 4-color defs */
+body, .two-color {
+	--spades: var(--black);
+	--hearts: var(--red);
+	--diams: var(--red);
+	--clubs: var(--black);
+
+	--spades-fi: none;
+	--hearts-fi: none;
+	--diams-fi: none;
+	--clubs-fi: none;
+}
+
+/* vivid suit colors */
 .copa {
 	--spades: #111111;
 	--hearts: red;
-	--diams: dodgerblue;
-	--clubs: seagreen;
+	--diams: red;
+	--clubs: #111111;
 
-	--diams-fi: var(--blue-fi);
-	--clubs-fi: var(--green-fi);
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--red-fi);
+	--clubs-fi: var(--black-fi);
 }
 
-.two-color {
-	--diams: var(--hearts);
-	--clubs: var(--spades);
-
-	--diams-fi: var(--hearts-fi);
-	--clubs-fi: var(--spades-fi);
+.copa:not(.two-color) {
+	--diams: dodgerblue;
+	--clubs: seagreen;
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--blue-fi);
+	--clubs-fi: var(--green-fi);
 }
 
 .bala {

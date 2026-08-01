@@ -94,6 +94,13 @@ export function Settings() {
 			<div className={splitClass}>
 				<div>
 					<LabeledPicker
+						label="App Theme"
+						value={themeMode}
+						onChange={mode => setThemeMode(mode)}
+						options={themeModes}
+					/>
+					<br />
+					<LabeledPicker
 						label="Four Color Mode"
 						value={colorMode}
 						onChange={mode => setColorMode(mode)}
@@ -101,14 +108,7 @@ export function Settings() {
 					/>
 					<br />
 					<LabeledPicker
-						label="Theme"
-						value={themeMode}
-						onChange={mode => setThemeMode(mode)}
-						options={themeModes}
-					/>
-					<br />
-					<LabeledPicker
-						label="Face Card Images"
+						label="Face Card Mode"
 						value={facesMode}
 						onChange={mode => setFacesMode(mode)}
 						options={booleanOpts}
