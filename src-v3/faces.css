@@ -1,0 +1,47 @@
+.faces .jc::before {
+	background-image: url(./svg-faces/jc.svg);
+}
+
+.faces .jd::before {
+	background-image: url(./svg-faces/jd.svg);
+}
+
+.faces .jh::before {
+	background-image: url(./svg-faces/jh.svg);
+}
+
+.faces .js::before {
+	background-image: url(./svg-faces/js.svg);
+}
+
+.faces .qc::before {
+	background-image: url(./svg-faces/qc.svg);
+}
+
+.faces .qd::before {
+	background-image: url(./svg-faces/qd.svg);
+}
+
+.faces .qh::before {
+	background-image: url(./svg-faces/qh.svg);
+}
+
+.faces .qs::before {
+	background-image: url(./svg-faces/qs.svg);
+}
+
+.faces .kc::before {
+	background-image: url(./svg-faces/kc.svg);
+}
+
+.faces .kd::before {
+	background-image: url(./svg-faces/kd.svg);
+}
+
+.faces .kh::before {
+	background-image: url(./svg-faces/kh.svg);
+}
+
+.faces .ks::before {
+	background-image: url(./svg-faces/ks.svg);
+}

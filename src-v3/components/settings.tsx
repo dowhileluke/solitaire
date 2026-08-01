@@ -10,6 +10,7 @@ import { Pile, PileProps } from './pile'
 import classes from './settings.module.css'
 import pileClasses from './card-pile.module.css'
 import interactiveClasses from './interactive.module.css'
+import { concat } from '../functions/concat'
 
 const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Disabled', value: false, },
@@ -26,6 +27,11 @@ const themeModes: Array<LabeledValue<ThemeMode>> = [
 	{ label: 'Sand', value: 'sand', },
 ]
 
+const booleanOpts: Array<LabeledValue<boolean>> = [
+	{ label: 'Disabled', value: false, },
+	{ label: 'Enabled', value: true, },
+]
+
 const settingsClass = `ui-pad ui-gap overflow-hidden ${classes.settings}`
 const splitClass = `${classes.split} overflow-hidden`
 const panelClass = `${classes.panel} justify-center overflow-hidden`
@@ -34,7 +40,7 @@ const previewClass = `${classes.preview} noise overflow-hidden`
 
 // [[27, 0], [25, 50], [33], []]
 const previewPiles: PileProps[] = [
-	{ cardIds: [27, 0], down: 0, toPos: null, },
+	{ cardIds: [1, 26], down: 0, toPos: null, },
 	{ cardIds: [0, 25, 50], down: 1, toPos: null, },
 	{ cardIds: [], down: 0, toPos: () => ({ zone: 'merci' }), },
 	{ cardIds: [0, 0, 0, 0], down: 4, toPos: null, },
@@ -60,7 +66,10 @@ const panel = (
 )
 
 export function Settings() {
-	const [{ config, history, colorMode, themeMode }, { setColorMode, setThemeMode }] = useAppState()
+	const [
+		{ config, history, colorMode, themeMode, facesMode },
+		{ setColorMode, setThemeMode, setFacesMode }
+	] = useAppState()
 	const isOpen = useMemo(() => isOpenGame(config), [config])
 
 	function handleExport() {
@@ -81,9 +90,16 @@ export function Settings() {
 	}
 
 	return (
-		<div className={settingsClass}>
+		<div className={concat(settingsClass, facesMode && 'faces')}>
 			<div className={splitClass}>
 				<div>
+					<LabeledPicker
+						label="App Theme"
+						value={themeMode}
+						onChange={mode => setThemeMode(mode)}
+						options={themeModes}
+					/>
+					<br />
 					<LabeledPicker
 						label="Four Color Mode"
 						value={colorMode}
@@ -92,10 +108,10 @@ export function Settings() {
 					/>
 					<br />
 					<LabeledPicker
-						label="Theme"
-						value={themeMode}
-						onChange={mode => setThemeMode(mode)}
-						options={themeModes}
+						label="Face Card Mode"
+						value={facesMode}
+						onChange={mode => setFacesMode(mode)}
+						options={booleanOpts}
 					/>
 					<br />
 					<br />

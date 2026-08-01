@@ -41,6 +41,18 @@
 	border-radius: var(--radius);
 	flex-shrink: 8;
 	z-index: 1;
+	position: relative;
+}
+
+/* face card image placement */
+:global(.faces) .face.card::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: 0 1.25em;
 }
 
 .clickable {
@@ -54,9 +66,19 @@
 	flex-direction: row;
 }
 
+:global(.faces) .horizontal .face.card::before {
+	background-size: auto 100%;
+	background-position-x: left 1.15em;
+	background-position-y: center;
+}
+
 .horizontal.west .card {
 	margin-right: 0;
 	margin-left: -1.2em;
+}
+
+:global(.faces) .horizontal.west .face.card::before {
+	background-position-x: right 1.15em;
 }
 
 .up {
@@ -99,7 +121,7 @@
 	padding-right: 3px;
 }
 
-/* name & suit */
+/* name & suit (index/label) */
 
 .card div {
 	display: flex;
@@ -107,6 +129,11 @@
 
 .card div:nth-child(2) {
 	transform: rotate(180deg);
+}
+
+:global(.faces) .west > .card.face div:nth-child(1),
+:global(.faces) :not(.west) > .card.face div:nth-child(2) {
+	visibility: hidden;
 }
 
 .horizontal .card div {
@@ -185,6 +212,22 @@
 
 .suit-c {
 	color: var(--clubs);
+}
+
+.suit-s::before {
+	filter: var(--spades-fi);
+}
+
+.suit-h::before {
+	filter: var(--hearts-fi);
+}
+
+.suit-d::before {
+	filter: var(--diams-fi);
+}
+
+.suit-c::before {
+	filter: var(--clubs-fi);
 }
 
 .ghost {

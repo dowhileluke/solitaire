@@ -41,16 +41,16 @@ export function DndArea({ children }: PropsWithChildren) {
 	}
 
 	const isMassive = state.history[0].tableau.length > 10 && state.selection?.zone === 'tableau'
-	const isVertical = state.layoutMode === 'vertical' || (
-		state.config.wasteRate > 1 && state.selection?.zone === 'waste'
-	)
-	const isPastHalf = isVertical && state.selection && state.selection.zone === 'tableau'
+	const isWaste = state.config.wasteRate > 1 && state.selection?.zone === 'waste'
+	const isVertical = state.layoutMode === 'vertical'
+	const isPastHalf = state.selection && state.selection.zone === 'tableau'
 		&& state.selection.x >= state.history[0].tableau.length / 2
 	const wrapperClass = isMassive ? overlayClass : concat(
 		overlayClass,
-		isVertical && classes.horizontal, // vertical groups -> horizontal piles
-		!isPastHalf && classes.west,
+		(isVertical || isWaste) && classes.horizontal, // vertical groups -> horizontal piles
+		isVertical && !isWaste && !isPastHalf && classes.west,
 	)
+
 	return (
 		<DndContext onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
 			{children}

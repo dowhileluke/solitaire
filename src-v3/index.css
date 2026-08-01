@@ -5,16 +5,6 @@
 
 	--main-bg: linen;
 	--accent: var(--red);
-	--alt: 0.66;
-	--rgb-black: 51, 51, 51;
-	--black: rgb(var(--rgb-black));
-	--black-alt: rgba(var(--rgb-black), var(--alt));
-	
-	--rgb-red: 178, 34, 34; /* firebrick */
-	--red: rgb(var(--rgb-red));
-	--red-alt: rgba(var(--rgb-red), var(--alt));
-
-	--blue: steelblue;
 
 	--card-width: 44px;
 	--card-height: 58px;
@@ -28,6 +18,27 @@
 	--card-gap: 0.125rem;
 	--ui-gap: 0.5rem;
 	--slide: background-color 240ms ease-out;
+
+	--black: #333;
+	--gray: #777;
+	--red: firebrick;
+	--orange: salmon;
+	--yellow: goldenrod;
+	--green: green;
+	--blue: steelblue;
+
+	--black-fi: grayscale(1) brightness(120%);
+	/* --red-fi: sepia(1) saturate(159%) hue-rotate(320deg) brightness(144%) contrast(240%); */
+	/* --red-fi: sepia(1) saturate(3) hue-rotate(315deg) brightness(90%); */
+	--red-fi: sepia(1) saturate(333%) hue-rotate(300deg) brightness(80%) contrast(120%);
+	--orange-fi: sepia(1) saturate(250%) hue-rotate(318deg) brightness(90%);
+	--yellow-fi: sepia(1) saturate(3) brightness(90%);
+	--green-fi: sepia(1) saturate(250%) hue-rotate(65deg) brightness(80%);
+	--blue-fi: sepia(1) saturate(3) hue-rotate(165deg);
+
+	--black2: #111;
+	--blue2: dodgerblue;
+	--green2: seagreen;
 }
 
 @media (min-width: 800px) and (min-height: 600px) {
@@ -45,6 +56,12 @@
 * {
 	user-select: none;
 	touch-action: none;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+
+*:focus {
+	outline: none;
 }
 
 html, body, #root {
@@ -60,11 +77,6 @@ body {
 	--card-face: white;
 	--card-back: aliceblue;
 	--fade: 0.4;
-
-	--spades: var(--black);
-	--hearts: var(--red);
-	--diams: var(--red);
-	--clubs: var(--black);
 }
 
 [data-theme=chalk] {
@@ -87,34 +99,66 @@ body {
 }
 
 .rummi {
-	--diams: salmon;
+	--diams: var(--orange);
 	--clubs: var(--blue);
+
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--orange-fi);
+	--clubs-fi: var(--blue-fi);
 }
 
 .bava {
 	--spades: green;
-	--diams: goldenrod;
-}
+	--diams: var(--yellow);
 
-.bava.two-color {
-	--spades: var(--black);
+	--spades-fi: var(--green-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--yellow-fi);
+	--clubs-fi: var(--black-fi);
 }
 
 .poli {
 	--diams: var(--blue);
 	--clubs: green;
+
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--blue-fi);
+	--clubs-fi: var(--green-fi);
 }
 
+/* defined late to supercede most 4-color defs */
+body, .two-color {
+	--spades: var(--black);
+	--hearts: var(--red);
+	--diams: var(--red);
+	--clubs: var(--black);
+
+	--spades-fi: none;
+	--hearts-fi: none;
+	--diams-fi: none;
+	--clubs-fi: none;
+}
+
+/* vivid suit colors */
 .copa {
 	--spades: #111111;
 	--hearts: red;
-	--diams: dodgerblue;
-	--clubs: seagreen;
+	--diams: red;
+	--clubs: #111111;
+
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--red-fi);
+	--clubs-fi: var(--black-fi);
 }
 
-.two-color {
-	--diams: var(--hearts);
-	--clubs: var(--spades);
+.copa:not(.two-color) {
+	--diams: dodgerblue;
+	--clubs: seagreen;
+	--diams-fi: var(--blue-fi);
+	--clubs-fi: var(--green-fi);
 }
 
 .bala {

@@ -19,6 +19,7 @@ function getInitialState() {
 		isMenuFiltered = false,
 		isFourColorEnabled = true,
 		themeMode = false,
+		facesMode = false,
 	} = state
 
 	// convert legacy value
@@ -36,6 +37,7 @@ function getInitialState() {
 		menuKey: gameKey,
 		prefs,
 		themeMode,
+		facesMode,
 	}
 
 	return result
@@ -43,7 +45,7 @@ function getInitialState() {
 
 export function useAppInternalState() {
 	const [state, setState] = useState(getInitialState)
-	const { history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode, themeMode } = state
+	const { history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode, themeMode, facesMode } = state
 	const config = useMemo(() => getConfig({ gameKey, gamePrefs }), [gameKey, gamePrefs])
 	const rules = useMemo(() => toRules(config), [config])
 	const layoutMode = prefs[gameKey]?.layoutMode ?? config.layoutMode
@@ -59,8 +61,8 @@ export function useAppInternalState() {
 	}
 
 	useEffect(() => {
-		setPersistedState({ history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode, themeMode })
-	}, [history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode, themeMode])
+		setPersistedState({ history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode, themeMode, facesMode })
+	}, [history, gameKey, gamePrefs, prefs, isMenuFiltered, colorMode, themeMode, facesMode])
 
 	const actions = useForever<AppActions>({
 		launchGame(isRepeat) {
@@ -144,6 +146,9 @@ export function useAppInternalState() {
 		},
 		setThemeMode(themeMode) {
 			setState(prev => ({ ...prev, themeMode, }))
+		},
+		setFacesMode(facesMode) {
+			setState(prev => ({ ...prev, facesMode, }))
 		},
 		setMenuKey(menuKey) {
 			setState(prev => ({ ...prev, menuKey, }))
