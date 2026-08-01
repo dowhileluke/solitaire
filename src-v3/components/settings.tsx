@@ -106,13 +106,13 @@ export function Settings() {
 						onChange={mode => setColorMode(mode)}
 						options={colorModes}
 					/>
-					<br />
+					{/* <br />
 					<LabeledPicker
 						label="Face Card Mode"
 						value={facesMode}
 						onChange={mode => setFacesMode(mode)}
 						options={booleanOpts}
-					/>
+					/> */}
 					<br />
 					<br />
 					{isOpen && (
