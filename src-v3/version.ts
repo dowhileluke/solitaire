@@ -6,6 +6,7 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.6.1', name: 'Fix snake description', },
 	{ v: '2.6', name: 'Snakes!!!', isMajor: true, },
 	{ v: '2.5.2', name: 'Nudge horizontal faces', },
 	{ v: '2.5.1', name: 'Adjust face card url', },
