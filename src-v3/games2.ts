@@ -386,7 +386,7 @@ const canister: GameDef = {
 const snake: GameDef = {
 	...alleys,
 	name: 'Snake',
-	shortRules: 'Build alternating colors; deal directly to the first pile',
+	shortRules: 'Two decks partially dealt; deal directly to the first pile',
 	solveRate: 0,
 	layoutMode: 'horizontal',
 
