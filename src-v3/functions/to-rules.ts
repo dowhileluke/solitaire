@@ -155,7 +155,7 @@ export function toRules(def: Required<GameDef>) {
 
 		if (cards.length + targetHeight > def.heightRestriction) return false
 		if (targetHeight === 0) {
-			if (def.emptyRestriction === 'prohibited') return false
+			if (def.emptyRestriction === 'blocked') return false
 			if (isKingsOnly) return tail(cards).rank === 12
 
 			return true
@@ -169,7 +169,7 @@ export function toRules(def: Required<GameDef>) {
 
 		const freeCells = state.cells.filter(x => x === null).length
 
-		if (def.emptyRestriction === 'prohibited') return freeCells + 1
+		if (def.emptyRestriction === 'blocked') return freeCells + 1
 
 		const freePiles = state.tableau.filter(pile => pile.cardIds.length === 0).length
 
@@ -193,7 +193,7 @@ export function toRules(def: Required<GameDef>) {
 			if (cards.length > maxLength) return false
 
 			if (targetHeight === 0) {
-				if (def.emptyRestriction === 'prohibited') return false
+				if (def.emptyRestriction === 'blocked') return false
 				if (isKingsOnly) return cards[0].rank === 12
 
 				const halfMax = maxLength >> 1

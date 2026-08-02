@@ -12,13 +12,13 @@ import { concat } from '../functions/concat'
 const nodes: Record<GameDef['emptyRestriction'], ReactNode> = {
 	none: null,
 	kings: 'K',
-	prohibited: <X />,
+	blocked: <X />,
 }
 
 export function Tableau() {
 	const [{ config, history, layoutMode }] = useAppState()
 	const emptyNode = nodes[config.emptyRestriction]
-	const emptyClass = concat(config.emptyRestriction === 'prohibited' && 'fade')
+	const emptyClass = concat(config.emptyRestriction === 'blocked' && 'fade')
 	const { tableau } = tail(history)
 	const isMassive = tableau.length > 10
 

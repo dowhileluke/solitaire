@@ -39,7 +39,7 @@ export type GameDef = {
 	buildDirection: 'descending' | 'either';
 	buildRestriction: 'none' | 'alt-color' | 'same-color' | 'suit' | 'rank';
 	moveRestriction: 'none' | 'strict' | 'relaxed' | 'relaxed-suit';
-	emptyRestriction: 'none' | 'kings' | 'prohibited';
+	emptyRestriction: 'none' | 'kings' | 'blocked';
 	heightRestriction?: number;
 	allowRecant?: boolean;
 }
@@ -268,7 +268,7 @@ const schlange: GameDef = {
 	cells: 7,
 	extract: 'kings',
 
-	emptyRestriction: 'prohibited',
+	emptyRestriction: 'blocked',
 }
 
 const yukon: GameDef = {

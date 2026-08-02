@@ -93,7 +93,7 @@ export function Rules() {
 			{(config.cells > 0 || hasFinalCells) && (
 				<p>Single cards may be placed in a free cell.</p>
 			)}
-			{(config.emptyRestriction === 'prohibited') ? (
+			{(config.emptyRestriction === 'blocked') ? (
 				<p>
 					Empty spaces cannot be filled.
 				</p>
