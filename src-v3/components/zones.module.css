@@ -4,6 +4,10 @@
 	gap: var(--ui-gap);
 }
 
+.stack {
+	flex-direction: column-reverse;
+}
+
 .zones > :first-child:last-child {
 	flex-grow: 1;
 }

@@ -9,7 +9,7 @@ export function Waste() {
 	const [{ history, config }] = useAppState()
 	const { waste } = tail(history)
 
-	if (!waste || (waste.cardIds.length === 0 && config.wasteRate < 1)) return null
+	if (!waste || typeof config.wasteRate === 'string') return null
 
 	const size = {
 		'--size': (config.wasteRate + 1) / 2,

@@ -1,4 +1,7 @@
+import { ReactNode } from 'react'
+import { X } from '@phosphor-icons/react'
 import { split, tail } from '@dowhileluke/fns'
+import { GameDef } from '../games2'
 import { useAppState } from '../hooks/use-app-state'
 import { Foundations } from './foundations'
 import { PileGroup } from './pile-group'
@@ -6,9 +9,16 @@ import { Pile } from './pile'
 import classes from './tableau.module.css'
 import { concat } from '../functions/concat'
 
+const nodes: Record<GameDef['emptyRestriction'], ReactNode> = {
+	none: null,
+	kings: 'K',
+	blocked: <X />,
+}
+
 export function Tableau() {
 	const [{ config, history, layoutMode }] = useAppState()
-	const emptyNode = config.emptyRestriction === 'kings' ? 'K' : null
+	const emptyNode = nodes[config.emptyRestriction]
+	const emptyClass = concat(config.emptyRestriction === 'blocked' && 'fade')
 	const { tableau } = tail(history)
 	const isMassive = tableau.length > 10
 
@@ -20,6 +30,7 @@ export function Tableau() {
 						key={x}
 						toPos={y => ({ zone: 'tableau', x, y })}
 						emptyNode={emptyNode}
+						placeholderClass={emptyClass}
 						{...pile}
 					/>
 				))}
@@ -38,6 +49,7 @@ export function Tableau() {
 						key={x}
 						toPos={y => ({ zone: 'tableau', x, y })}
 						emptyNode={emptyNode}
+						placeholderClass={emptyClass}
 						angle={isMassive ? 'S' : 'W'}
 						{...pile}
 					/>
@@ -50,6 +62,7 @@ export function Tableau() {
 						key={i}
 						toPos={y => ({ zone: 'tableau', x: half + i, y })}
 						emptyNode={emptyNode}
+						placeholderClass={emptyClass}
 						angle={isMassive ? 'S' : 'E'}
 						{...pile}
 					/>

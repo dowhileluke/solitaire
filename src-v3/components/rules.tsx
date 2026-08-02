@@ -93,10 +93,16 @@ export function Rules() {
 			{(config.cells > 0 || hasFinalCells) && (
 				<p>Single cards may be placed in a free cell.</p>
 			)}
-			<p>
-				{config.emptyRestriction === 'kings' ? 'King-lead sequences' : 'Any sequence'} may
-				fill an empty space.
-			</p>
+			{(config.emptyRestriction === 'blocked') ? (
+				<p>
+					Empty spaces cannot be filled.
+				</p>
+			) : (
+				<p>
+					{config.emptyRestriction === 'kings' ? 'King-lead sequences' : 'Any sequence'} may
+					fill an empty space.
+				</p>
+			)}
 			{config.merciCount > 0 && (
 				<p>
 					A merci move is permitted {config.merciCount === 1 ? 'once' : `${config.merciCount}x`} per game;
@@ -106,7 +112,7 @@ export function Rules() {
 			{!isFullyDealt && (
 				<>
 					<h3>Dealing</h3>
-					{config.wasteRate > 0 ? (
+					{typeof config.wasteRate === 'number' ? (
 						<>
 							<p>
 								At any time, {config.wasteRate === 1 ? 'one card' : `${config.wasteRate} cards`} may 
@@ -119,7 +125,7 @@ export function Rules() {
 						</>
 					) : (
 						<p>
-							{config.wasteRate < 0
+							{config.wasteRate === 'strict-fan'
 								? 'While no empty spaces exist, and until'
 								: 'Until'
 							} the stock is exhausted, one card can be dealt from the stock to every tableau pile.

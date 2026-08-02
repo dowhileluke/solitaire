@@ -5,6 +5,7 @@ import { CardId } from '../types'
 import { PileGroup } from './pile-group'
 import { Pile } from './pile'
 import classes from './cells.module.css'
+import responsive from './responsive.module.css'
 
 type SingleCellProps = {
 	index: number;
@@ -32,7 +33,7 @@ export function Cells() {
 	const { isTowers } = config
 
 	return (
-		<PileGroup className={concat(isTowers && classes.group)}>
+		<PileGroup className={concat(isTowers && classes.group, responsive.grid)}>
 			{standardCells.map((id, x) => (
 				<SingleCell key={x} index={x} cardId={id} />
 			))}

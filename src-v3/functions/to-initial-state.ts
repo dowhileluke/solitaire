@@ -26,7 +26,7 @@ function toTableau(
 	cardIds: CardId[],
 	{ wasteRate, dealLimit, piles, pileHeight, upPiles, overHeight, emptyPiles }: Required<GameDef>
 ) {
-	const isFixedStock = wasteRate < 1 && 0 < dealLimit && dealLimit < 999
+	const isFixedStock = (typeof wasteRate === 'string') && (0 < dealLimit) && (dealLimit < 999)
 	const [deck, stockCards] = setAside(cardIds, isFixedStock ? piles * dealLimit : 0)
 
 	const pileCardIds = generateArray<CardId[]>(piles, () => [])
@@ -85,23 +85,28 @@ export function toInitialState(def: Required<GameDef>) {
 	const allCards = shuffle(def.decks === 1 ? d : d.concat(d))
 
 	// foundations
-	const [aces, stock_p1] = def.goal === 'foundation@2' 
+	const [aces, stock_after_aces] = def.goal === 'foundation@2' 
 		? categorize(allCards, id => CARD_DATA[id].rank === 0)
 		: [[], allCards]
 	const foundations = def.goal === 'foundation' ? generateArray(def.decks * 4, () => null) : aces
 
+	const [kings, stock_after_kings] = def.extract === 'kings'
+		? categorize(stock_after_aces, id => CARD_DATA[id].rank === 12)
+		: [[], stock_after_aces]
+
 	// cells
 	const cellsToFill = Math.min(def.cells, def.filledCells)
-	const [stock_p2, cellCards] = setAside(stock_p1, cellsToFill)
+	const [stock_after_cells, cellCards] = setAside(stock_after_kings, cellsToFill)
 	const cells = organizeCells(cellCards, def.cells, def.isTowers)
 
-	const [tableau, stock] = toTableau(stock_p2, def)
+	const stock_after_extractions = kings.concat(stock_after_cells)
+	const [tableau, stock] = toTableau(stock_after_extractions, def)
 	const result: GameState = {
 		foundations,
 		tableau,
 		cells,
 		stock,
-		waste: def.wasteRate > 0 ? toPile([]) : null,
+		waste: typeof def.wasteRate === 'number' ? toPile([]) : null,
 		pass: 1,
 		merciUsed: 0,
 	}

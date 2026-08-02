@@ -154,7 +154,12 @@ export function toRules(def: Required<GameDef>) {
 		const targetHeight = targetPile.cardIds.length
 
 		if (cards.length + targetHeight > def.heightRestriction) return false
-		if (targetHeight === 0) return def.emptyRestriction === 'none' || tail(cards).rank === 12
+		if (targetHeight === 0) {
+			if (def.emptyRestriction === 'blocked') return false
+			if (isKingsOnly) return tail(cards).rank === 12
+
+			return true
+		}
 
 		return isCompatible(tail(cards), tailCard(targetPile.cardIds))
 	}
@@ -163,6 +168,9 @@ export function toRules(def: Required<GameDef>) {
 		if (def.moveRestriction !== 'strict') return 999
 
 		const freeCells = state.cells.filter(x => x === null).length
+
+		if (def.emptyRestriction === 'blocked') return freeCells + 1
+
 		const freePiles = state.tableau.filter(pile => pile.cardIds.length === 0).length
 
 		// double invert
@@ -185,6 +193,7 @@ export function toRules(def: Required<GameDef>) {
 			if (cards.length > maxLength) return false
 
 			if (targetHeight === 0) {
+				if (def.emptyRestriction === 'blocked') return false
 				if (isKingsOnly) return cards[0].rank === 12
 
 				const halfMax = maxLength >> 1
@@ -397,8 +406,8 @@ export function toRules(def: Required<GameDef>) {
 		const { dealLimit, wasteRate } = def
 		const isEmpty = state.stock.length === 0
 
-		if (wasteRate > 0) {
-			if (!state.waste) return null
+		if (typeof wasteRate === 'number') {
+			if (!state.waste || wasteRate < 1) return null
 
 			const isFinalPass = dealLimit > 0 && state.pass >= dealLimit
 
@@ -435,9 +444,10 @@ export function toRules(def: Required<GameDef>) {
 		}
 
 		if (isEmpty) return null
-		if (wasteRate < 0 && !isWideDealAllowed(state)) return null
+		if (wasteRate === 'strict-fan' && !isWideDealAllowed(state)) return null
 
-		const [flippedIds, stock] = split(state.stock, state.tableau.length)
+		const maxFan = wasteRate === 'fan-1' ? 1 : state.tableau.length
+		const [flippedIds, stock] = split(state.stock, maxFan)
 		const tableau = state.tableau.map(
 			(pile, x) => x < flippedIds.length ? extendPile(pile, [flippedIds[x]]) : pile
 		)
