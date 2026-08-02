@@ -26,7 +26,7 @@ function toTableau(
 	cardIds: CardId[],
 	{ wasteRate, dealLimit, piles, pileHeight, upPiles, overHeight, emptyPiles }: Required<GameDef>
 ) {
-	const isFixedStock = wasteRate < 1 && 0 < dealLimit && dealLimit < 999
+	const isFixedStock = (typeof wasteRate === 'string') && (0 < dealLimit) && (dealLimit < 999)
 	const [deck, stockCards] = setAside(cardIds, isFixedStock ? piles * dealLimit : 0)
 
 	const pileCardIds = generateArray<CardId[]>(piles, () => [])
@@ -101,7 +101,7 @@ export function toInitialState(def: Required<GameDef>) {
 		tableau,
 		cells,
 		stock,
-		waste: def.wasteRate > 0 ? toPile([]) : null,
+		waste: typeof def.wasteRate === 'number' ? toPile([]) : null,
 		pass: 1,
 		merciUsed: 0,
 	}

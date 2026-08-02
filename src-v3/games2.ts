@@ -31,7 +31,7 @@ export type GameDef = {
 	// deck & stock
 	decks?: 1 | 2;
 	suits?: 1 | 2 | 3 | 4;
-	wasteRate?: number;
+	wasteRate?: number | 'fan' | 'strict-fan' | 'fan-1';
 	dealLimit?: number;
 	merciCount?: number;
 	finalCells?: number;
@@ -123,7 +123,7 @@ const easthaven: GameDef = {
 	...westcliff,
 	name: 'Easthaven',
 	shortRules: 'Klondike crossed with Spider',
-	wasteRate: 0,
+	wasteRate: 'fan',
 	emptyRestriction: 'none',
 	allowRecant: true,
 }
@@ -173,7 +173,7 @@ const spider: GameDef = {
 	goal: 'sequence-out',
 
 	decks: 2,
-	wasteRate: -1,
+	wasteRate: 'strict-fan',
 	dealLimit: 5,
 
 	piles: 10,
@@ -293,6 +293,8 @@ const scorpion: GameDef = {
 	name: 'Scorpion',
 	shortRules: 'Move any card to build suited sequences',
 	goal: 'sequence-out',
+
+	wasteRate: 'fan',
 
 	upPiles: 3,
 	pileHeight: 4,

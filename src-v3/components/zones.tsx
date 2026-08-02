@@ -21,9 +21,9 @@ function Wasteland() {
 
 export function Zones() {
 	const [{ config, history, layoutMode }] = useAppState()
-	const { isTowers, wasteRate, merciCount } = config
+	const { isTowers, merciCount } = config
 	const isHorizontal = layoutMode === 'horizontal'
-	const hasWasteland = wasteRate > 0 || history[0].stock.length > 0
+	const hasWasteland = history[0].stock.length > 0
 
 	return (
 		<section className={concat(zonesClass, !isTowers && responsive.zones)}>

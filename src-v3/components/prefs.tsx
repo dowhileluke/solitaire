@@ -65,7 +65,7 @@ export function Prefs() {
 				onChange={n => actions.setGamePref(state.menuKey, 'suits', n)}
 				isModified={current.suits !== 4}
 			/>
-			{original.wasteRate > 0 && def.family === 'Klondike' && (
+			{typeof original.wasteRate === 'number' && original.wasteRate > 0 && def.family === 'Klondike' && (
 				<>
 					<LabeledPicker
 						label="Deal Speed / Limit"

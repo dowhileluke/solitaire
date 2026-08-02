@@ -7,10 +7,7 @@ import { SingleCell } from './cells'
 import { Dots } from './dots'
 import { PileGroup } from './pile-group'
 import pileClasses from './card-pile.module.css'
-
-function divideUp(n: number, d: number) {
-	return Math.ceil(n / d)
-}
+import { toStockDetails } from '../functions/to-stock-details'
 
 const stockClass = `${pileClasses.pile} ${pileClasses.clickable}`
 
@@ -20,14 +17,10 @@ export function Stock() {
 	// no stock from the start
 	if (history[0].stock.length === 0) return null
 
-	const { stock, tableau, pass, waste, cells } = tail(history)
-	const dealMax = config.wasteRate > 0 ? (config.dealLimit ?? 0) : divideUp(history[0].stock.length, tableau.length)
-	const dealCurr = config.wasteRate > 0 ? (stock.length ? pass - 1 : pass) : dealMax - divideUp(stock.length, tableau.length)
-	const canRepeat = config.wasteRate > 0 && waste && (!config.dealLimit || pass < config.dealLimit) && (
-		stock.length > 0 || waste.down > 0 || waste.cardIds.length > config.wasteRate
-	)
-	const finalCells = cells.slice(config.cells)
-	const isFaded = !canRepeat && stock.length === 0 && finalCells.length === 0
+	const state = tail(history)
+	const { max, curr, canRepeat } = toStockDetails(config, state, history[0].stock.length)
+	const finalCells = state.cells.slice(config.cells)
+	const isFaded = !canRepeat && state.stock.length === 0 && finalCells.length === 0
 
 	return (
 		<PileGroup onClick={actions.deal} className={concat(isFaded && 'fade')}>
@@ -37,7 +30,7 @@ export function Stock() {
 				))
 			) : (
 				<ul className={stockClass}>
-					{stock.length === 0 ? (
+					{state.stock.length === 0 ? (
 						<Card isPlaceholder details={null}>
 							{canRepeat ? <Recycle /> : <X />}
 						</Card>
@@ -46,7 +39,7 @@ export function Stock() {
 					)}
 				</ul>
 			)}
-			{dealMax > 1 && (<Dots value={dealCurr} max={dealMax} />)}
+			{max > 1 && (<Dots value={curr} max={max} />)}
 		</PileGroup>
 	)
 }

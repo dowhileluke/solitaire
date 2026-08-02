@@ -1,5 +1,5 @@
 import { Tab } from '@headlessui/react'
-import { CaretUp, FadersHorizontal, Gear, Play, SkipBack, Star } from '@phosphor-icons/react'
+import { CaretUp, FadersHorizontal, Palette, Play, SkipBack, Star } from '@phosphor-icons/react'
 import { GAME_CATALOG } from '../games2'
 import { useAppState } from '../hooks/use-app-state'
 import { FolderMenu } from './folder-menu'
@@ -33,7 +33,7 @@ export function Menu() {
 					<Tab className={classes.tab}>How to Play</Tab>
 					<button className={growTab} />
 					<Tab className={classes.tab}>
-						{({ selected }) => (<Gear weight={selected ? 'fill' : 'regular'} />)}
+						{({ selected }) => (<Palette weight={selected ? 'fill' : 'regular'} />)}
 					</Tab>
 				</Tab.List>
 				<Tab.Panels className={classes.panels}>

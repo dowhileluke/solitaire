@@ -40,14 +40,16 @@ export function DndArea({ children }: PropsWithChildren) {
 		actions.moveCards(to)
 	}
 
+	const { wasteRate } = state.config
+	const hasMultiWaste = typeof wasteRate === 'number' && wasteRate > 1
 	const isMassive = state.history[0].tableau.length > 10 && state.selection?.zone === 'tableau'
-	const isWaste = state.config.wasteRate > 1 && state.selection?.zone === 'waste'
+	const isWaste = state.selection?.zone === 'waste'
 	const isVertical = state.layoutMode === 'vertical'
 	const isPastHalf = state.selection && state.selection.zone === 'tableau'
 		&& state.selection.x >= state.history[0].tableau.length / 2
 	const wrapperClass = isMassive ? overlayClass : concat(
 		overlayClass,
-		(isVertical || isWaste) && classes.horizontal, // vertical groups -> horizontal piles
+		(isVertical || (isWaste && hasMultiWaste)) && classes.horizontal, // vertical groups -> horizontal piles
 		isVertical && !isWaste && !isPastHalf && classes.west,
 	)
 

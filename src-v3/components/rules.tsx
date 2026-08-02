@@ -106,7 +106,7 @@ export function Rules() {
 			{!isFullyDealt && (
 				<>
 					<h3>Dealing</h3>
-					{config.wasteRate > 0 ? (
+					{typeof config.wasteRate === 'number' ? (
 						<>
 							<p>
 								At any time, {config.wasteRate === 1 ? 'one card' : `${config.wasteRate} cards`} may 
@@ -119,7 +119,7 @@ export function Rules() {
 						</>
 					) : (
 						<p>
-							{config.wasteRate < 0
+							{config.wasteRate === 'strict-fan'
 								? 'While no empty spaces exist, and until'
 								: 'Until'
 							} the stock is exhausted, one card can be dealt from the stock to every tableau pile.
