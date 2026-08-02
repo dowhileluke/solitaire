@@ -1,18 +1,7 @@
 import { categorize } from '@dowhileluke/fns'
 
 export type GameFamily = 'Klondike' | 'Spider' | 'FreeCell' | 'Yukon' | 'Castle' | 'Forty' | 'Other'
-// export type FamilyDef = {
-// 	key: GameFamily;
-// 	desc: string;
-// }
-// export const GAME_FAMILIES: FamilyDef[] = [
-// 	{ key: 'Klondike', desc: 'The ' },
-// 	{ key: 'Spider', desc: 'Build sequences by suit to remove them from the tableau' },
-// 	{ key: 'FreeCell', desc: 'Unravel ' },
-// 	{ key: 'Yukon', desc: 'Move any card within the tableau' },
-// 	{ key: 'Castle', desc: 'Unravel tableaus' },
-// 	{ key: 'Forty', desc: '' },
-// ]
+
 export const GAME_FAMILIES: GameFamily[] = ['Klondike', 'Spider', 'FreeCell', 'Yukon', 'Castle', 'Forty', 'Other']
 export type GameKey = keyof typeof GAME_CATALOG
 export type GameGoal = 'foundation' | 'foundation@2' | 'sequence-in' | 'sequence-out' | 'sorted'
@@ -44,12 +33,13 @@ export type GameDef = {
 	overHeight?: number;
 	cells?: number;
 	filledCells?: number;
+	extract?: 'none' | 'kings';
 
 	// gameplay
 	buildDirection: 'descending' | 'either';
 	buildRestriction: 'none' | 'alt-color' | 'same-color' | 'suit' | 'rank';
 	moveRestriction: 'none' | 'strict' | 'relaxed' | 'relaxed-suit';
-	emptyRestriction: 'none' | 'kings';
+	emptyRestriction: 'none' | 'kings' | 'prohibited';
 	heightRestriction?: number;
 	allowRecant?: boolean;
 }
@@ -73,6 +63,7 @@ export function toFullDef(def: GameDef, key: GameKey) {
 		overHeight: 0,
 		cells: 0,
 		filledCells: 0,
+		extract: 'none',
 
 		heightRestriction: 999,
 		allowRecant: false,
@@ -266,6 +257,20 @@ const forecell: GameDef = {
 	emptyRestriction: 'kings',
 }
 
+const schlange: GameDef = {
+	...freecell,
+	name: 'Die Schlange',
+	shortRules: '2 decks and 7 cells, but empty spaces are blocked',
+	solveRate: 0,
+
+	decks: 2,
+	piles: 9,
+	cells: 7,
+	extract: 'kings',
+
+	emptyRestriction: 'prohibited',
+}
+
 const yukon: GameDef = {
 	...klondike,
 	name: 'Yukon',
@@ -378,6 +383,29 @@ const canister: GameDef = {
 	buildDirection: 'either',
 }
 
+const snake: GameDef = {
+	...alleys,
+	name: 'Snake',
+	shortRules: 'Build alternating colors; deal directly to the first pile',
+	solveRate: 0,
+	layoutMode: 'horizontal',
+
+	decks: 2,
+	wasteRate: 'fan-1',
+
+	pileHeight: 8,
+}
+
+const viper: GameDef = {
+	...snake,
+	name: 'Viper',
+	shortRules: 'Snake crossed with Yukon',
+
+	buildRestriction:  'alt-color',
+	moveRestriction: 'none',
+	emptyRestriction: 'kings',
+}
+
 const thieves: GameDef = {
 	name: 'Forty Thieves',
 	family: 'Forty',
@@ -444,9 +472,9 @@ const beeswax: GameDef = {
 export const GAME_CATALOG = {
 	klondike, westcliff, easthaven, sawayama, whitehead, klondike2, easthaven2, irmgard,
 	spider, spiderette, will, simple,
-	freecell, bakers, seahaven, forecell,
+	freecell, bakers, seahaven, forecell, schlange,
 	yukon, russian, scorpion, wasp, yukon2,
-	beleaguered, fortress, alleys, stronghold, canister,
+	beleaguered, fortress, alleys, stronghold, canister, snake, viper,
 	thieves, eight, alibaba,
 	beeswax,
 }

@@ -93,10 +93,16 @@ export function Rules() {
 			{(config.cells > 0 || hasFinalCells) && (
 				<p>Single cards may be placed in a free cell.</p>
 			)}
-			<p>
-				{config.emptyRestriction === 'kings' ? 'King-lead sequences' : 'Any sequence'} may
-				fill an empty space.
-			</p>
+			{(config.emptyRestriction === 'prohibited') ? (
+				<p>
+					Empty spaces cannot be filled.
+				</p>
+			) : (
+				<p>
+					{config.emptyRestriction === 'kings' ? 'King-lead sequences' : 'Any sequence'} may
+					fill an empty space.
+				</p>
+			)}
 			{config.merciCount > 0 && (
 				<p>
 					A merci move is permitted {config.merciCount === 1 ? 'once' : `${config.merciCount}x`} per game;

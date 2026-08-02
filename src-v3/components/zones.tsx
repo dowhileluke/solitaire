@@ -21,9 +21,23 @@ function Wasteland() {
 
 export function Zones() {
 	const [{ config, history, layoutMode }] = useAppState()
-	const { isTowers, merciCount } = config
+	const { isTowers, merciCount, cells, decks } = config
 	const isHorizontal = layoutMode === 'horizontal'
 	const hasWasteland = history[0].stock.length > 0
+	const isMassive = decks * 4 + cells > 8
+
+	if (isMassive) {
+		return (
+			<section className={concat(zonesClass, classes.stack, responsive.zones)}>
+				<section className={concat(zonesClass, responsive.zones)}>
+					{hasWasteland && (<Wasteland />)}
+					<Cells />
+					{merciCount > 0 && (<Merci />)}
+				</section>
+				<Foundations groupIndex={0} />
+			</section>
+		)
+	}
 
 	return (
 		<section className={concat(zonesClass, !isTowers && responsive.zones)}>

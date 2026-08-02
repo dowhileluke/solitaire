@@ -154,7 +154,12 @@ export function toRules(def: Required<GameDef>) {
 		const targetHeight = targetPile.cardIds.length
 
 		if (cards.length + targetHeight > def.heightRestriction) return false
-		if (targetHeight === 0) return def.emptyRestriction === 'none' || tail(cards).rank === 12
+		if (targetHeight === 0) {
+			if (def.emptyRestriction === 'prohibited') return false
+			if (isKingsOnly) return tail(cards).rank === 12
+
+			return true
+		}
 
 		return isCompatible(tail(cards), tailCard(targetPile.cardIds))
 	}
@@ -163,6 +168,9 @@ export function toRules(def: Required<GameDef>) {
 		if (def.moveRestriction !== 'strict') return 999
 
 		const freeCells = state.cells.filter(x => x === null).length
+
+		if (def.emptyRestriction === 'prohibited') return freeCells + 1
+
 		const freePiles = state.tableau.filter(pile => pile.cardIds.length === 0).length
 
 		// double invert
@@ -185,6 +193,7 @@ export function toRules(def: Required<GameDef>) {
 			if (cards.length > maxLength) return false
 
 			if (targetHeight === 0) {
+				if (def.emptyRestriction === 'prohibited') return false
 				if (isKingsOnly) return cards[0].rank === 12
 
 				const halfMax = maxLength >> 1
