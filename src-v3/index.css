@@ -82,6 +82,12 @@ body {
 	--placeheld: white;
 }
 
+[data-theme=stars] {
+	--main-bg: black;
+	--placeheld: white;
+	--accent: black;
+}
+
 [data-theme=grass] {
 	--main-bg: darkgreen;
 	--placeheld: white;
@@ -90,6 +96,10 @@ body {
 
 [data-theme=sand] {
 	--accent: saddlebrown;
+}
+
+[data-theme=stars] .noise {
+	background-image: url('/nnnoise.svg');
 }
 
 [data-theme=grass] .noise, [data-theme=sand] .noise {
