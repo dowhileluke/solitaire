@@ -2,11 +2,13 @@ import { Card } from '../components/card'
 import { toSimpleDetails } from '../components/pile'
 import pileClasses from '../components/card-pile.module.css'
 import { CSSProperties, useState } from 'react'
+import { SvgFilters } from '../components/app'
 
 // const cardIds = [36, 37, 38, 49, 50, 51]
 // const cardIds = [10, 11, 12, 23, 24, 25, 36, 37, 38]
 // const cardIds = [10, 11, 12, 49, 50, 51]
-const cardIds = [23, 24, 25, 36, 37, 38]
+// const cardIds = [23, 24, 25, 36, 37, 38]
+const cardIds = [10, 11, 12, 23, 24, 25, 36, 37, 38, 49, 50, 51]
 
 type Filters = {
     saturate: number;
@@ -29,8 +31,9 @@ export function TestFaces() {
         setState(prev => ({ ...prev, ...f }))
     }
 
-    const pclass = 'faces four-color rummi'
-    const filter = `sepia(1) saturate(${state.saturate}%) hue-rotate(${state.hue}deg) brightness(${state.brightness}%) contrast(${state.contrast}%)`;
+    const pclass = 'faces four-color bava'
+    // const filter = `grayscale(1) saturate(${state.saturate}%) hue-rotate(${state.hue}deg) brightness(${state.brightness}%) contrast(${state.contrast}%)`;
+    const filter = `grayscale(1) saturate(${state.saturate}%) hue-rotate(${state.hue}deg) brightness(${state.brightness}%) contrast(${state.contrast}%) url(#green)`;
 
     return (
         <div>
@@ -41,7 +44,8 @@ export function TestFaces() {
                     </ul>
                 ))}
             </div>
-            <div className={pclass} style={{ display: 'flex', gap: 4, '--orange-fi': filter } as CSSProperties}>
+            <div className={pclass} style={{ display: 'flex', gap: 4, '--green-fi': filter } as CSSProperties}>
+            {/* <div className={pclass} style={{ display: 'flex', gap: 4, '--orange-fi': filter } as CSSProperties}> */}
                 {toSimpleDetails(cardIds).map(d => (
                     <ul key={d.id} className={pileClasses.pile}>
                         <Card details={d} />
@@ -51,10 +55,12 @@ export function TestFaces() {
             <div>
                 {(Object.keys(state) as Array<keyof Filters>).map(k => (
                     <div key={k}>
-                        {k} <NumRange value={state[k]} onChange={v => setFilters({ [k]: v })} />
+                        <button type="button" onClick={() => setFilters({ [k]: initFilters[k] })}>{k}</button>
+                        <NumRange value={state[k]} onChange={v => setFilters({ [k]: v })} />
                     </div>
                 ))}
             </div>
+            <SvgFilters />
         </div>
     )
 }
