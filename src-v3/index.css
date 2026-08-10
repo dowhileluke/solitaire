@@ -37,6 +37,9 @@
 	--black2: #111;
 	--blue2: dodgerblue;
 	--green2: seagreen;
+
+	--red2-fi: contrast(50%) url(#red2);
+	--blue2-fi: contrast(50%) url(#blue2);
 }
 
 @media (min-width: 800px) and (min-height: 600px) {
@@ -147,15 +150,16 @@ body, .two-color {
 	--clubs: #111111;
 
 	--spades-fi: var(--black-fi);
-	--hearts-fi: var(--red-fi);
-	--diams-fi: var(--red-fi);
+	--hearts-fi: var(--red2-fi);
+	--diams-fi: var(--red2-fi);
 	--clubs-fi: var(--black-fi);
 }
 
 .copa:not(.two-color) {
-	--diams: dodgerblue;
-	--clubs: seagreen;
-	--diams-fi: var(--blue-fi);
+	--diams: var(--blue2);
+	--clubs: var(--green2);
+
+	--diams-fi: var(--blue2-fi);
 	--clubs-fi: var(--green-fi);
 }
 

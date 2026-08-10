@@ -55,6 +55,19 @@ export function SvgFilters() {
 														0.706 0.35 0.35 0 0
 														0 0 0 1 0"/>
 				</filter>
+				{/* Vivid colors */}
+				<filter id="red2" color-interpolation-filters="sRGB">
+					<feColorMatrix type="matrix" values="1 0.5 0.5 0 0
+														0 0 0 0 0
+														0 0 0 0 0
+														0 0 0 1 0"/>
+				</filter>
+				<filter id="blue2" color-interpolation-filters="sRGB">
+					<feColorMatrix type="matrix" values="0.118 0.059 0.59 0 0
+														0.5647 0.28 0.28 0 0
+														1 0.5 0.5 0 0
+														0 0 0 1 0"/>
+				</filter>
 			</defs>
 		</svg>
 	)
