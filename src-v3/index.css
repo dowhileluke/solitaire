@@ -39,6 +39,7 @@
 	--green2: forestgreen;
 
 	--red2-fi: contrast(50%) url(#red2);
+	--green2-fi: contrast(50%) brightness(110%) url(#green);
 	--blue2-fi: contrast(50%) url(#blue2);
 }
 
@@ -160,7 +161,7 @@ body, .two-color {
 	--clubs: var(--green2);
 
 	--diams-fi: var(--blue2-fi);
-	--clubs-fi: var(--green-fi);
+	--clubs-fi: var(--green2-fi);
 }
 
 .bala {
