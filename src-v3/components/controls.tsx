@@ -23,6 +23,7 @@ export function Controls() {
 				<ArrowCounterClockwise />
 				<span className={responsive.hide}>Undo</span>
 			</Button>
+			<div key={state.themeMode || ''} className={responsive.themer} />
 		</nav>
 	)
 }
