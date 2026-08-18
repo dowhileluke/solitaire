@@ -6,6 +6,7 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.6.7', name: 'black2-fi', },
 	{ v: '2.6.6', name: 'iOS 26 toolbar support', },
 	{ v: '2.6.5', name: 'forestgreen 110%', },
 	{ v: '2.6.4', name: 'forestgreen', },

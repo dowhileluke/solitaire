@@ -40,6 +40,7 @@
 	--blue2: dodgerblue;
 	--green2: forestgreen;
 
+	--black2-fi: brightness(80%) url(#black);
 	--red2-fi: contrast(50%) url(#red2);
 	--green2-fi: contrast(50%) brightness(110%) url(#green);
 	--blue2-fi: contrast(50%) url(#blue2);
@@ -145,17 +146,17 @@ body, .two-color {
 	--clubs-fi: none;
 }
 
-/* vivid suit colors */
+/* vivid suit base colors */
 .copa {
-	--spades: #111111;
+	--spades: var(--black2);
 	--hearts: red;
 	--diams: red;
-	--clubs: #111111;
+	--clubs: var(--black2);
 
-	--spades-fi: var(--black-fi);
+	--spades-fi: var(--black2-fi);
 	--hearts-fi: var(--red2-fi);
 	--diams-fi: var(--red2-fi);
-	--clubs-fi: var(--black-fi);
+	--clubs-fi: var(--black2-fi);
 }
 
 .copa:not(.two-color) {
