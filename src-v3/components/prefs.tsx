@@ -37,6 +37,11 @@ const merciOpts: Array<LabeledValue<number>> = [
 	{ value: 3, label: 'Three', },
 ]
 
+const acesOpts: Array<LabeledValue<GameDef['goal']>> = [
+	{ value: 'foundation', label: 'No', },
+	{ value: 'foundation@2', label: 'Yes', }
+]
+
 function getDealMode(def: Required<GameDef>) {
 	return `${def.wasteRate}x${def.dealLimit}`
 }
@@ -101,6 +106,15 @@ export function Prefs() {
 					options={boolOpts}
 					onChange={n => actions.setGamePref(state.menuKey, 'emptyPiles', n)}
 					isModified={current.emptyPiles !== original.emptyPiles}
+				/>
+			)}
+			{state.menuKey === 'alibaba' && (
+				<LabeledPicker
+					label="Prefill Aces"
+					value={current.goal}
+					options={acesOpts}
+					onChange={g => actions.setGamePref(state.menuKey, 'goal', g)}
+					isModified={current.goal !== original.goal}
 				/>
 			)}
 			{original.merciCount > 0 && (
