@@ -14,6 +14,8 @@ const appClass = `viewport-height overflow-hidden ${responsive.app}`
 const themeColors: Partial<Record<ThemeMode & string, string>> = {
 	grass: '#231',
 	sand: 'saddlebrown',
+	stars: 'black',
+	arcade: 'darkviolet',
 }
 
 function ThemedApp({ children }: PropsWithChildren) {

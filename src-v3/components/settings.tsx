@@ -16,6 +16,8 @@ const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Disabled', value: false, },
 	{ label: 'Orange/Blue', value: 'rummi', },
 	{ label: 'Green/Yellow', value: 'bava', },
+	{ label: 'Baja', value: 'baja', },
+	{ label: 'Neon', value: 'neon', },
 	{ label: 'Blue/Green', value: 'poli', },
 	{ label: 'Vivid', value: 'copa', },
 ]
@@ -23,6 +25,7 @@ const colorModes: Array<LabeledValue<ColorMode>> = [
 const themeModes: Array<LabeledValue<ThemeMode>> = [
 	{ label: 'Default', value: false, },
 	{ label: 'Chalk', value: 'chalk', },
+	{ label: 'Arcade', value: 'arcade', },
 	{ label: 'Stars', value: 'stars', },
 	{ label: 'Grass', value: 'grass', },
 	{ label: 'Sand', value: 'sand', },
