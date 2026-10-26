@@ -6,7 +6,14 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
-	{ v: '2.6.3', name: 'Stars theme', },
+	{ v: '2.6.10', name: 'Stars theme', },
+	{ v: '2.6.9', name: 'Move filter defs', },
+	{ v: '2.6.8', name: 'Ali Baba variant', },
+	{ v: '2.6.7', name: 'black2-fi', },
+	{ v: '2.6.6', name: 'iOS 26 toolbar support', },
+	{ v: '2.6.5', name: 'forestgreen 110%', },
+	{ v: '2.6.4', name: 'forestgreen', },
+	{ v: '2.6.3', name: 'Vivid face filters', },
 	{ v: '2.6.2', name: 'Improved face filters', },
 	{ v: '2.6.1', name: 'Fix snake description', },
 	{ v: '2.6', name: 'Snakes!!!', isMajor: true, },

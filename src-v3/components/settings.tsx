@@ -21,7 +21,7 @@ const colorModes: Array<LabeledValue<ColorMode>> = [
 ]
 
 const themeModes: Array<LabeledValue<ThemeMode>> = [
-	{ label: 'None', value: false, },
+	{ label: 'Default', value: false, },
 	{ label: 'Chalk', value: 'chalk', },
 	{ label: 'Stars', value: 'stars', },
 	{ label: 'Grass', value: 'grass', },
