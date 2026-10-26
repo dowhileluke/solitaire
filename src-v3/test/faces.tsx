@@ -2,7 +2,7 @@ import { Card } from '../components/card'
 import { toSimpleDetails } from '../components/pile'
 import pileClasses from '../components/card-pile.module.css'
 import { CSSProperties, useState } from 'react'
-import { SvgFilters } from '../components/app'
+import { FilterDefs } from '../components/filter-defs'
 
 // const cardIds = [36, 37, 38, 49, 50, 51]
 // const cardIds = [10, 11, 12, 23, 24, 25, 36, 37, 38]
@@ -60,7 +60,7 @@ export function TestFaces() {
                     </div>
                 ))}
             </div>
-            <SvgFilters />
+            <FilterDefs />
         </div>
     )
 }
