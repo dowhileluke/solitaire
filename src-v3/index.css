@@ -95,6 +95,18 @@ body {
 	--placeheld: white;
 }
 
+[data-theme=stars] {
+	--main-bg: black;
+	--placeheld: white;
+	--accent: black;
+}
+
+[data-theme=arcade] {
+	--main-bg: midnightblue;
+	--placeheld: white;
+	--accent: var(--purple);
+}
+
 [data-theme=grass] {
 	--main-bg: darkgreen;
 	--placeheld: white;
@@ -105,7 +117,17 @@ body {
 	--accent: saddlebrown;
 }
 
-[data-theme=grass] .noise, [data-theme=sand] .noise {
+[data-theme=stars] .noise {
+	background-image: url('/nnnoise.svg');
+}
+
+[data-theme=arcade] .noise {
+	background-image: url('/arcade.svg');
+	background-position: center;
+	background-size: cover;
+}
+
+[data-theme=grass] .noise, [data-theme=sand] .noise, [data-theme=concrete] {
 	background-image: url('/noise.png');
 }
 

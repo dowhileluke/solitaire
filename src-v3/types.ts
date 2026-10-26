@@ -56,7 +56,7 @@ export type Rules = {
 }
 
 export type ColorMode = false | 'rummi' | 'bava' | 'poli' | 'copa' | 'baja' | 'neon'
-export type ThemeMode = false | 'chalk' | 'grass' | 'sand'
+export type ThemeMode = false | 'chalk' | 'stars' | 'arcade' | 'grass' | 'sand'
 
 export type BaseAppState = {
 	history: GameState[];
