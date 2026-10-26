@@ -23,18 +23,24 @@
 
 	--black: #333;
 	--gray: #777;
+	--pink: deeppink;
 	--red: firebrick;
 	--orange: salmon;
 	--yellow: goldenrod;
 	--green: green;
+	--turq: lightseagreen;
 	--blue: steelblue;
+	--purple: darkviolet;
 
 	--black-fi: brightness(150%) url(#black);
+	--pink-fi: contrast(66%) url(#pink);
 	--red-fi: contrast(50%) url(#red);
 	--orange-fi: contrast(50%) url(#orange);
 	--yellow-fi: contrast(33%) url(#yellow);
 	--green-fi: contrast(50%) url(#green);
+	--turq-fi: contrast(33%) url(#turq);
 	--blue-fi: contrast(50%) url(#blue);
+	--purple-fi: contrast(50%) url(#purple);
 
 	--black2: #111;
 	--blue2: dodgerblue;
@@ -131,6 +137,42 @@ body {
 	--hearts-fi: var(--red-fi);
 	--diams-fi: var(--blue-fi);
 	--clubs-fi: var(--green-fi);
+}
+
+.baja {
+	--spades: var(--blue);
+	--hearts: var(--yellow);
+	--diams: var(--orange);
+	--clubs: var(--turq);
+
+	--spades-fi: var(--blue-fi);
+	--hearts-fi: var(--yellow-fi);
+	--diams-fi: var(--orange-fi);
+	--clubs-fi: var(--turq-fi);
+}
+
+.neon {
+	--spades: var(--turq);
+	--hearts: var(--pink);
+	--diams: var(--black);
+	--clubs: var(--purple);
+
+	--spades-fi: var(--turq-fi);
+	--hearts-fi: var(--pink-fi);
+	--diams-fi: var(--black-fi);
+	--clubs-fi: var(--purple-fi);
+}
+
+.cake {
+	--spades: var(--green);
+	--hearts: var(--red);
+	--diams: var(--yellow);
+	--clubs: var(--blue);
+
+	--spades-fi: var(--green-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--yellow-fi);
+	--clubs-fi: var(--blue-fi);
 }
 
 /* defined late to supercede most 4-color defs */
