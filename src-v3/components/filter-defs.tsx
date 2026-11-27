@@ -70,12 +70,44 @@ export function FilterDefs() {
                                                         0 0 0 1 0"/>
                 </filter>
                 {/* monochromes */}
+                <filter id="mono-black" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.2 1" />
+                        <feFuncG type="table" tableValues="0.2 1" />
+                        <feFuncB type="table" tableValues="0.2 1" />
+                    </feComponentTransfer>
+                </filter>
+                <filter id="mono-pink" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="1 1" />
+                        <feFuncG type="table" tableValues="0.08 1" />
+                        <feFuncB type="table" tableValues="0.576 1" />
+                    </feComponentTransfer>
+                </filter>
                 <filter id="mono-red" color-interpolation-filters="sRGB">
                     <feColorMatrix type="saturate" values="0" />
                     <feComponentTransfer>
                         <feFuncR type="table" tableValues="0.7 1" />
                         <feFuncG type="table" tableValues="0.1333 1" />
                         <feFuncB type="table" tableValues="0.1333 1" />
+                    </feComponentTransfer>
+                </filter>
+                <filter id="mono-orange" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.98 1" />
+                        <feFuncG type="table" tableValues="0.5 1" />
+                        <feFuncB type="table" tableValues="0.447 1" />
+                    </feComponentTransfer>
+                </filter>
+                <filter id="mono-yellow" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.855 1" />
+                        <feFuncG type="table" tableValues="0.647 1" />
+                        <feFuncB type="table" tableValues="0.1255 1" />
                     </feComponentTransfer>
                 </filter>
                 <filter id="mono-green" color-interpolation-filters="sRGB">
@@ -86,12 +118,45 @@ export function FilterDefs() {
                         <feFuncB type="table" tableValues="0 1" />
                     </feComponentTransfer>
                 </filter>
+                <filter id="mono-turq" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.125 1" />
+                        <feFuncG type="table" tableValues="0.7 1" />
+                        <feFuncB type="table" tableValues="0.67 1" />
+                    </feComponentTransfer>
+                </filter>
                 <filter id="mono-blue" color-interpolation-filters="sRGB">
                     <feColorMatrix type="saturate" values="0" />
                     <feComponentTransfer>
                         <feFuncR type="table" tableValues="0.2745 1" />
                         <feFuncG type="table" tableValues="0.51 1" />
                         <feFuncB type="table" tableValues="0.706 1" />
+                    </feComponentTransfer>
+                </filter>
+                <filter id="mono-purple" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.58 1" />
+                        <feFuncG type="table" tableValues="0.078 1" />
+                        <feFuncB type="table" tableValues="0.827 1" />
+                    </feComponentTransfer>
+                </filter>
+
+                <filter id="mono-red2" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="1 1" />
+                        <feFuncG type="table" tableValues="0 1" />
+                        <feFuncB type="table" tableValues="0 1" />
+                    </feComponentTransfer>
+                </filter>
+                <filter id="mono-blue2" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.118 1" />
+                        <feFuncG type="table" tableValues="0.5647 1" />
+                        <feFuncB type="table" tableValues="1 1" />
                     </feComponentTransfer>
                 </filter>
             </defs>

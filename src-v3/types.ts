@@ -57,6 +57,7 @@ export type Rules = {
 
 export type ColorMode = false | 'rummi' | 'bava' | 'poli' | 'copa' | 'baja' | 'neon'
 export type ThemeMode = false | 'chalk' | 'stars' | 'arcade' | 'grass' | 'sand'
+export type FaceMode = boolean | 'mono'
 
 export type BaseAppState = {
 	history: GameState[];
@@ -72,7 +73,7 @@ export type BaseAppState = {
 
 	colorMode: ColorMode;
 	themeMode: ThemeMode;
-	facesMode: boolean;
+	facesMode: FaceMode;
 
 	/** @deprecated */
 	isFourColorEnabled?: boolean;
@@ -100,7 +101,7 @@ export type AppActions = {
 	toggleFilter: () => void;
 	setColorMode: (mode: ColorMode) => void;
 	setThemeMode: (mode: ThemeMode) => void;
-	setFacesMode: (mode: boolean) => void;
+	setFacesMode: (mode: FaceMode) => void;
 	setMenuKey: (menuKey: GameKey) => void;
 	setGamePref: <K extends keyof GameDef>(gameKey: GameKey, prefKey: K, prefValue: GameDef[K]) => void;
 }

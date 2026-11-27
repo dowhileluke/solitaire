@@ -131,6 +131,23 @@ body {
 	background-image: url('/noise.png');
 }
 
+.mono {
+	--black-fi: url(#mono-black);
+	--pink-fi: url(#mono-pink);
+	--red-fi: url(#mono-red);
+	--orange-fi: url(#mono-orange);
+	--yellow-fi: url(#mono-yellow);
+	--green-fi: url(#mono-green);
+	--turq-fi: url(#mono-turq);
+	--blue-fi: url(#mono-blue);
+	--purple-fi: url(#mono-purple);
+
+	--black2-fi: brightness(80%) grayscale(1);
+	--red2-fi: url(#mono-red2);
+	--green2-fi: brightness(110%) url(#mono-green);
+	--blue2-fi: url(#mono-blue2);
+}
+
 .rummi {
 	--diams: var(--orange);
 	--clubs: var(--blue);

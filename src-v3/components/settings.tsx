@@ -3,7 +3,7 @@ import { Export } from '@phosphor-icons/react'
 import { isOpenGame } from '../functions/is-open-game'
 import { toPlaintext } from '../functions/to-plaintext'
 import { useAppState } from '../hooks/use-app-state'
-import { ColorMode, ThemeMode } from '../types'
+import { ColorMode, FaceMode, ThemeMode } from '../types'
 import { VERSION, LATEST_VERSION } from '../version'
 import { Button, LabeledPicker, LabeledValue } from './interactive'
 import { Pile, PileProps } from './pile'
@@ -29,6 +29,12 @@ const themeModes: Array<LabeledValue<ThemeMode>> = [
 	{ label: 'Stars', value: 'stars', },
 	{ label: 'Grass', value: 'grass', },
 	{ label: 'Sand', value: 'sand', },
+]
+
+const faceOpts: Array<LabeledValue<FaceMode>> = [
+	{ label: 'Disabled', value: false, },
+	{ label: 'Enabled', value: true, },
+	{ label: 'Monochrome', value: 'mono', }
 ]
 
 const booleanOpts: Array<LabeledValue<boolean>> = [
@@ -94,7 +100,7 @@ export function Settings() {
 	}
 
 	return (
-		<div className={concat(settingsClass, facesMode && 'faces')}>
+		<div className={concat(settingsClass, facesMode && 'faces', facesMode === 'mono' && 'mono mono')}>
 			<div className={splitClass}>
 				<div>
 					<LabeledPicker
@@ -115,7 +121,7 @@ export function Settings() {
 						label="Face Card Mode"
 						value={facesMode}
 						onChange={mode => setFacesMode(mode)}
-						options={booleanOpts}
+						options={faceOpts}
 					/>
 					<br />
 					<br />
