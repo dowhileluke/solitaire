@@ -3,14 +3,13 @@ import { Export } from '@phosphor-icons/react'
 import { isOpenGame } from '../functions/is-open-game'
 import { toPlaintext } from '../functions/to-plaintext'
 import { useAppState } from '../hooks/use-app-state'
-import { ColorMode, ThemeMode } from '../types'
+import { ColorMode, FaceMode, ThemeMode } from '../types'
 import { VERSION, LATEST_VERSION } from '../version'
 import { Button, LabeledPicker, LabeledValue } from './interactive'
 import { Pile, PileProps } from './pile'
 import classes from './settings.module.css'
 import pileClasses from './card-pile.module.css'
 import interactiveClasses from './interactive.module.css'
-import { concat } from '../functions/concat'
 
 const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Disabled', value: false, },
@@ -31,9 +30,10 @@ const themeModes: Array<LabeledValue<ThemeMode>> = [
 	{ label: 'Sand', value: 'sand', },
 ]
 
-const booleanOpts: Array<LabeledValue<boolean>> = [
+const faceOpts: Array<LabeledValue<FaceMode>> = [
 	{ label: 'Disabled', value: false, },
-	{ label: 'Enabled', value: true, },
+	{ label: 'Heavy', value: true, },
+	{ label: 'Light', value: 'mono', }
 ]
 
 const settingsClass = `ui-pad ui-gap overflow-hidden ${classes.settings}`
@@ -94,7 +94,7 @@ export function Settings() {
 	}
 
 	return (
-		<div className={concat(settingsClass, facesMode && 'faces')}>
+		<div className={settingsClass}>
 			<div className={splitClass}>
 				<div>
 					<LabeledPicker
@@ -115,7 +115,7 @@ export function Settings() {
 						label="Face Card Mode"
 						value={facesMode}
 						onChange={mode => setFacesMode(mode)}
-						options={booleanOpts}
+						options={faceOpts}
 					/>
 					<br />
 					<br />

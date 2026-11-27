@@ -6,6 +6,7 @@ type Version = {
 
 const VERSION_2: Version = { v: '2', name: 'Version 2', isMajor: true, }
 const VERSION_HISTORY: Version[] = [
+	{ v: '2.6.11', name: 'Lighter face cards', },
 	{ v: '2.6.10', name: 'Stars/Arcade themes; Baja/Neon colors', },
 	{ v: '2.6.9', name: 'Move filter defs', },
 	{ v: '2.6.8', name: 'Ali Baba variant', },

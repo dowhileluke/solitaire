@@ -65,6 +65,7 @@ export function Layout() {
 			'noise',
 			state.colorMode,
 			state.facesMode && 'faces',
+			state.facesMode === 'mono' && 'mono',
 			isTwoColored && 'two-color',
 			layoutClass,
 			responsive.layout,

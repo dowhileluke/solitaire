@@ -131,6 +131,28 @@ body {
 	background-image: url('/noise.png');
 }
 
+.mono {
+	--black-fi: url(#mono-black);
+	--pink-fi: url(#mono-pink);
+	--red-fi: url(#mono-red);
+	--orange-fi: url(#mono-orange);
+	--yellow-fi: url(#mono-yellow);
+	--green-fi: url(#mono-green);
+	--turq-fi: url(#mono-turq);
+	--blue-fi: url(#mono-blue);
+	--purple-fi: url(#mono-purple);
+
+	--black2-fi: brightness(80%) grayscale(1);
+	--red2-fi: url(#mono-red2);
+	--green2-fi: brightness(110%) url(#mono-green);
+	--blue2-fi: url(#mono-blue2);
+
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--red-fi);
+	--clubs-fi: var(--black-fi);
+}
+
 .rummi {
 	--diams: var(--orange);
 	--clubs: var(--blue);
@@ -203,15 +225,24 @@ body, .two-color {
 	--hearts: var(--red);
 	--diams: var(--red);
 	--clubs: var(--black);
+}
 
+.two-color:not(.copa) {
 	--spades-fi: none;
 	--hearts-fi: none;
 	--diams-fi: none;
 	--clubs-fi: none;
 }
 
+.two-color.mono {
+	--spades-fi: var(--black-fi);
+	--hearts-fi: var(--red-fi);
+	--diams-fi: var(--red-fi);
+	--clubs-fi: var(--black-fi);
+}
+
 /* vivid suit base colors */
-.copa {
+.copa, .copa.mono {
 	--spades: var(--black2);
 	--hearts: red;
 	--diams: red;
