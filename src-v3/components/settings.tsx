@@ -10,7 +10,6 @@ import { Pile, PileProps } from './pile'
 import classes from './settings.module.css'
 import pileClasses from './card-pile.module.css'
 import interactiveClasses from './interactive.module.css'
-import { concat } from '../functions/concat'
 
 const colorModes: Array<LabeledValue<ColorMode>> = [
 	{ label: 'Disabled', value: false, },
@@ -33,13 +32,8 @@ const themeModes: Array<LabeledValue<ThemeMode>> = [
 
 const faceOpts: Array<LabeledValue<FaceMode>> = [
 	{ label: 'Disabled', value: false, },
-	{ label: 'Enabled', value: true, },
-	{ label: 'Monochrome', value: 'mono', }
-]
-
-const booleanOpts: Array<LabeledValue<boolean>> = [
-	{ label: 'Disabled', value: false, },
-	{ label: 'Enabled', value: true, },
+	{ label: 'Heavy', value: true, },
+	{ label: 'Light', value: 'mono', }
 ]
 
 const settingsClass = `ui-pad ui-gap overflow-hidden ${classes.settings}`
@@ -100,7 +94,7 @@ export function Settings() {
 	}
 
 	return (
-		<div className={concat(settingsClass, facesMode && 'faces', facesMode === 'mono' && 'mono mono')}>
+		<div className={settingsClass}>
 			<div className={splitClass}>
 				<div>
 					<LabeledPicker

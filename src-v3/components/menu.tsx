@@ -1,5 +1,6 @@
 import { Tab } from '@headlessui/react'
 import { CaretUp, FadersHorizontal, Palette, Play, SkipBack, Star } from '@phosphor-icons/react'
+import { concat } from '../functions/concat'
 import { GAME_CATALOG } from '../games2'
 import { useAppState } from '../hooks/use-app-state'
 import { FolderMenu } from './folder-menu'
@@ -9,7 +10,6 @@ import { Prefs } from './prefs'
 import { Rules } from './rules'
 import { Settings } from './settings'
 import classes from './menu.module.css'
-import { concat } from '../functions/concat'
 
 const growTab = `${classes.tab} ${classes.grow}`
 const panelClass = "full-height overflow-hidden"
@@ -20,7 +20,12 @@ export function Menu() {
 	const gameName = GAME_CATALOG[state.menuKey].name
 	const userPrefs = state.prefs[state.menuKey]
 	const hasUserPrefs = userPrefs && Object.keys(userPrefs).some((prop, i) => prop !== 'isFavorite' || i > 0)
-	const themeStyle = concat(state.themeMode, state.colorMode)
+	const themeStyle = concat(
+		state.themeMode,
+		state.colorMode,
+		state.facesMode && 'faces',
+		state.facesMode === 'mono' && 'mono',
+	)
 
 	return (
 		<Modal isOpen={state.isMenuOpen} onClose={() => actions.toggleMenu(false)} className={themeStyle}>
