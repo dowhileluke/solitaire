@@ -69,6 +69,31 @@ export function FilterDefs() {
                                                         1 0.5 0.5 0 0
                                                         0 0 0 1 0"/>
                 </filter>
+                {/* monochromes */}
+                <filter id="mono-red" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.7 1" />
+                        <feFuncG type="table" tableValues="0.1333 1" />
+                        <feFuncB type="table" tableValues="0.1333 1" />
+                    </feComponentTransfer>
+                </filter>
+                <filter id="mono-green" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0 1" />
+                        <feFuncG type="table" tableValues="0.5 1" />
+                        <feFuncB type="table" tableValues="0 1" />
+                    </feComponentTransfer>
+                </filter>
+                <filter id="mono-blue" color-interpolation-filters="sRGB">
+                    <feColorMatrix type="saturate" values="0" />
+                    <feComponentTransfer>
+                        <feFuncR type="table" tableValues="0.2745 1" />
+                        <feFuncG type="table" tableValues="0.51 1" />
+                        <feFuncB type="table" tableValues="0.706 1" />
+                    </feComponentTransfer>
+                </filter>
             </defs>
         </svg>
     )
